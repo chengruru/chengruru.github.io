@@ -204,6 +204,57 @@ Qu...
         </li>
     
         <li class="post-list-item fade">
+            <article id="post-hadoop-mapreduce-maptask"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-07-22 13:06:11" datetime="2019-07-22T05:06:11.000Z"  itemprop="datePublished">2019-07-22</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/07/22/hadoop-mapreduce-maptask/">MapTask工作机制</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        MapTask工作机制
+
+Read阶段MapTask通过用户编写的RecordReader，从输入InputSplit中解析出一个个key/value。
+Map阶段该节点主要是将解析出的key/value交给用户编写map()函数处理，并产生一系列新的key/value，MapTask的数量由切片决定。
+Collect收集阶段在用户编写map()函数中，当数据处理完成后，一般会调用Outpu...
+    
+
+        <a href="/2019/07/22/hadoop-mapreduce-maptask/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-hadoop-mapreduce-partition"
   class="article-card article-type-post" itemprop="blogPost">
 

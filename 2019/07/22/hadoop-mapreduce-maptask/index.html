@@ -14,25 +14,27 @@
     
     
     
-    <title>Hello World | 开嘴的板栗</title>
+    <title>MapTask工作机制 | 开嘴的板栗</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
     <meta name="keywords" content="hadoop">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="MapTask工作机制  Read阶段MapTask通过用户编写的RecordReader，从输入InputSplit中解析出一个个key/value。 Map阶段该节点主要是将解析出的key/value交给用户编写map()函数处理，并产生一系列新的key/value，MapTask的数量由切片决定。 Collect收集阶段在用户编写map()函数中，当数据处理完成后，一般会调用OutputCo">
 <meta name="keywords" content="hadoop">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2019/07/22/hello-world/index.html">
+<meta property="og:title" content="MapTask工作机制">
+<meta property="og:url" content="http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/index.html">
 <meta property="og:site_name" content="开嘴的板栗">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="MapTask工作机制  Read阶段MapTask通过用户编写的RecordReader，从输入InputSplit中解析出一个个key/value。 Map阶段该节点主要是将解析出的key/value交给用户编写map()函数处理，并产生一系列新的key/value，MapTask的数量由切片决定。 Collect收集阶段在用户编写map()函数中，当数据处理完成后，一般会调用OutputCo">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-21T23:11:27.492Z">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/1563773158375.png">
+<meta property="og:updated_time" content="2019-07-22T05:30:46.428Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="MapTask工作机制">
+<meta name="twitter:description" content="MapTask工作机制  Read阶段MapTask通过用户编写的RecordReader，从输入InputSplit中解析出一个个key/value。 Map阶段该节点主要是将解析出的key/value交给用户编写map()函数处理，并产生一系列新的key/value，MapTask的数量由切片决定。 Collect收集阶段在用户编写map()函数中，当数据处理完成后，一般会调用OutputCo">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/1563773158375.png">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
@@ -118,7 +120,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">Hello World</div>
+        <div class="flex-col header-title ellipsis">MapTask工作机制</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -140,10 +142,10 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">Hello World</h1>
+        <h1 class="title">MapTask工作机制</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-07-22T08:04:09.000Z" itemprop="datePublished" class="page-time">
+                <time datetime="2019-07-22T05:06:11.000Z" itemprop="datePublished" class="page-time">
   2019-07-22
 </time>
 
@@ -165,18 +167,18 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Quick-Start"><span class="post-toc-text">Quick Start</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Create-a-new-post"><span class="post-toc-text">Create a new post</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Run-server"><span class="post-toc-text">Run server</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Generate-static-files"><span class="post-toc-text">Generate static files</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Deploy-to-remote-sites"><span class="post-toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MapTask工作机制"><span class="post-toc-text">MapTask工作机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Read阶段"><span class="post-toc-text">Read阶段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Map阶段"><span class="post-toc-text">Map阶段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Collect收集阶段"><span class="post-toc-text">Collect收集阶段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Spill阶段"><span class="post-toc-text">Spill阶段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Combine阶段"><span class="post-toc-text">Combine阶段</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
 
-<article id="post-hello-world"
+<article id="post-hadoop-mapreduce-maptask"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">Hello World</h1>
+        <h1 class="post-card-title">MapTask工作机制</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-07-22 16:04:09" datetime="2019-07-22T08:04:09.000Z"  itemprop="datePublished">2019-07-22</time>
+            <time class="post-time" title="2019-07-22 13:06:11" datetime="2019-07-22T05:06:11.000Z"  itemprop="datePublished">2019-07-22</time>
 
             
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
@@ -191,19 +193,20 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+            <h1 id="MapTask工作机制"><a href="#MapTask工作机制" class="headerlink" title="MapTask工作机制"></a>MapTask工作机制</h1><img src="/2019/07/22/hadoop-mapreduce-maptask/1563773158375.png" title="This is an image">
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<h2 id="Read阶段"><a href="#Read阶段" class="headerlink" title="Read阶段"></a>Read阶段</h2><p>MapTask通过用户编写的RecordReader，从输入InputSplit中解析出一个个key/value。</p>
+<h2 id="Map阶段"><a href="#Map阶段" class="headerlink" title="Map阶段"></a>Map阶段</h2><p>该节点主要是将解析出的key/value交给用户编写map()函数处理，并产生一系列新的key/value，MapTask的数量由切片决定。</p>
+<h2 id="Collect收集阶段"><a href="#Collect收集阶段" class="headerlink" title="Collect收集阶段"></a>Collect收集阶段</h2><p>在用户编写map()函数中，当数据处理完成后，一般会调用OutputCollector.collect()输出结果。在该函数内部，它会将生成的key/value分区（调用Partitioner），并写入一个环形内存缓冲区中。</p>
+<h2 id="Spill阶段"><a href="#Spill阶段" class="headerlink" title="Spill阶段"></a>Spill阶段</h2><p>即“溢写”，当环形缓冲区满后，通常是数据达到80%左右，MapReduce会将数据写到本地磁盘上，生成一个临时文件。需要注意的是，将数据写入本地磁盘之前，先要对数据进行一次本地排序，并在必要时对数据进行合并、压缩等操作。</p>
+<p>溢写阶段步骤如下：</p>
+<p>步骤1：利用快速排序算法对缓存区内的数据进行排序，排序方式是，先按照分区编号Partition进行排序，然后按照key进行排序。这样，经过排序后，数据以分区为单位聚集在一起，且同一分区内所有数据按照key有序。</p>
+<p>步骤2：按照分区编号由小到大依次将每个分区中的数据写入任务工作目录下的临时文件output/spillN.out（N表示当前溢写次数）中。如果用户设置了Combiner，则写入文件之前，对每个分区中的数据进行一次聚集操作。</p>
+<p>步骤3：将分区数据的元信息写到内存索引数据结构SpillRecord中，其中每个分区的元信息包括在临时文件中的偏移量、压缩前数据大小和压缩后数据大小。如果当前内存索引大小超过1MB，则将内存索引写到文件output/spillN.out.index中。</p>
+<h2 id="Combine阶段"><a href="#Combine阶段" class="headerlink" title="Combine阶段"></a>Combine阶段</h2><p>当所有数据处理完成后，MapTask对所有临时文件进行一次合并，以确保最终只会生成一个数据文件。</p>
+<p>当所有数据处理完后，MapTask会将所有临时文件合并成一个大文件，并保存到文件output/file.out中，同时生成相应的索引文件output/file.out.index。</p>
+<p>在进行文件合并过程中，MapTask以分区为单位进行合并。对于某个分区（采用归并排序），它将采用多轮递归合并的方式。每轮合并io.sort.factor（默认10）个文件，并将产生的文件重新加入待合并列表中，对文件排序后，重复以上过程，直到最终得到一个大文件。</p>
+<p>让每个MapTask最终只生成一个数据文件，可避免同时打开大量文件和同时读取大量小文件产生的随机读取带来的开销。</p>
 
         </div>
 
@@ -212,12 +215,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-21T23:11:27.492Z" itemprop="dateUpdated">2019-07-22 07:11:27</time>
+    Last updated: <time datetime="2019-07-22T05:30:46.428Z" itemprop="dateUpdated">2019-07-22 13:30:46</time>
 </span><br>
 
 
         
-        原文链接：<a href="/2019/07/22/hello-world/" target="_blank" rel="external">http://yoursite.com/2019/07/22/hello-world/</a>
+        原文链接：<a href="/2019/07/22/hadoop-mapreduce-maptask/" target="_blank" rel="external">http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/</a>
         
     </div>
     
@@ -248,7 +251,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/&title=《MapTask工作机制》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -258,22 +261,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/&title=《MapTask工作机制》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hello-world/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hello World》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hello-world/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MapTask工作机制》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hello-world/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -293,14 +296,21 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/07/22/hello-world/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Hello World</h4>
+      </a>
+    </div>
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/07/22/hadoop-mapreduce-maptask/" id="post-next" class="post-nav-link">
+      <a href="/2019/07/21/hadoop-mapreduce-partition/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">MapTask工作机制</h4>
+        <h4 class="title">Patition分区</h4>
       </a>
     </div>
   
@@ -398,7 +408,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/&title=《MapTask工作机制》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -408,22 +418,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/&title=《MapTask工作机制》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hello-world/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hello World》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hello-world/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MapTask工作机制》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hello-world/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -434,7 +444,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/22/hello-world/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/" alt="微信分享二维码">
 </div>
 
 
