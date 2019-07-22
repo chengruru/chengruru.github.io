@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Yarn资源调度器 | 开嘴的板栗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="hadoop">
+    <meta name="description" content="Yarn资源调度器Yarn是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的操作系统平台，而MapReduce等运算程序则相当于运行于操作系统之上的应用程序。 一、Yarn基本架构YARN主要由ResourceManager、NodeManager、ApplicationMaster和Container等组件构成，如下图所示：">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yarn资源调度器">
+<meta property="og:url" content="http://yoursite.com/2019/07/22/hadoop-yarn/index.html">
+<meta property="og:site_name" content="开嘴的板栗">
+<meta property="og:description" content="Yarn资源调度器Yarn是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的操作系统平台，而MapReduce等运算程序则相当于运行于操作系统之上的应用程序。 一、Yarn基本架构YARN主要由ResourceManager、NodeManager、ApplicationMaster和Container等组件构成，如下图所示：">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/hadoop-yarn/assets/1563784798420.png">
+<meta property="og:updated_time" content="2019-07-22T12:00:53.473Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Yarn资源调度器">
+<meta name="twitter:description" content="Yarn资源调度器Yarn是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的操作系统平台，而MapReduce等运算程序则相当于运行于操作系统之上的应用程序。 一、Yarn基本架构YARN主要由ResourceManager、NodeManager、ApplicationMaster和Container等组件构成，如下图所示：">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/22/hadoop-yarn/assets/1563784798420.png">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">kaizuidebanli</h5>
+          <a href="mailto:945562363@qq.com" title="945562363@qq.com" class="mail">945562363@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/chengruru" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Yarn资源调度器</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Yarn资源调度器</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-22T08:39:25.000Z" itemprop="datePublished" class="page-time">
+  2019-07-22
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/categories/">categories</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Yarn资源调度器"><span class="post-toc-text">Yarn资源调度器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、Yarn基本架构"><span class="post-toc-text">一、Yarn基本架构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、Yarn工作机制"><span class="post-toc-text">二、Yarn工作机制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、资源调度器"><span class="post-toc-text">三、资源调度器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#FIFO"><span class="post-toc-text">FIFO</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Capacity-Scheduler（容量调度器）"><span class="post-toc-text">Capacity Scheduler（容量调度器）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Fair-Scheduler"><span class="post-toc-text">Fair Scheduler</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、任务的推测执行"><span class="post-toc-text">四、任务的推测执行</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-hadoop-yarn"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Yarn资源调度器</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-22 16:39:25" datetime="2019-07-22T08:39:25.000Z"  itemprop="datePublished">2019-07-22</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/categories/">categories</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="Yarn资源调度器"><a href="#Yarn资源调度器" class="headerlink" title="Yarn资源调度器"></a>Yarn资源调度器</h1><p>Yarn是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的操作系统平台，而MapReduce等运算程序则相当于运行于操作系统之上的应用程序。</p>
+<h2 id="一、Yarn基本架构"><a href="#一、Yarn基本架构" class="headerlink" title="一、Yarn基本架构"></a>一、Yarn基本架构</h2><p>YARN主要由ResourceManager、NodeManager、ApplicationMaster和Container等组件构成，如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1563784798420.png" alt="1563784798420" title>
+                </div>
+                <div class="image-caption">1563784798420</div>
+            </figure>
+
+<p>（1）ResourceManager（RM）主要作用如下：</p>
+<p>处理客户端请求；</p>
+<p>监控NodeManager;</p>
+<p>启动或者监控ApplicationMaster;</p>
+<p>资源的分配与调度。</p>
+<p>（2）NodeManager（NM）主要作用</p>
+<p>管理单个节点上的资源；</p>
+<p>处理来自ResourceManager的命令；</p>
+<p>处理来自ApplicationMaster的命令。</p>
+<p>（3）ApplicationMaster（AM）作用：</p>
+<p>负责数据的切分；</p>
+<p>为应用程序申请资源并分配给内部的任务；</p>
+<p>任务的监控与容错。</p>
+<p>（4）Container</p>
+<p>Container是yarn中的资源抽象，它封装了某个节点上的多个维度资源，如内存、CPU、磁盘、网络等。</p>
+<h2 id="二、Yarn工作机制"><a href="#二、Yarn工作机制" class="headerlink" title="二、Yarn工作机制"></a>二、Yarn工作机制</h2><p>工作机制详解：</p>
+<p>（1）MR程序提交到客户端所在的节点。</p>
+<p>（2）YarnRunner向ResourceManager申请一个Application。</p>
+<p>（3）RM将该应用程序的资源路径返回给YarnRunner。</p>
+<p>（4）该程序将运行所需资源提交到HDFS上。</p>
+<p>（5）程序资源提交完毕后，申请运行mrAppMaster。</p>
+<p>（6）RM将用户的请求初始化成一个Task。</p>
+<p>（7）其中一个NodeManager领取到Task任务。</p>
+<p>（8）该NodeManager创建容器Container，并产生MRAppmaster。</p>
+<p>（9）Container从HDFS上拷贝资源到本地。</p>
+<p>（10）MRAppmaster向RM 申请运行MapTask资源。</p>
+<p>（11）RM将运行MapTask任务分配给另外两个NodeManager，另两个NodeManager分别领取任务并创建容器。</p>
+<p>（12）MR向两个接收到任务的NodeManager发送程序启动脚本，这两个NodeManager分别启动MapTask，MapTask对数据分区排序。</p>
+<p>（13）MrAppMaster等待所有MapTask运行完毕后，向RM申请容器，运行ReduceTask。</p>
+<p>（14）ReduceTask向MapTask获取相应分区的数据。</p>
+<p>（15）程序运行完毕后，MR会向RM申请注销自己。</p>
+<h2 id="三、资源调度器"><a href="#三、资源调度器" class="headerlink" title="三、资源调度器"></a>三、资源调度器</h2><p>Hadoop作业调度器主要有三种：FIFO、Capacity Scheduler和Fair Scheduler。Hadoop2.7.2默认的资源调度器是Capacity Scheduler。</p>
+<p>具体设置详见：yarn-default.xml文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>The class to use as the resource scheduler.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.scheduler.class<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="FIFO"><a href="#FIFO" class="headerlink" title="FIFO"></a>FIFO</h3>
+
+<h3 id="Capacity-Scheduler（容量调度器）"><a href="#Capacity-Scheduler（容量调度器）" class="headerlink" title="Capacity Scheduler（容量调度器）"></a>Capacity Scheduler（容量调度器）</h3>
+
+<p>1、支持多个队列，每个队列可配置一定的资源量，每个队列采用FIFO调度策略；</p>
+<p>2、为了防止同一个用户的作业独占队列中的资源，该调度器会对同一用户提交的作业所占资源量进行限定；</p>
+<p>3、首先，计算每个队列中正在运行的任务数与其分得的计算资源之间的比值，选择一个该比值最小的队列-最闲的；</p>
+<p>4、其次，按照作业优先级和提交时间顺序，同时考虑用户资源量限制和内存限制对队列内任务排序；</p>
+<p>5、三个队列同时按照任务的先后顺序依次执行，比如，job11、job21和job31分别排在队列最前面，先运行，也是并行运行。</p>
+<h3 id="Fair-Scheduler"><a href="#Fair-Scheduler" class="headerlink" title="Fair Scheduler"></a>Fair Scheduler</h3><h2 id="四、任务的推测执行"><a href="#四、任务的推测执行" class="headerlink" title="四、任务的推测执行"></a>四、任务的推测执行</h2><p>1．作业完成时间取决于最慢的任务完成时间</p>
+<p>一个作业由若干个Map任务和Reduce任务构成。因硬件老化、软件Bug等，某些任务可能运行非常慢。</p>
+<p>思考：系统中有99%的Map任务都完成了，只有少数几个Map老是进度很慢，完不成，怎么办？</p>
+<p>2．推测执行机制</p>
+<p>发现拖后腿的任务，比如某个任务运行速度远慢于任务平均速度。为拖后腿任务启动一个备份任务，同时运行。谁先运行完，则采用谁的结果。</p>
+<p>3．执行推测任务的前提条件</p>
+<p>（1）每个Task只能有一个备份任务</p>
+<p>（2）当前Job已完成的Task必须不小于0.05（5%）</p>
+<p>（3）开启推测执行参数设置。mapred-site.xml文件中默认是打开的。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.map.speculative<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">description</span>&gt;</span>If true, then multiple instances of some map tasks may be executed in parallel.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.reduce.speculative<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      	<span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">description</span>&gt;</span>If true, then multiple instances of some reduce tasks may be executed in parallel.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>4．不能启用推测执行机制情况</p>
+<p>   （1）任务间存在严重的负载倾斜；</p>
+<p>   （2）特殊任务，比如任务向数据库中写数据。</p>
+<p>总结：</p>
+<p>1、MR总是选择（推测执行完时刻-备份任务推测完成时刻）插值最大的任务，并为之启动备份任务。</p>
+<p>2、为了防止大量任务同时启动备份任务造成资源浪费，MR为每个作业设置了同时启动的备份任务数目上限；</p>
+<p>3、推测执行机制实际上采用了经典的优化算法：空间换时间，它同时启动多个想听任务处理相同的数据，并让这些任务竞争以缩短数据处理时间。显然，这种方法需要占用更多的计算资源。在集群资源紧缺的情况下，应合理使用该机制，争取在多用少量资源的情况下，减少作业的计算时间。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2019-07-22T12:00:53.473Z" itemprop="dateUpdated">2019-07-22 20:00:53</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/07/22/hadoop-yarn/" target="_blank" rel="external">http://yoursite.com/2019/07/22/hadoop-yarn/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="kaizuidebanli">
+            kaizuidebanli
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hadoop-yarn/&title=《Yarn资源调度器》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hadoop-yarn/&title=《Yarn资源调度器》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hadoop-yarn/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Yarn资源调度器》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hadoop-yarn/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hadoop-yarn/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/22/hello-world/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Hello World</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        打赏杯咖啡呗~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>kaizuidebanli &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hadoop-yarn/&title=《Yarn资源调度器》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hadoop-yarn/&title=《Yarn资源调度器》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hadoop-yarn/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Yarn资源调度器》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hadoop-yarn/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hadoop-yarn/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/22/hadoop-yarn/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
