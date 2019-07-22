@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>分布式文件系统HDFS | 开嘴的板栗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="hadoop">
+    <meta name="description" content="分布式文件系统HDFS一、HDFS概述及设计目标如果让我们自己来设计一个分布式文件系统，我们会怎么做呢？   文件以多副本的方式进行存储，一台机器存储不了，需要存储在多台机器上。 1234file1 : node1, node2, node3file2 : node2, node3, node4file3 : node1, node4, node5file4 : node3, node5, nod">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式文件系统HDFS">
+<meta property="og:url" content="http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/index.html">
+<meta property="og:site_name" content="开嘴的板栗">
+<meta property="og:description" content="分布式文件系统HDFS一、HDFS概述及设计目标如果让我们自己来设计一个分布式文件系统，我们会怎么做呢？   文件以多副本的方式进行存储，一台机器存储不了，需要存储在多台机器上。 1234file1 : node1, node2, node3file2 : node2, node3, node4file3 : node1, node4, node5file4 : node3, node5, nod">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/1563632957425.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/1563633370795.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/1563633711820.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/1563634149805.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/1563634859269.png">
+<meta property="og:updated_time" content="2019-07-22T00:06:19.681Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分布式文件系统HDFS">
+<meta name="twitter:description" content="分布式文件系统HDFS一、HDFS概述及设计目标如果让我们自己来设计一个分布式文件系统，我们会怎么做呢？   文件以多副本的方式进行存储，一台机器存储不了，需要存储在多台机器上。 1234file1 : node1, node2, node3file2 : node2, node3, node4file3 : node1, node4, node5file4 : node3, node5, nod">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/1563632957425.png">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">kaizuidebanli</h5>
+          <a href="mailto:945562363@qq.com" title="945562363@qq.com" class="mail">945562363@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yscoder" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">分布式文件系统HDFS</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">分布式文件系统HDFS</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-21T05:26:27.000Z" itemprop="datePublished" class="page-time">
+  2019-07-21
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#分布式文件系统HDFS"><span class="post-toc-text">分布式文件系统HDFS</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、HDFS概述及设计目标"><span class="post-toc-text">一、HDFS概述及设计目标</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、HDFS架构"><span class="post-toc-text">二、HDFS架构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、HDFS副本机制"><span class="post-toc-text">三、HDFS副本机制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、Java-API操作HDFS"><span class="post-toc-text">四、Java API操作HDFS</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#五、HDFS-文件读写流程"><span class="post-toc-text">五、HDFS 文件读写流程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-写入数据"><span class="post-toc-text">1.写入数据</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-读取数据"><span class="post-toc-text">2.读取数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#六、HDFS优缺点"><span class="post-toc-text">六、HDFS优缺点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-text">参考资料</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-hadoop-hdfs-introduction"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">分布式文件系统HDFS</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-21 13:26:27" datetime="2019-07-21T05:26:27.000Z"  itemprop="datePublished">2019-07-21</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="分布式文件系统HDFS"><a href="#分布式文件系统HDFS" class="headerlink" title="分布式文件系统HDFS"></a>分布式文件系统HDFS</h1><h2 id="一、HDFS概述及设计目标"><a href="#一、HDFS概述及设计目标" class="headerlink" title="一、HDFS概述及设计目标"></a>一、HDFS概述及设计目标</h2><p>如果让我们自己来设计一个分布式文件系统，我们会怎么做呢？</p>
+<img src="/2019/07/21/hadoop-hdfs-introduction/1563632957425.png" title="This is an image">
+
+<p>文件以多副本的方式进行存储，一台机器存储不了，需要存储在多台机器上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">file1 : node1, node2, node3</span><br><span class="line">file2 : node2, node3, node4</span><br><span class="line">file3 : node1, node4, node5</span><br><span class="line">file4 : node3, node5, node6</span><br></pre></td></tr></table></figure>
+
+<img src="/2019/07/21/hadoop-hdfs-introduction/1563633370795.png" title="This is an image">
+
+<p>缺点：</p>
+<p>1）不管文件多大，都存储在一个节点上，在进行数据处理的时候很难进行并行处理，节点可能九成为网络瓶颈，很难进行大数据处理；</p>
+<p>2）存储负载很难均衡，每个节点的利用率很低。</p>
+<p><strong>分布式文件系统HDFS的设计目标：</strong></p>
+<p>1）非常巨大的分布式文件系统；</p>
+<p>2）运行在普通的廉价的硬件上；</p>
+<p>3）易扩展、为用户提供性能不错的文件存储服务。</p>
+<h2 id="二、HDFS架构"><a href="#二、HDFS架构" class="headerlink" title="二、HDFS架构"></a>二、HDFS架构</h2><img src="/2019/07/21/hadoop-hdfs-introduction/1563633711820.png" title="This is an image">
+
+<p>一个文件会被拆分成多个Block,blocksize : 128M</p>
+<p>例如，130M的文件会被拆分陈2个block ： 128M， 2M。</p>
+<p><strong>NameNode节点：</strong></p>
+<p>1）负责客户端请求的响应；</p>
+<p>2）负责元数据（文件的名称、副本系数、Block存放的DataNode）的管理</p>
+<p><strong>DataNode:</strong></p>
+<p>1）存储用户的文件对应的数据块（Block）;</p>
+<p>2）要定期向NameNode发送心跳信息，汇报本身及其所有的block信息，健康状况。</p>
+<p>官方文档建议：NameNode和DataNode部署在不同的节点上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A typical deployment has a dedicated machine that runs only the NameNode software. Each of the other machines in the cluster runs one instance of the DataNode software. The architecture does not preclude running multiple DataNodes on the same machine but in a real deployment that is rarely the case.</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、HDFS副本机制"><a href="#三、HDFS副本机制" class="headerlink" title="三、HDFS副本机制"></a>三、HDFS副本机制</h2><p>（1）为什么需要副本机制呢？</p>
+<p>HDFS的设计目标就是数据可以存放大量相对廉价的计算机上，那么宕机就是一种必然事件，我们需要让数据避免丢失，就只有采取冗余数据存储，而具体的实现就是副本机制。</p>
+<img src="/2019/07/21/hadoop-hdfs-introduction/1563634149805.png" title="This is an image">
+
+<p>（2）副本存放策略</p>
+<p>副本存放位置的选择严重影响 HDFS 的可靠性和性能。HDFS 采用机架敏感（rack awareness）的副本存放策略来提高数据的可靠性、可用性和网络带宽的利用率。</p>
+<img src="/2019/07/21/hadoop-hdfs-introduction/1563634859269.png" title="This is an image">
+
+<p>三副本机制详解（三个以上的随机存储）<br>第一副本：如果写请求方所在机器是其中一个datanode,则直接存放在本地,否则随机在集群中选择一个datanode；<br>第二副本：放置在不同机架的DN上；<br>第三副本：放置在与第二副本相同机架的不同DN上。</p>
+<p>（3）副本的优点</p>
+<ol>
+<li>提高系统可靠性：系统不可避免的会产生故障和错误，拥有多个副本的文件系统不会导致无法访问的情况，从而提高了系统的可用性。另外，系统可以通过其他完好的副本对发生错误的副本进行修复，从而提高了系统的容错性。</li>
+<li>负载均衡：副本可以对系统的负载量进行扩展。多个副本存放在不同的服务器上，可有效的分担工作量，从而将较大的工作量有效的分布在不同的站点上。</li>
+<li>提高访问效率：将副本创建在访问频度较大的区域，即副本在访问节点的附近，相应减小了其通信开销，从而提高了整体的访问效率。</li>
+</ol>
+<p>（4）集群只有三个Datanode，hadoop系统replication=4时，会出现什么情况？</p>
+<p> 对于上传文件到hdfs上时，上传到分布式系统上的文件副本数由当时的系统副本数决定，不会受replication的更改而变化，除非用命令来更改文件的副本数。因为dfs.replication实质上是client参数，在create文件时可以指定具体replication，属性dfs.replication是不指定具体replication时的采用默认备份数。文件上传后，备份数已定，修改dfs.replication是不会影响以前的文件的，也不会影响后面指定备份数的文件。只影响后面采用默认备份数的文件。但可以利用hadoop提供的命令后期改某文件的备份数：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -setrep -R 1</span><br></pre></td></tr></table></figure>
+
+<p>如果你是在hdfs-site.xml设置了dfs.replication，这并一定就得了，因为你可能没把conf文件夹加入到你的 project的classpath里，你的程序运行时取的dfs.replication可能是hdfs-default.xml里的 dfs.replication，默认是3。可能这个就是造成你为什么dfs.replication老是3的原因。你可以试试在创建文件时，显式设定replication。replication一般到3就可以了，大了意义也不大。</p>
+<h2 id="四、Java-API操作HDFS"><a href="#四、Java-API操作HDFS" class="headerlink" title="四、Java API操作HDFS"></a>四、Java API操作HDFS</h2><p>简单的通过Java api 操作HDFS的小例子.</p>
+<p>（1）引入maven依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>cloudera<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://repository.cloudera.com/artifactory/cloudera-repos/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--添加hadoop依赖--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;hadoop.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!--添加单元测试的依赖--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>（2）实现：查看HDFS某个目录下的所有文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FileStatus;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FileSystem;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.Path;</span><br><span class="line"><span class="keyword">import</span> org.junit.After;</span><br><span class="line"><span class="keyword">import</span> org.junit.Before;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.net.URI;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Hadoop HDFS Java API 操作</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HDFSApp</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String HDFS_PATH = <span class="string">"hdfs://Master:9000"</span>;</span><br><span class="line">    FileSystem fileSystem = <span class="keyword">null</span>;</span><br><span class="line">    Configuration configuration = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查看某个目录下的所有文件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">listFiles</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        FileStatus[] fileStatuses = fileSystem.listStatus(<span class="keyword">new</span> Path(<span class="string">"/user/hadoop/input"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(FileStatus fileStatus : fileStatuses) &#123;</span><br><span class="line">            String isDir = fileStatus.isDirectory() ? <span class="string">"文件夹"</span> : <span class="string">"文件"</span>;</span><br><span class="line">            <span class="keyword">short</span> replication = fileStatus.getReplication();</span><br><span class="line">            <span class="keyword">long</span> len = fileStatus.getLen();</span><br><span class="line">            String path = fileStatus.getPath().toString();</span><br><span class="line"></span><br><span class="line">            System.out.println(isDir + <span class="string">"\t"</span> + replication + <span class="string">"\t"</span> + len + <span class="string">"\t"</span> + path);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Before</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serUp</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"HDFSApp.setUp"</span>);</span><br><span class="line">        configuration = <span class="keyword">new</span> Configuration();</span><br><span class="line">        fileSystem = FileSystem.get(<span class="keyword">new</span> URI(HDFS_PATH), configuration, <span class="string">"hadoop"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@After</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">tearDown</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        configuration = <span class="keyword">null</span>;</span><br><span class="line">        fileSystem = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"HDFSApp.tearDown"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（3）创建HDFS目录（省略@Before，@After ）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建HDFS目录</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">mkdir</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    fileSystem.mkdirs(<span class="keyword">new</span> Path(<span class="string">"/hdfsapi/test"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（4）创建文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建文件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    FSDataOutputStream output = fileSystem.create(<span class="keyword">new</span> Path(<span class="string">"/hdfsapi/test/a.txt"</span>));</span><br><span class="line">    output.write(<span class="string">"hello hadoop"</span>.getBytes());</span><br><span class="line">    output.flush();</span><br><span class="line">    output.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（5）查看HDFS文件的内容</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 查看HDFS文件的内容</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cat</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    FSDataInputStream in = fileSystem.open(<span class="keyword">new</span> Path(<span class="string">"/hdfsapi/test/a.txt"</span>));</span><br><span class="line">    IOUtils.copyBytes(in, System.out, <span class="number">1024</span>);</span><br><span class="line">    in.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（6）重命名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 重命名</span><br><span class="line"> */</span><br><span class="line">@Test</span><br><span class="line">public void rename() throws Exception &#123;</span><br><span class="line">    Path oldPath = new Path(&quot;/hdfsapi/test/a.txt&quot;);</span><br><span class="line">    Path newPath = new Path(&quot;/hdfsapi/test/b.txt&quot;);</span><br><span class="line">    fileSystem.rename(oldPath, newPath);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（7）上传文件到HDFS</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 上传文件到HDFS</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">copyFromLocalFile</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Path localPath = <span class="keyword">new</span> Path(<span class="string">"/Users/rocky/data/hello.txt"</span>);</span><br><span class="line">    Path hdfsPath = <span class="keyword">new</span> Path(<span class="string">"/hdfsapi/test"</span>);</span><br><span class="line">    fileSystem.copyFromLocalFile(localPath, hdfsPath);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 上传文件到HDFS</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">copyFromLocalFileWithProgress</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    InputStream in = <span class="keyword">new</span> BufferedInputStream(</span><br><span class="line">            <span class="keyword">new</span> FileInputStream(</span><br><span class="line">                    <span class="keyword">new</span> File(<span class="string">"/Users/rocky/source/spark-1.6.1/spark-1.6.1-bin-2.6.0-cdh5.5.0.tgz"</span>)));</span><br><span class="line"></span><br><span class="line">    FSDataOutputStream output = fileSystem.create(<span class="keyword">new</span> Path(<span class="string">"/hdfsapi/test/spark-1.6.1.tgz"</span>),</span><br><span class="line">            <span class="keyword">new</span> Progressable() &#123;</span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">progress</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    System.out.print(<span class="string">"."</span>);  <span class="comment">//带进度提醒信息</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    IOUtils.copyBytes(in, output, <span class="number">4096</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（8）下载HDFS文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 下载HDFS文件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">copyToLocalFile</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Path localPath = <span class="keyword">new</span> Path(<span class="string">"/Users/rocky/tmp/h.txt"</span>);</span><br><span class="line">    Path hdfsPath = <span class="keyword">new</span> Path(<span class="string">"/hdfsapi/test/hello.txt"</span>);</span><br><span class="line">    fileSystem.copyToLocalFile(hdfsPath, localPath);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（9）删除</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 删除</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    fileSystem.delete(<span class="keyword">new</span> Path(<span class="string">"/"</span>), <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="五、HDFS-文件读写流程"><a href="#五、HDFS-文件读写流程" class="headerlink" title="五、HDFS 文件读写流程"></a>五、HDFS 文件读写流程</h2><p>该部分更直观的可以参考 <a href="http://lxw1234.com/archives/2016/04/638.htm" target="_blank" rel="noopener">【漫画解读】HDFS存储原理</a></p>
+<h3 id="1-写入数据"><a href="#1-写入数据" class="headerlink" title="1.写入数据"></a>1.写入数据</h3><p>​    客户端要向HDFS写数据，首先要跟namenode通信以确认可以写文件并获得接收文件block的datanode，然后，客户端按顺序将文件逐个block传递给相应datanode，并由接收到block的datanode负责向其他datanode复制block的副本。</p>
+<p>详细的写步骤：</p>
+<p>（1）客户端通过Distributed FileSystem模块向NameNode请求上传文件，NameNode检查目标文件是否已存在，父目录是否存在。</p>
+<p>（2）NameNode返回是否可以上传。</p>
+<p>（3）客户端请求第一个 Block上传到哪几个DataNode服务器上。</p>
+<p>（4）NameNode返回3个DataNode节点，分别为dn1、dn2、dn3。</p>
+<p>（5）客户端通过FSDataOutputStream模块请求dn1上传数据，dn1收到请求会继续调用dn2，然后dn2调用dn3，将这个通信管道建立完成。</p>
+<p>（6）dn1、dn2、dn3逐级应答客户端。</p>
+<p>（7）客户端开始往dn1上传第一个Block（先从磁盘读取数据放到一个本地内存缓存），以Packet为单位，dn1收到一个Packet就会传给dn2，dn2传给dn3；dn1每传一个packet会放入一个应答队列等待应答。</p>
+<p>（8）当一个Block传输完成之后，客户端再次请求NameNode上传第二个Block的服务器。（重复执行3-7步）。</p>
+<h3 id="2-读取数据"><a href="#2-读取数据" class="headerlink" title="2.读取数据"></a>2.读取数据</h3><p>​    客户端将要读取的文件路径发送给namenode，namenode获取文件的元信息（主要是block的存放位置信息）返回给客户端，客户端根据返回的信息找到相应datanode逐个获取文件的block并在客户端本地进行数据追加合并从而获得整个文件。</p>
+<p>详细读取过程如下：</p>
+<p>（1）客户端通过Distributed FileSystem向NameNode请求下载文件，NameNode通过查询元数据，找到文件块所在的DataNode地址。</p>
+<p>（2）挑选一台DataNode（就近原则，然后随机）服务器，请求读取数据。</p>
+<p>（3）DataNode开始传输数据给客户端（从磁盘里面读取数据输入流，以Packet为单位来做校验）。</p>
+<p>（4）客户端以Packet为单位接收，先在本地缓存，然后写入目标文件。</p>
+<h2 id="六、HDFS优缺点"><a href="#六、HDFS优缺点" class="headerlink" title="六、HDFS优缺点"></a>六、HDFS优缺点</h2><p><strong>优点</strong></p>
+<p><strong>1. 处理超大文件</strong></p>
+<p>这里的超大文件通常是指MB、设置数百TB大小的文件。目前在实际应用，HDFS已经能用来存储管理PB级的数据了。</p>
+<p><strong>2.流式的访问数据</strong></p>
+<p>HDFS的设计建立在更多的响应“一次写入、多次读写”任务的基础上。</p>
+<p>这意味着一个数据集一旦由数据源生成，就会被复制分发到不同的存储节点中，然后响应各种各样的数据分析任务请求。在多数情况下，分析任务都会涉及数据集中的大部分数据，也就是说，对HDFS来说，请求读取整个数据集要比读取一条记录更加高效。</p>
+<p><strong>3. 运行在廉价的商用机器集群上</strong></p>
+<p>Hadoop涉及对硬件的要求比较低，只需运行在低廉的商用硬件集群上，而无需昂贵的高可用性机器上。廉价的商用机也就意味着大型急群众出现节点故障情况的概率非常高。这就要求设计HDFS时要充分考虑数据的可靠性，安全性及高可用性。</p>
+<p><strong>缺点</strong></p>
+<p><strong>1. 不适合低延迟数据访问</strong></p>
+<p>如果要处理一些用户要求时间比较短的低延迟应用请求，则HDFS不适合。HDFS是为了处理大型数据集分析任务的，主要是达到高的数据吞吐量而设计的，这就可能要求以高延迟作为代价。</p>
+<p><strong>改进策略：</strong></p>
+<p>对于那些有低延迟要求的引用程序，HBase是一个更好的选择。通过上层数据管理项目来尽可能的弥补这个不足。在性能上有了很大的提升，它的括号就是goes real time。使用缓存或多master设计可以降低Client的数据请求压力，以减少延时。还有就是对HDFS系统内部的修改，这就得权衡大吞吐量与低延时了，HDFS不是万能的银弹。</p>
+<p><strong>2. 无法高效存储小文件</strong></p>
+<p>因为nameNode把文件系统的元数据放置在内存中，所以文件系统所能容纳的文件数目是由NameNode的内存大小来决定的，一般来说，每一个文件、文件夹和Block需要占据150字节左右的空间，所以，如果你有100万个文件，每一个占据一个Block，你就至少需要300MB的内存，当前来说，数百万的文件还是可行的，当扩展到数十亿时，对于当前的硬件水平来说就无法实现了。还有一个问题就是，因为Map task的数量是由splits来决定的，所以用MR处理大量小文件时，就会产生过多的Maptask，线程管理开销将会增加作业时间。举个例子，处理10000M的文件，若每个split为1M，那么就会有10000个maptasks，会有很大的线程开销；若每个split为100M，则100个Maptasks，每个maptask将会有更多的事情做，而线程的管理开销也将会减小很多。</p>
+<p><strong>改进策略：</strong></p>
+<p>要想让HDFS能处理好小文件，有不少方法。利用SequenceFile、MapFile、Har等方式归档小文件，这个方法的原理就是把小文件归档起来管理，HBase就是基于此的。对于这种方法，如果想找回原来的小文件内容，那就必须得知道与归档文件的映射关系。横向扩展，一个Hadoop集群能管理的小文件有限，那就把几个Hadoop集群拖在一个虚拟服务器后面，形成一个大的Hadoop集群。google也是这么干过的。多Master设计，这个作用显而易见了。正在研发中的GFS II也要改为分布式多Master设计，还支持Master的Failover，而且Block大小改为1M，有意要调优处理小文件啊。附带个Alibaba DFS的设计，也是多Master设计，它把Metadata的映射存储和管理分开了，由多个Metadata存储节点和一个查询Master节点组成。</p>
+<p><strong>3.不支持多用户写入及任意修改文件</strong></p>
+<p>在HDFS的一个文件中只有一个写入者，而且写操作只能在文件末尾完成，即只能执行追加操作。目前HDFS还不支持多个用户对同一文件的写操作，以及在文件任意位置进行修改。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://extendswind.top/posts/technical/hadoop_block_placement_policy/" target="_blank" rel="noopener">Hadoop 副本放置策略的源码阅读和设置</a></p>
+<p><a href="https://blog.csdn.net/weixin_39216383/article/details/78841983" target="_blank" rel="noopener">HDFS副本机制</a></p>
+<p><a href="https://aoyouzi.iteye.com/blog/2291871" target="_blank" rel="noopener">HDFS原理 架构和副本机制</a></p>
+<p><a href="https://www.ibm.com/developerworks/cn/data/library/bd-1505-hdfs-uilbps-optimize/index.html" target="_blank" rel="noopener">HDFS 副本放置策略的研究和优化</a></p>
+<p><a href="https://blog.csdn.net/androidlushangderen/article/details/51178253" target="_blank" rel="noopener">HDFS副本放置策略</a></p>
+<p><a href="http://lxw1234.com/archives/2016/04/638.htm" target="_blank" rel="noopener">【漫画解读】HDFS存储原理</a></p>
+<p><a href="https://blog.csdn.net/lzm1340458776/article/details/38819629" target="_blank" rel="noopener">HDFS体系结构简介及优缺点</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-07-22T00:06:19.681Z" itemprop="dateUpdated">2019-07-22 08:06:19</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/07/21/hadoop-hdfs-introduction/" target="_blank" rel="external">http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="kaizuidebanli">
+            kaizuidebanli
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/&title=《分布式文件系统HDFS》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/&title=《分布式文件系统HDFS》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《分布式文件系统HDFS》 — 开嘴的板栗&url=http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/07/22/hello-world/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Hello World</h4>
+      </a>
+    </div>
+  
+
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        打赏杯咖啡呗~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>kaizuidebanli &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/&title=《分布式文件系统HDFS》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/&title=《分布式文件系统HDFS》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《分布式文件系统HDFS》 — 开嘴的板栗&url=http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/21/hadoop-hdfs-introduction/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
