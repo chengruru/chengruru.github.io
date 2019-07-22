@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Hadoop压缩 | 开嘴的板栗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="hadoop">
+    <meta name="description" content="一、压缩概述压缩技术能够有效减少底层存储系统（HDFS）读写字节数。压缩提高了网络带宽和磁盘空间的效率。在运行MapReduce程序时，I/O操作、网络数据传输、shuffle和Merge要花大量的实践，尤其是数据规模很大和工作负载密集的情况下。因此，使用数据压缩显得非常重要。 鉴于磁盘I/O和网络带宽是hadoop的宝贵资源，数据压缩对于节省资源、最小化磁盘I/O和网络传输非常有帮助。可以在任意">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop压缩">
+<meta property="og:url" content="http://yoursite.com/2019/07/22/hadoop-compress/index.html">
+<meta property="og:site_name" content="开嘴的板栗">
+<meta property="og:description" content="一、压缩概述压缩技术能够有效减少底层存储系统（HDFS）读写字节数。压缩提高了网络带宽和磁盘空间的效率。在运行MapReduce程序时，I/O操作、网络数据传输、shuffle和Merge要花大量的实践，尤其是数据规模很大和工作负载密集的情况下。因此，使用数据压缩显得非常重要。 鉴于磁盘I/O和网络带宽是hadoop的宝贵资源，数据压缩对于节省资源、最小化磁盘I/O和网络传输非常有帮助。可以在任意">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/hadoop-compress/1563782726097.png">
+<meta property="og:updated_time" content="2019-07-22T08:22:48.395Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop压缩">
+<meta name="twitter:description" content="一、压缩概述压缩技术能够有效减少底层存储系统（HDFS）读写字节数。压缩提高了网络带宽和磁盘空间的效率。在运行MapReduce程序时，I/O操作、网络数据传输、shuffle和Merge要花大量的实践，尤其是数据规模很大和工作负载密集的情况下。因此，使用数据压缩显得非常重要。 鉴于磁盘I/O和网络带宽是hadoop的宝贵资源，数据压缩对于节省资源、最小化磁盘I/O和网络传输非常有帮助。可以在任意">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/22/hadoop-compress/1563782726097.png">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">kaizuidebanli</h5>
+          <a href="mailto:945562363@qq.com" title="945562363@qq.com" class="mail">945562363@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/chengruru" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Hadoop压缩</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Hadoop压缩</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-22T07:02:33.000Z" itemprop="datePublished" class="page-time">
+  2019-07-22
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、压缩概述"><span class="post-toc-text">一、压缩概述</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、MR支持的压缩编码"><span class="post-toc-text">二、MR支持的压缩编码</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三、压缩方式选择"><span class="post-toc-text">三、压缩方式选择</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Gzip压缩"><span class="post-toc-text">1.Gzip压缩</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Bzip2压缩"><span class="post-toc-text">2.Bzip2压缩</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Lzo压缩"><span class="post-toc-text">3.Lzo压缩</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Snappy压缩"><span class="post-toc-text">4.Snappy压缩</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#四、压缩位置选择"><span class="post-toc-text">四、压缩位置选择</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#五、压缩参数配置"><span class="post-toc-text">五、压缩参数配置</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#六、压缩实践"><span class="post-toc-text">六、压缩实践</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-数据流的压缩和解压缩"><span class="post-toc-text">1.数据流的压缩和解压缩</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Map输出端采用压缩"><span class="post-toc-text">2.Map输出端采用压缩</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Reduce输出端采用压缩"><span class="post-toc-text">3.Reduce输出端采用压缩</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-hadoop-compress"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Hadoop压缩</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-22 15:02:33" datetime="2019-07-22T07:02:33.000Z"  itemprop="datePublished">2019-07-22</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="一、压缩概述"><a href="#一、压缩概述" class="headerlink" title="一、压缩概述"></a>一、压缩概述</h1><p>压缩技术能够有效减少底层存储系统（HDFS）读写字节数。压缩提高了网络带宽和磁盘空间的效率。在运行MapReduce程序时，I/O操作、网络数据传输、shuffle和Merge要花大量的实践，尤其是<strong>数据规模很大和工作负载密集的情况下</strong>。因此，<strong>使用数据压缩显得非常重要</strong>。</p>
+<p>鉴于磁盘I/O和网络带宽是hadoop的宝贵资源，<strong>数据压缩对于节省资源、最小化磁盘I/O和网络传输非常有帮助。可以</strong>在<strong>任意MapReduce阶段启用压缩</strong>。不过，尽管压缩和解压操作的CPU开销不高，其性能的提升和资源的节省并非没有代价。</p>
+<p>压缩是提高hadoop运行效率的一种优化策略。</p>
+<p>通过对Mapper、Reducer运行过程的数据进行压缩，以减少磁盘IO,提高MR程序运行速度。</p>
+<p>主语：采用压缩技术减少了磁盘IO，但同时也增加了CPU运算负担。所以，压缩特性运用得当能提高性能，但是运用不当也可能降低性能。</p>
+<p>压缩的基本原则“</p>
+<p>（1）运算密集型的job，少用压缩；</p>
+<p>（2）IO密集型的job，多用压缩。</p>
+<h1 id="二、MR支持的压缩编码"><a href="#二、MR支持的压缩编码" class="headerlink" title="二、MR支持的压缩编码"></a>二、MR支持的压缩编码</h1><table>
+<thead>
+<tr>
+<th>压缩格式</th>
+<th>hadoop自带？</th>
+<th>算法</th>
+<th>文件扩展名</th>
+<th>是否可切分</th>
+<th align="left">换成压缩格式后，原来的程序是否需要修改</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DEFLATE</td>
+<td>是，直接使用</td>
+<td>DEFLATE</td>
+<td>.deflate</td>
+<td>否</td>
+<td align="left">和文本处理一样，不需要修改</td>
+</tr>
+<tr>
+<td>Gzip</td>
+<td>是，直接使用</td>
+<td>DEFLATE</td>
+<td>.gz</td>
+<td>否</td>
+<td align="left">和文本处理一样，不需要修改</td>
+</tr>
+<tr>
+<td>bzip2</td>
+<td>是，直接使用</td>
+<td>bzip2</td>
+<td>.bz2</td>
+<td>是</td>
+<td align="left">和文本处理一样，不需要修改</td>
+</tr>
+<tr>
+<td>LZO</td>
+<td>否，需要安装</td>
+<td>LZO</td>
+<td>.lzo</td>
+<td>是</td>
+<td align="left">需要建索引，还需要指定输入格式</td>
+</tr>
+<tr>
+<td>Snappy</td>
+<td>否，需要安装</td>
+<td>Snappy</td>
+<td>.snappy</td>
+<td>否</td>
+<td align="left">和文本处理一样，不需要修改</td>
+</tr>
+</tbody></table>
+<p>为了支持多种压缩/解压缩算法，Hadoop引入了编码/解码器，如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>压缩格式</th>
+<th>对应的编码/解码器</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DEFLATE</td>
+<td>org.apache.hadoop.io.compress.DefaultCodec</td>
+</tr>
+<tr>
+<td>gzip</td>
+<td>org.apache.hadoop.io.compress.GzipCodec</td>
+</tr>
+<tr>
+<td>bzip2</td>
+<td>org.apache.hadoop.io.compress.BZip2Codec</td>
+</tr>
+<tr>
+<td>LZO</td>
+<td>com.hadoop.compression.lzo.LzopCodec</td>
+</tr>
+<tr>
+<td>Snappy</td>
+<td>org.apache.hadoop.io.compress.SnappyCodec</td>
+</tr>
+</tbody></table>
+<p>压缩性能的比较：</p>
+<table>
+<thead>
+<tr>
+<th align="left">压缩算法</th>
+<th>原始文件大小</th>
+<th>压缩文件大小</th>
+<th>压缩速度</th>
+<th>解压速度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">gzip</td>
+<td>8.3GB</td>
+<td>1.8GB</td>
+<td>17.5MB/s</td>
+<td>58MB/s</td>
+</tr>
+<tr>
+<td align="left">bzip2</td>
+<td>8.3GB</td>
+<td>1.1GB</td>
+<td>2.4MB/s</td>
+<td>9.5MB/s</td>
+</tr>
+<tr>
+<td align="left">LZO</td>
+<td>8.3GB</td>
+<td>2.9GB</td>
+<td>49.3MB/s</td>
+<td>74.6MB/s</td>
+</tr>
+</tbody></table>
+<h1 id="三、压缩方式选择"><a href="#三、压缩方式选择" class="headerlink" title="三、压缩方式选择"></a>三、压缩方式选择</h1><h2 id="1-Gzip压缩"><a href="#1-Gzip压缩" class="headerlink" title="1.Gzip压缩"></a>1.Gzip压缩</h2><p><strong>优点</strong>：压缩率比较高，而且压缩、解压速度也比较快； Hadoop本身支持，在应用中处理 Gzip格式的文件就和直接处理文本一样；大部分 Linux系统都自带 Gzip命令，使用方便。</p>
+<p><strong>缺点</strong>：不支持 Split 。</p>
+<p><strong>应用场景</strong>：当每个文件压缩之后在 13M 以内的（ 1个块大小内），都可以考虑用 Gzip 压缩格式。例如说一天或者一个小时的日志压缩成一个 Gzip 文件。</p>
+<h2 id="2-Bzip2压缩"><a href="#2-Bzip2压缩" class="headerlink" title="2.Bzip2压缩"></a>2.Bzip2压缩</h2><p><strong>优点</strong>：支持split;具有很高的压缩率、高于Gzip； Hadoop本身支持，使用方便。</p>
+<p><strong>缺点</strong>：压缩、解压速度慢 。</p>
+<p><strong>应用场景</strong>：适合对速度要求不高，但需要较高的压缩率的情况；或者输出之后的数据比较大，处理之后的数据压缩需要存档减少磁盘空间并且以后数据用得比较少的情况；或者对单个很大的文本文件想压缩减少存储空间，同时又需要支持split，而且兼容之前的应用程序的情况。</p>
+<h2 id="3-Lzo压缩"><a href="#3-Lzo压缩" class="headerlink" title="3.Lzo压缩"></a>3.Lzo压缩</h2><p>*<em>优点 *</em>：压缩解压速度也比较快,合理的压缩率;支持Split,是Hadoop中最流行的压缩格式;可以在Linux系统下安装lzop命令,使用方便。</p>
+<p><strong>缺点 :</strong> 压缩率比Gzip要低一些; Hadoop本身不支持,需要安装;在应用中对格式的文件需要做一些特殊处理(为了支持Split需要建索引,还需要指定 InputFormat为Lzo格式)。</p>
+<p><strong>应用场景</strong> : <strong>一个很大的文本文件,压缩之后还大于200M以上的可以考虑,而且单个文件越大,Lzo优点越越明显。</strong></p>
+<h2 id="4-Snappy压缩"><a href="#4-Snappy压缩" class="headerlink" title="4.Snappy压缩"></a>4.Snappy压缩</h2><p>*<em>优点 *</em>：告诉压缩和合理的压缩率。</p>
+<p><strong>缺点 :</strong> 不支持split;压缩率比Gzip要低; Hadoop本身不支持,需要安装;</p>
+<p><strong>应用场景</strong> : 当MapReduce作业的Map输出的数据比较大的时候，作为Map到Reduce的中间数据的压缩格式；或者作为一个MapReduce作业的输出和另外一个MapReduce作业的输入。</p>
+<h1 id="四、压缩位置选择"><a href="#四、压缩位置选择" class="headerlink" title="四、压缩位置选择"></a>四、压缩位置选择</h1><p>压缩可以在MapReduce作用的任意阶段启用，如下图所示：</p>
+<img src="/2019/07/22/hadoop-compress/1563782726097.png" title="This is an image">
+
+<p>（1）输入端采用压缩</p>
+<p>再有大量数据并计划重复处理的情况下，应该考虑对输入进行压缩。然而，你无需显示指定使用的编解码方式。hadoop自动检查文件扩展名，如果扩展名能够匹配，就会用恰当的编解码方式对文件进行压缩和解压。否则，hadoop就不会使用任何编解码器。</p>
+<p>（2）Mapper输出端采用压缩</p>
+<p>当map任务输出的中间数据量很大时，应考虑再次阶段采用压缩技术。这能显著改善内部数据shuffle过程，而shuffle过程在hadoop处理过程中时资源消耗最多的缓解。如果发现数据量很大造成网络传输缓慢，应该考虑使用压缩技术。可用于压缩Mapper输出的快速编解码器包括LZO或者Snappy。</p>
+<p>（3）Reducer输出端采用压缩</p>
+<p>再次阶段启用压缩技术能够减少要存储的数据量，因此降低所需的磁盘空间。当MapReduce作业形成作业链条时，因为第二作业的输入也已经压缩，所以启用压缩同样有效。</p>
+<h1 id="五、压缩参数配置"><a href="#五、压缩参数配置" class="headerlink" title="五、压缩参数配置"></a>五、压缩参数配置</h1><p>要在Hadoop中启用压缩，可以配置如下参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>默认值</th>
+<th>阶段</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>io.compression.codecs      （在core-site.xml中配置）</td>
+<td>org.apache.hadoop.io.compress.DefaultCodec,   org.apache.hadoop.io.compress.GzipCodec,   org.apache.hadoop.io.compress.BZip2Codec</td>
+<td>输入压缩</td>
+<td>Hadoop使用文件扩展名判断是否支持某种编解码器</td>
+</tr>
+<tr>
+<td>mapreduce.map.output.compress（在mapred-site.xml中配置）</td>
+<td>false</td>
+<td>mapper输出</td>
+<td>这个参数设为true启用压缩</td>
+</tr>
+<tr>
+<td>mapreduce.map.output.compress.codec（在mapred-site.xml中配置）</td>
+<td>org.apache.hadoop.io.compress.DefaultCodec</td>
+<td>mapper输出</td>
+<td>企业多使用LZO或Snappy编解码器在此阶段压缩数据</td>
+</tr>
+<tr>
+<td>mapreduce.output.fileoutputformat.compress（在mapred-site.xml中配置）</td>
+<td>false</td>
+<td>reducer输出</td>
+<td>这个参数设为true启用压缩</td>
+</tr>
+<tr>
+<td>mapreduce.output.fileoutputformat.compress.codec（在mapred-site.xml中配置）</td>
+<td>org.apache.hadoop.io.compress.   DefaultCodec</td>
+<td>reducer输出</td>
+<td>使用标准工具或者编解码器，如gzip和bzip2</td>
+</tr>
+<tr>
+<td>mapreduce.output.fileoutputformat.compress.type（在mapred-site.xml中配置）</td>
+<td>RECORD</td>
+<td>reducer输出</td>
+<td>SequenceFile输出使用的压缩类型：NONE和BLOCK</td>
+</tr>
+</tbody></table>
+<h1 id="六、压缩实践"><a href="#六、压缩实践" class="headerlink" title="六、压缩实践"></a>六、压缩实践</h1><h2 id="1-数据流的压缩和解压缩"><a href="#1-数据流的压缩和解压缩" class="headerlink" title="1.数据流的压缩和解压缩"></a>1.数据流的压缩和解压缩</h2><p>CompressionCodec有两个方法可以用于轻松地压缩或者解压缩数据。</p>
+<p>要想对正在被写入一个输出流的数据进行压缩，我们可以使用createOutputStream(OutputStream out)方法创建一个CompressionOutputStream,将其以压缩格式写入底层的 流。</p>
+<p>相反，要相对从输入流读取来的数据进行解压缩，则调用createInputStream(InputStream in)函数，从而获得一个CompressionInputStream,从而从底层的流读取未压缩的数据。</p>
+<p>测试一下如下压缩方式：</p>
+<table>
+<thead>
+<tr>
+<th>DEFLATE</th>
+<th>org.apache.hadoop.io.compress.DefaultCodec</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>gzip</td>
+<td>org.apache.hadoop.io.compress.GzipCodec</td>
+</tr>
+<tr>
+<td>bzip2</td>
+<td>org.apache.hadoop.io.compress.BZip2Codec</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCompress</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		compress(<span class="string">"e:/hello.txt"</span>,<span class="string">"org.apache.hadoop.io.compress.BZip2Codec"</span>);</span><br><span class="line"><span class="comment">//		decompress("e:/hello.txt.bz2");</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 1、压缩</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">compress</span><span class="params">(String filename, String method)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// （1）获取输入流</span></span><br><span class="line">		FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(filename));</span><br><span class="line">		</span><br><span class="line">		Class codecClass = Class.forName(method);</span><br><span class="line">		</span><br><span class="line">		CompressionCodec codec = (CompressionCodec) ReflectionUtils.newInstance(codecClass, <span class="keyword">new</span> Configuration());</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// （2）获取输出流</span></span><br><span class="line">		FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(filename + codec.getDefaultExtension()));</span><br><span class="line">		CompressionOutputStream cos = codec.createOutputStream(fos);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// （3）流的对拷</span></span><br><span class="line">		IOUtils.copyBytes(fis, cos, <span class="number">1024</span>*<span class="number">1024</span>*<span class="number">5</span>, <span class="keyword">false</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// （4）关闭资源</span></span><br><span class="line">		cos.close();</span><br><span class="line">		fos.close();</span><br><span class="line">fis.close();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 2、解压缩</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">decompress</span><span class="params">(String filename)</span> <span class="keyword">throws</span> FileNotFoundException, IOException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// （0）校验是否能解压缩</span></span><br><span class="line">		CompressionCodecFactory factory = <span class="keyword">new</span> CompressionCodecFactory(<span class="keyword">new</span> Configuration());</span><br><span class="line"></span><br><span class="line">		CompressionCodec codec = factory.getCodec(<span class="keyword">new</span> Path(filename));</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span> (codec == <span class="keyword">null</span>) &#123;</span><br><span class="line">			System.out.println(<span class="string">"cannot find codec for file "</span> + filename);</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// （1）获取输入流</span></span><br><span class="line">		CompressionInputStream cis = codec.createInputStream(<span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(filename)));</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// （2）获取输出流</span></span><br><span class="line">		FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(filename + <span class="string">".decoded"</span>));</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// （3）流的对拷</span></span><br><span class="line">		IOUtils.copyBytes(cis, fos, <span class="number">1024</span>*<span class="number">1024</span>*<span class="number">5</span>, <span class="keyword">false</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// （4）关闭资源</span></span><br><span class="line">		cis.close();</span><br><span class="line">		fos.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Map输出端采用压缩"><a href="#2-Map输出端采用压缩" class="headerlink" title="2.Map输出端采用压缩"></a>2.Map输出端采用压缩</h2><p>即使你的MapReduce的输入输出文件都是未压缩的文件，你仍然可以对Map任务的中间结果输出做压缩，因为它要写在硬盘并且通过网络传输到Reduce节点，对其压缩可以提高很多性能，这些工作只要设置两个属性即可，我们来看下代码怎么设置。</p>
+<p>（1）提供的Hadoop源码支持的压缩格式有：BZip2Codec 、DefaultCodec</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WordCountDriver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException, InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">		Configuration configuration = <span class="keyword">new</span> Configuration();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 开启map端输出压缩</span></span><br><span class="line">	configuration.setBoolean(<span class="string">"mapreduce.map.output.compress"</span>, <span class="keyword">true</span>);</span><br><span class="line">		<span class="comment">// 设置map端输出压缩方式</span></span><br><span class="line">	configuration.setClass(<span class="string">"mapreduce.map.output.compress.codec"</span>, BZip2Codec.class, CompressionCodec.class);</span><br><span class="line"></span><br><span class="line">		Job job = Job.getInstance(configuration);</span><br><span class="line"></span><br><span class="line">		job.setJarByClass(WordCountDriver.class);</span><br><span class="line"></span><br><span class="line">		job.setMapperClass(WordCountMapper.class);</span><br><span class="line">		job.setReducerClass(WordCountReducer.class);</span><br><span class="line"></span><br><span class="line">		job.setMapOutputKeyClass(Text.class);</span><br><span class="line">		job.setMapOutputValueClass(IntWritable.class);</span><br><span class="line"></span><br><span class="line">		job.setOutputKeyClass(Text.class);</span><br><span class="line">		job.setOutputValueClass(IntWritable.class);</span><br><span class="line"></span><br><span class="line">		FileInputFormat.setInputPaths(job, <span class="keyword">new</span> Path(args[<span class="number">0</span>]));</span><br><span class="line">		FileOutputFormat.setOutputPath(job, <span class="keyword">new</span> Path(args[<span class="number">1</span>]));</span><br><span class="line"></span><br><span class="line">		<span class="keyword">boolean</span> result = job.waitForCompletion(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">		System.exit(result ? <span class="number">1</span> : <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（2）Mapper保持不变</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WordCountMapper</span> <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">LongWritable</span>, <span class="title">Text</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">Text k = <span class="keyword">new</span> Text();</span><br><span class="line">	IntWritable v = <span class="keyword">new</span> IntWritable(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">map</span><span class="params">(LongWritable key, Text value, Context context)</span><span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 1 获取一行</span></span><br><span class="line">		String line = value.toString();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 2 切割</span></span><br><span class="line">		String[] words = line.split(<span class="string">" "</span>);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 3 循环写出</span></span><br><span class="line">		<span class="keyword">for</span>(String word:words)&#123;</span><br><span class="line">k.set(word);</span><br><span class="line">			context.write(k, v);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（3）Reducer保持不变</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WordCountReducer</span> <span class="keyword">extends</span> <span class="title">Reducer</span>&lt;<span class="title">Text</span>, <span class="title">IntWritable</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	IntWritable v = <span class="keyword">new</span> IntWritable();</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">reduce</span><span class="params">(Text key, Iterable&lt;IntWritable&gt; values,</span></span></span><br><span class="line"><span class="function"><span class="params">			Context context)</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 1 汇总</span></span><br><span class="line">		<span class="keyword">for</span>(IntWritable value:values)&#123;</span><br><span class="line">			sum += value.get();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">        v.set(sum);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 输出</span></span><br><span class="line">		context.write(key, v);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Reduce输出端采用压缩"><a href="#3-Reduce输出端采用压缩" class="headerlink" title="3.Reduce输出端采用压缩"></a>3.Reduce输出端采用压缩</h2><p>基于WordCount案例处理：</p>
+<p>（1）修改驱动</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WordCountDriver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException, InterruptedException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		Configuration configuration = <span class="keyword">new</span> Configuration();</span><br><span class="line">		</span><br><span class="line">		Job job = Job.getInstance(configuration);</span><br><span class="line">		</span><br><span class="line">		job.setJarByClass(WordCountDriver.class);</span><br><span class="line">		</span><br><span class="line">		job.setMapperClass(WordCountMapper.class);</span><br><span class="line">		job.setReducerClass(WordCountReducer.class);</span><br><span class="line">		</span><br><span class="line">		job.setMapOutputKeyClass(Text.class);</span><br><span class="line">		job.setMapOutputValueClass(IntWritable.class);</span><br><span class="line">		</span><br><span class="line">		job.setOutputKeyClass(Text.class);</span><br><span class="line">		job.setOutputValueClass(IntWritable.class);</span><br><span class="line">		</span><br><span class="line">		FileInputFormat.setInputPaths(job, <span class="keyword">new</span> Path(args[<span class="number">0</span>]));</span><br><span class="line">		FileOutputFormat.setOutputPath(job, <span class="keyword">new</span> Path(args[<span class="number">1</span>]));</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 设置reduce端输出压缩开启</span></span><br><span class="line">		FileOutputFormat.setCompressOutput(job, <span class="keyword">true</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 设置压缩的方式</span></span><br><span class="line">	    FileOutputFormat.setOutputCompressorClass(job, BZip2Codec.class); </span><br><span class="line"><span class="comment">//	    FileOutputFormat.setOutputCompressorClass(job, GzipCodec.class); </span></span><br><span class="line"><span class="comment">//	    FileOutputFormat.setOutputCompressorClass(job, DefaultCodec.class); </span></span><br><span class="line">	    </span><br><span class="line">		<span class="keyword">boolean</span> result = job.waitForCompletion(<span class="keyword">true</span>);</span><br><span class="line">		</span><br><span class="line">		System.exit(result?<span class="number">1</span>:<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（2）Mapper和Reducer保持不变，参见6.2</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-07-22T08:22:48.395Z" itemprop="dateUpdated">2019-07-22 16:22:48</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/07/22/hadoop-compress/" target="_blank" rel="external">http://yoursite.com/2019/07/22/hadoop-compress/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="kaizuidebanli">
+            kaizuidebanli
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hadoop-compress/&title=《Hadoop压缩》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hadoop-compress/&title=《Hadoop压缩》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hadoop-compress/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hadoop压缩》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hadoop-compress/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hadoop-compress/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/07/22/hello-world/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Hello World</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/22/hadoop-mapreduce-reducetask/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">ReduceTask工作机制</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        打赏杯咖啡呗~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>kaizuidebanli &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hadoop-compress/&title=《Hadoop压缩》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hadoop-compress/&title=《Hadoop压缩》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hadoop-compress/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hadoop压缩》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hadoop-compress/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hadoop-compress/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/22/hadoop-compress/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

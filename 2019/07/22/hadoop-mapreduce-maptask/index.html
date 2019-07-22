@@ -30,7 +30,7 @@
 <meta property="og:description" content="MapTask工作机制  Read阶段MapTask通过用户编写的RecordReader，从输入InputSplit中解析出一个个key/value。 Map阶段该节点主要是将解析出的key/value交给用户编写map()函数处理，并产生一系列新的key/value，MapTask的数量由切片决定。 Collect收集阶段在用户编写map()函数中，当数据处理完成后，一般会调用OutputCo">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2019/07/22/hadoop-mapreduce-maptask/1563773158375.png">
-<meta property="og:updated_time" content="2019-07-22T05:30:46.428Z">
+<meta property="og:updated_time" content="2019-07-22T05:55:16.159Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MapTask工作机制">
 <meta name="twitter:description" content="MapTask工作机制  Read阶段MapTask通过用户编写的RecordReader，从输入InputSplit中解析出一个个key/value。 Map阶段该节点主要是将解析出的key/value交给用户编写map()函数处理，并产生一系列新的key/value，MapTask的数量由切片决定。 Collect收集阶段在用户编写map()函数中，当数据处理完成后，一般会调用OutputCo">
@@ -167,7 +167,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MapTask工作机制"><span class="post-toc-text">MapTask工作机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Read阶段"><span class="post-toc-text">Read阶段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Map阶段"><span class="post-toc-text">Map阶段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Collect收集阶段"><span class="post-toc-text">Collect收集阶段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Spill阶段"><span class="post-toc-text">Spill阶段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Combine阶段"><span class="post-toc-text">Combine阶段</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MapTask工作机制"><span class="post-toc-text">MapTask工作机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Read阶段"><span class="post-toc-text">Read阶段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Map阶段"><span class="post-toc-text">Map阶段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Collect收集阶段"><span class="post-toc-text">Collect收集阶段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Spill阶段"><span class="post-toc-text">Spill阶段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Combine阶段"><span class="post-toc-text">Combine阶段</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ReduceTask并行度"><span class="post-toc-text">ReduceTask并行度</span></a></li></ol>
         </nav>
     </aside>
 
@@ -207,6 +207,61 @@
 <p>当所有数据处理完后，MapTask会将所有临时文件合并成一个大文件，并保存到文件output/file.out中，同时生成相应的索引文件output/file.out.index。</p>
 <p>在进行文件合并过程中，MapTask以分区为单位进行合并。对于某个分区（采用归并排序），它将采用多轮递归合并的方式。每轮合并io.sort.factor（默认10）个文件，并将产生的文件重新加入待合并列表中，对文件排序后，重复以上过程，直到最终得到一个大文件。</p>
 <p>让每个MapTask最终只生成一个数据文件，可避免同时打开大量文件和同时读取大量小文件产生的随机读取带来的开销。</p>
+<h1 id="ReduceTask并行度"><a href="#ReduceTask并行度" class="headerlink" title="ReduceTask并行度"></a>ReduceTask并行度</h1><p>ReduceTask的并行度同样影响整个Job的执行并发度和执行效率，但与MapTask的并发数由切片数决定不同，ReduceTask数量的决定是可以直接手动设置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认值是1，手动设置为4</span></span><br><span class="line">job.setNumReduceTasks(<span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+
+<p>那么多少个ReduceTask多少合适呢？</p>
+<p>实验环境：1个Master节点，16个Slave节点：CPU:8GHZ，内存: 2G</p>
+<table>
+<thead>
+<tr>
+<th>MapTask =16</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ReduceTask</td>
+<td>1</td>
+<td>5</td>
+<td>10</td>
+<td>15</td>
+<td>16</td>
+<td>20</td>
+<td>25</td>
+<td>30</td>
+<td>45</td>
+<td>60</td>
+</tr>
+<tr>
+<td>总时间</td>
+<td>892</td>
+<td>146</td>
+<td>110</td>
+<td>92</td>
+<td>88</td>
+<td>100</td>
+<td>128</td>
+<td>101</td>
+<td>145</td>
+<td>104</td>
+</tr>
+</tbody></table>
+<p>ReduceTask个数设置注意事项：</p>
+<p>（1）ReduceTask = 0 时，表示没有Reduce阶段，输出文件个数和Map个数一致。</p>
+<p>（2）ReduceTask默认值是1，所以输出文件个数为1；</p>
+<p>（3）如果数据分布不均匀，就有可能在Reduce阶段产生数据倾斜；</p>
+<p>（4）ReduceTask数量并不是任意设置，还要考虑业务逻辑需求，有些情况下，需要计算全局汇总结果，就只能有1个ReduceTask；</p>
+<p>（5）具体多少个ReduceTask，需要根据集群性能而定；</p>
+<p>（6）如果分区数不是1，但是ReduceTask为1，是狗执行分区过程，答案是：不执行分区过程，这是因为在MapTask的源码中，执行分区的前提是先判断ReduceNum个数是否大于1，不大于1肯定不执行。</p>
 
         </div>
 
@@ -215,7 +270,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-22T05:30:46.428Z" itemprop="dateUpdated">2019-07-22 13:30:46</time>
+    Last updated: <time datetime="2019-07-22T05:55:16.159Z" itemprop="dateUpdated">2019-07-22 13:55:16</time>
 </span><br>
 
 
