@@ -14,25 +14,25 @@
     
     
     
-    <title>Hello World | 开嘴的板栗</title>
+    <title>Patition分区 | 开嘴的板栗</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
     <meta name="keywords" content="hadoop">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="一、Patition分区Hadoop提供了分区的功能，可以使得MapReduce计算结果按照条件输出到不同的分区中。 默认的Patition分区 123456public class HashPartitioner&amp;lt;K2, V2&amp;gt; implements Partitioner&amp;lt;K2, V2&amp;gt; &amp;#123;    // 根据key的hashCode对ReduceTasks个数">
 <meta name="keywords" content="hadoop">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2019/07/22/hello-world/index.html">
+<meta property="og:title" content="Patition分区">
+<meta property="og:url" content="http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/index.html">
 <meta property="og:site_name" content="开嘴的板栗">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="一、Patition分区Hadoop提供了分区的功能，可以使得MapReduce计算结果按照条件输出到不同的分区中。 默认的Patition分区 123456public class HashPartitioner&amp;lt;K2, V2&amp;gt; implements Partitioner&amp;lt;K2, V2&amp;gt; &amp;#123;    // 根据key的hashCode对ReduceTasks个数">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-21T23:11:27.492Z">
+<meta property="og:updated_time" content="2019-07-22T00:18:40.518Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Patition分区">
+<meta name="twitter:description" content="一、Patition分区Hadoop提供了分区的功能，可以使得MapReduce计算结果按照条件输出到不同的分区中。 默认的Patition分区 123456public class HashPartitioner&amp;lt;K2, V2&amp;gt; implements Partitioner&amp;lt;K2, V2&amp;gt; &amp;#123;    // 根据key的hashCode对ReduceTasks个数">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
@@ -118,7 +118,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">Hello World</div>
+        <div class="flex-col header-title ellipsis">Patition分区</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -140,11 +140,11 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">Hello World</h1>
+        <h1 class="title">Patition分区</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-07-22T08:04:09.000Z" itemprop="datePublished" class="page-time">
-  2019-07-22
+                <time datetime="2019-07-21T14:08:07.000Z" itemprop="datePublished" class="page-time">
+  2019-07-21
 </time>
 
 
@@ -165,18 +165,18 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Quick-Start"><span class="post-toc-text">Quick Start</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Create-a-new-post"><span class="post-toc-text">Create a new post</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Run-server"><span class="post-toc-text">Run server</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Generate-static-files"><span class="post-toc-text">Generate static files</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Deploy-to-remote-sites"><span class="post-toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、Patition分区"><span class="post-toc-text">一、Patition分区</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、自定义Patition"><span class="post-toc-text">二、自定义Patition</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三、Partition使用注意事项"><span class="post-toc-text">三、Partition使用注意事项</span></a></li></ol>
         </nav>
     </aside>
 
 
-<article id="post-hello-world"
+<article id="post-hadoop-mapreduce-partition"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">Hello World</h1>
+        <h1 class="post-card-title">Patition分区</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-07-22 16:04:09" datetime="2019-07-22T08:04:09.000Z"  itemprop="datePublished">2019-07-22</time>
+            <time class="post-time" title="2019-07-21 22:08:07" datetime="2019-07-21T14:08:07.000Z"  itemprop="datePublished">2019-07-21</time>
 
             
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
@@ -191,19 +191,24 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+            <h1 id="一、Patition分区"><a href="#一、Patition分区" class="headerlink" title="一、Patition分区"></a>一、Patition分区</h1><p>Hadoop提供了分区的功能，可以使得MapReduce计算结果按照条件输出到不同的分区中。</p>
+<p>默认的Patition分区</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashPartitioner</span>&lt;<span class="title">K2</span>, <span class="title">V2</span>&gt; <span class="keyword">implements</span> <span class="title">Partitioner</span>&lt;<span class="title">K2</span>, <span class="title">V2</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">// 根据key的hashCode对ReduceTasks个数取模</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPartition</span><span class="params">(K2 key, V2 value, <span class="keyword">int</span> numReduceTasks)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (key.hashCode() &amp; <span class="number">2147483647</span>) % numReduceTasks;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>默认分区是根据key的hashCode对ReduceTasks个数取模得到的。用户没法控制key存储到哪个分区。</p>
+<h1 id="二、自定义Patition"><a href="#二、自定义Patition" class="headerlink" title="二、自定义Patition"></a>二、自定义Patition</h1><p>自定义类通过继承Patitioner，重写getPartition()方法实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyPartitioner</span> <span class="keyword">implements</span> <span class="title">Partitioner</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPartition</span><span class="params">(Object o, Object o2, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 控制分区逻辑代码</span></span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> partition;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>定义好所需要的Patitioner之后，在Job驱动中，设置自定义的Patitioner.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">job.setPatitionerClass(MyPartitioner.class);</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>最后，还要根据自定义的Partitioner的逻辑设置相应数量的ReduceTask.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">job.setNumReduceTasks(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<h1 id="三、Partition使用注意事项"><a href="#三、Partition使用注意事项" class="headerlink" title="三、Partition使用注意事项"></a>三、Partition使用注意事项</h1><p>（1）若是ReduceTask的数量大于getPartition的结果数，则会多产生几个空的输出文件part-r-000xx;</p>
+<p>（2）如果1 &lt; ReduceTask的数量 &lt; getPartition的结果数，则有一部分分区数据无处安放，会抛出异常Exception；</p>
+<p>（3）如果ReduceTask的数量等于1，则不管MapTask端输出多少个分区文件，最终结果都交给这一个ReduceTask，最终也就会产生一个结果文件part-r-00000;</p>
+<p>（4）分区号必须从零开始，逐一累加。</p>
 
         </div>
 
@@ -212,12 +217,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-21T23:11:27.492Z" itemprop="dateUpdated">2019-07-22 07:11:27</time>
+    Last updated: <time datetime="2019-07-22T00:18:40.518Z" itemprop="dateUpdated">2019-07-22 08:18:40</time>
 </span><br>
 
 
         
-        原文链接：<a href="/2019/07/22/hello-world/" target="_blank" rel="external">http://yoursite.com/2019/07/22/hello-world/</a>
+        原文链接：<a href="/2019/07/21/hadoop-mapreduce-partition/" target="_blank" rel="external">http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/</a>
         
     </div>
     
@@ -248,7 +253,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/&title=《Patition分区》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -258,22 +263,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/&title=《Patition分区》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hello-world/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hello World》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hello-world/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Patition分区》 — 开嘴的板栗&url=http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hello-world/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -293,14 +298,21 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/07/22/hello-world/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Hello World</h4>
+      </a>
+    </div>
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/07/21/hadoop-mapreduce-partition/" id="post-next" class="post-nav-link">
+      <a href="/2019/07/21/hadoop-InputFormat-Concurrency/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">Patition分区</h4>
+        <h4 class="title">MapTask并行度决定机制</h4>
       </a>
     </div>
   
@@ -398,7 +410,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/&title=《Patition分区》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -408,22 +420,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/&title=《Patition分区》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hello-world/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hello World》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hello-world/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Patition分区》 — 开嘴的板栗&url=http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hello-world/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -434,7 +446,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/22/hello-world/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/21/hadoop-mapreduce-partition/" alt="微信分享二维码">
 </div>
 
 
