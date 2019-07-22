@@ -21,20 +21,22 @@
     
     
     <meta name="keywords" content="hadoop">
-    <meta name="description" content="Yarn资源调度器Yarn是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的操作系统平台，而MapReduce等运算程序则相当于运行于操作系统之上的应用程序。 一、Yarn基本架构YARN主要由ResourceManager、NodeManager、ApplicationMaster和Container等组件构成，如下图所示：">
+    <meta name="description" content="Yarn资源调度器Yarn是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的操作系统平台，而MapReduce等运算程序则相当于运行于操作系统之上的应用程序。 一、Yarn基本架构YARN主要由ResourceManager、NodeManager、ApplicationMaster和Container等组件构成，如下图所示：   （1）ResourceManager（RM）">
 <meta name="keywords" content="hadoop">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Yarn资源调度器">
 <meta property="og:url" content="http://yoursite.com/2019/07/22/hadoop-yarn/index.html">
 <meta property="og:site_name" content="开嘴的板栗">
-<meta property="og:description" content="Yarn资源调度器Yarn是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的操作系统平台，而MapReduce等运算程序则相当于运行于操作系统之上的应用程序。 一、Yarn基本架构YARN主要由ResourceManager、NodeManager、ApplicationMaster和Container等组件构成，如下图所示：">
+<meta property="og:description" content="Yarn资源调度器Yarn是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的操作系统平台，而MapReduce等运算程序则相当于运行于操作系统之上的应用程序。 一、Yarn基本架构YARN主要由ResourceManager、NodeManager、ApplicationMaster和Container等组件构成，如下图所示：   （1）ResourceManager（RM）">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2019/07/22/hadoop-yarn/assets/1563784798420.png">
-<meta property="og:updated_time" content="2019-07-22T12:00:53.473Z">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/hadoop-yarn/1563784798420.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/hadoop-yarn/1563794127891.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/hadoop-yarn/1563794450217.png">
+<meta property="og:updated_time" content="2019-07-22T12:01:24.712Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Yarn资源调度器">
-<meta name="twitter:description" content="Yarn资源调度器Yarn是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的操作系统平台，而MapReduce等运算程序则相当于运行于操作系统之上的应用程序。 一、Yarn基本架构YARN主要由ResourceManager、NodeManager、ApplicationMaster和Container等组件构成，如下图所示：">
-<meta name="twitter:image" content="http://yoursite.com/2019/07/22/hadoop-yarn/assets/1563784798420.png">
+<meta name="twitter:description" content="Yarn资源调度器Yarn是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的操作系统平台，而MapReduce等运算程序则相当于运行于操作系统之上的应用程序。 一、Yarn基本架构YARN主要由ResourceManager、NodeManager、ApplicationMaster和Container等组件构成，如下图所示：   （1）ResourceManager（RM）">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/22/hadoop-yarn/1563784798420.png">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
@@ -126,7 +128,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -195,13 +197,7 @@
         <div class="post-content" id="post-content" itemprop="postContent">
             <h1 id="Yarn资源调度器"><a href="#Yarn资源调度器" class="headerlink" title="Yarn资源调度器"></a>Yarn资源调度器</h1><p>Yarn是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的操作系统平台，而MapReduce等运算程序则相当于运行于操作系统之上的应用程序。</p>
 <h2 id="一、Yarn基本架构"><a href="#一、Yarn基本架构" class="headerlink" title="一、Yarn基本架构"></a>一、Yarn基本架构</h2><p>YARN主要由ResourceManager、NodeManager、ApplicationMaster和Container等组件构成，如下图所示：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="assets/1563784798420.png" alt="1563784798420" title>
-                </div>
-                <div class="image-caption">1563784798420</div>
-            </figure>
+<img src="/2019/07/22/hadoop-yarn/1563784798420.png" title="This is an image">
 
 <p>（1）ResourceManager（RM）主要作用如下：</p>
 <p>处理客户端请求；</p>
@@ -238,9 +234,9 @@
 <p>具体设置详见：yarn-default.xml文件</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>The class to use as the resource scheduler.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.scheduler.class<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="FIFO"><a href="#FIFO" class="headerlink" title="FIFO"></a>FIFO</h3>
+<h3 id="FIFO"><a href="#FIFO" class="headerlink" title="FIFO"></a>FIFO</h3><img src="/2019/07/22/hadoop-yarn/1563794127891.png" title="This is an image">
 
-<h3 id="Capacity-Scheduler（容量调度器）"><a href="#Capacity-Scheduler（容量调度器）" class="headerlink" title="Capacity Scheduler（容量调度器）"></a>Capacity Scheduler（容量调度器）</h3>
+<h3 id="Capacity-Scheduler（容量调度器）"><a href="#Capacity-Scheduler（容量调度器）" class="headerlink" title="Capacity Scheduler（容量调度器）"></a>Capacity Scheduler（容量调度器）</h3><img src="/2019/07/22/hadoop-yarn/1563794450217.png" title="This is an image">
 
 <p>1、支持多个队列，每个队列可配置一定的资源量，每个队列采用FIFO调度策略；</p>
 <p>2、为了防止同一个用户的作业独占队列中的资源，该调度器会对同一用户提交的作业所占资源量进行限定；</p>
@@ -273,7 +269,7 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2019-07-22T12:00:53.473Z" itemprop="dateUpdated">2019-07-22 20:00:53</time>
+    Last updated: <time datetime="2019-07-22T12:01:24.712Z" itemprop="dateUpdated">2019-07-22 20:01:24</time>
 </span><br>
 
 
@@ -437,7 +433,7 @@
 
         <p>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">
