@@ -14,7 +14,7 @@
     
     
     
-    <title>Archives: 2019 | 开嘴的板栗</title>
+    <title>开嘴的板栗</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -24,7 +24,7 @@
     <meta name="description" content="对于技术，不仅要知其然，更要知其所以然。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="开嘴的板栗">
-<meta property="og:url" content="http://yoursite.com/archives/2019/index.html">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="开嘴的板栗">
 <meta property="og:description" content="对于技术，不仅要知其然，更要知其所以然。">
 <meta property="og:locale" content="default">
@@ -70,7 +70,7 @@
               </a>
             </li>
         
-            <li class="waves-block waves-effect active">
+            <li class="waves-block waves-effect">
               <a href="/archives"  >
                 <i class="icon icon-lg icon-archives"></i>
                 归档
@@ -116,7 +116,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">Archives</div>
+        <div class="flex-col header-title ellipsis">开嘴的板栗</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -135,11 +135,13 @@
         
     </div>
 </header>
-<header class="content-header archives-header">
+<header class="content-header index-header">
 
     <div class="container fade-scale">
-        <h1 class="title">Archives</h1>
+        <h1 class="title">开嘴的板栗</h1>
         <h5 class="subtitle">
+            
+                
             
         </h5>
     </div>
@@ -149,105 +151,48 @@
 
 </header>
 
-<div class="container body-wrap fade">
-    
+<div class="container body-wrap">
 
+    <ul class="post-list">
     
-            
-            <h3 class="archive-separator">July, 2019</h3>
-            <div class="waterfall">
-    
+        <li class="post-list-item fade">
+            <article id="post-hadoop-mapreduce-serialization"
+  class="article-card article-type-post" itemprop="blogPost">
 
-        <div class="waterfall-item">
-  <article class="article-card archive-article">
     <div class="post-meta">
-      <time class="post-time" title="2019-07-23 09:11:54" datetime="2019-07-23T01:11:54.000Z"  itemprop="datePublished">2019-07-23</time>
+        <time class="post-time" title="2019-07-21 17:14:25" datetime="2019-07-21T09:14:25.000Z"  itemprop="datePublished">2019-07-21</time>
 
-      
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hbase/">hbase</a></li></ul>
-
-
-
-    </div>
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/23/hbase-introduction/">Hbase入门</a>
-    </h3>
-  
-
-
-
-    
-    <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">hbase</a></li></ul>
-
-    </div>
-    
-  </article>
-</div>
-
-    
-
-        <div class="waterfall-item">
-  <article class="article-card archive-article">
-    <div class="post-meta">
-      <time class="post-time" title="2019-07-22 23:05:51" datetime="2019-07-22T15:05:51.000Z"  itemprop="datePublished">2019-07-22</time>
-
-      
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/zookeeper/">zookeeper</a></li></ul>
-
-
-
-    </div>
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/22/zookeeper-interview-questions/">zookeeper面试题</a>
-    </h3>
-  
-
-
-
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/interview/">interview</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zookeeper/">zookeeper</a></li></ul>
-
-    </div>
-    
-  </article>
-</div>
-
-    
-
-        <div class="waterfall-item">
-  <article class="article-card archive-article">
-    <div class="post-meta">
-      <time class="post-time" title="2019-07-22 20:19:06" datetime="2019-07-22T12:19:06.000Z"  itemprop="datePublished">2019-07-22</time>
-
-      
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
 
 
 
     </div>
+
     
 
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/22/hadoop-HA/">hadoop-HA</a>
+      <a class="post-title-link" href="/2019/07/21/hadoop-mapreduce-serialization/">hadoop序列化</a>
     </h3>
   
 
 
 
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        序列化一、序列化概述1.什么是序列化？序列化就是把内存中的对象，转换成字节序列（或者其他数据传输协议）以便于存储到磁盘（持久化）和网络传输。
+反序列化就是将收到字节序列（或者其他数据传输协议）或者是磁盘的持久化数据，转换成内存中的对象。
+2.为什么要序列化？一般来说，“活的”对象只生存在内存里，关机断电就没有了。而且，“活得”对象只能由本地得进程使用，不能被发送到网络上的另外一台计算机。然而...
+    
+
+        <a href="/2019/07/21/hadoop-mapreduce-serialization/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
     
     <div class="post-footer">
         
@@ -255,67 +200,49 @@
 
     </div>
     
-  </article>
-</div>
+</article>
 
+        </li>
     
+        <li class="post-list-item fade">
+            <article id="post-hadoop-mapreduce-introduction"
+  class="article-card article-type-post" itemprop="blogPost">
 
-        <div class="waterfall-item">
-  <article class="article-card archive-article">
     <div class="post-meta">
-      <time class="post-time" title="2019-07-22 16:39:25" datetime="2019-07-22T08:39:25.000Z"  itemprop="datePublished">2019-07-22</time>
+        <time class="post-time" title="2019-07-21 16:06:39" datetime="2019-07-21T08:06:39.000Z"  itemprop="datePublished">2019-07-21</time>
 
-      
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/categories/">categories</a></li></ul>
-
-
-
-    </div>
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/22/hadoop-yarn/">Yarn资源调度器</a>
-    </h3>
-  
-
-
-
-    
-    <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
-
-    </div>
-    
-  </article>
-</div>
-
-    
-
-        <div class="waterfall-item">
-  <article class="article-card archive-article">
-    <div class="post-meta">
-      <time class="post-time" title="2019-07-22 16:04:09" datetime="2019-07-22T08:04:09.000Z"  itemprop="datePublished">2019-07-22</time>
-
-      
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
 
 
 
     </div>
+
     
 
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/22/hello-world/">Hello World</a>
+      <a class="post-title-link" href="/2019/07/21/hadoop-mapreduce-introduction/">MapReduce概述</a>
     </h3>
   
 
 
 
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        MapReduce概述一、MapReduce定义MapReduce是一个分布式运算程序的编程框架，是用户开发“基于hadoop的数据分析应用”的核心框架。
+MapReduce核心功能是将用户编写的业务逻辑代码和自带默认组件整合成一个完整的分布式运算程序，并发运行在一个hadoop集群上。
+二、MapReduce优缺点优点（1）MapReduce易于编程
+它简单的实现一些接口，就可以完成一个分...
+    
+
+        <a href="/2019/07/21/hadoop-mapreduce-introduction/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
     
     <div class="post-footer">
         
@@ -323,33 +250,50 @@
 
     </div>
     
-  </article>
-</div>
+</article>
 
+        </li>
     
+        <li class="post-list-item fade">
+            <article id="post-hadoop-hdfs-introduction"
+  class="article-card article-type-post" itemprop="blogPost">
 
-        <div class="waterfall-item">
-  <article class="article-card archive-article">
     <div class="post-meta">
-      <time class="post-time" title="2019-07-22 15:02:33" datetime="2019-07-22T07:02:33.000Z"  itemprop="datePublished">2019-07-22</time>
+        <time class="post-time" title="2019-07-21 13:26:27" datetime="2019-07-21T05:26:27.000Z"  itemprop="datePublished">2019-07-21</time>
 
-      
+        
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
 
 
 
     </div>
+
     
 
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/22/hadoop-compress/">Hadoop压缩</a>
+      <a class="post-title-link" href="/2019/07/21/hadoop-hdfs-introduction/">分布式文件系统HDFS</a>
     </h3>
   
 
 
 
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        分布式文件系统HDFS一、HDFS概述及设计目标如果让我们自己来设计一个分布式文件系统，我们会怎么做呢？
+
+
+文件以多副本的方式进行存储，一台机器存储不了，需要存储在多台机器上。
+1234file1 : node1, node2, node3file2 : node2, node3, node4file3 : node1, node4, node5file4 : node3, node5, ...
+    
+
+        <a href="/2019/07/21/hadoop-hdfs-introduction/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
     
     <div class="post-footer">
         
@@ -357,154 +301,19 @@
 
     </div>
     
-  </article>
-</div>
+</article>
 
+        </li>
     
-
-        <div class="waterfall-item">
-  <article class="article-card archive-article">
-    <div class="post-meta">
-      <time class="post-time" title="2019-07-22 13:36:35" datetime="2019-07-22T05:36:35.000Z"  itemprop="datePublished">2019-07-22</time>
-
-      
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
-
-
-
-    </div>
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/22/hadoop-mapreduce-reducetask/">ReduceTask工作机制</a>
-    </h3>
-  
-
-
-
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
-
-    </div>
-    
-  </article>
-</div>
-
-    
-
-        <div class="waterfall-item">
-  <article class="article-card archive-article">
-    <div class="post-meta">
-      <time class="post-time" title="2019-07-22 13:06:11" datetime="2019-07-22T05:06:11.000Z"  itemprop="datePublished">2019-07-22</time>
-
-      
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
-
-
-
-    </div>
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/22/hadoop-mapreduce-maptask/">MapTask工作机制</a>
-    </h3>
-  
-
-
-
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
-
-    </div>
-    
-  </article>
-</div>
-
-    
-
-        <div class="waterfall-item">
-  <article class="article-card archive-article">
-    <div class="post-meta">
-      <time class="post-time" title="2019-07-21 22:08:07" datetime="2019-07-21T14:08:07.000Z"  itemprop="datePublished">2019-07-21</time>
-
-      
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
-
-
-
-    </div>
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/21/hadoop-mapreduce-partition/">Patition分区</a>
-    </h3>
-  
-
-
-
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
-
-    </div>
-    
-  </article>
-</div>
-
-    
-
-        <div class="waterfall-item">
-  <article class="article-card archive-article">
-    <div class="post-meta">
-      <time class="post-time" title="2019-07-21 19:28:10" datetime="2019-07-21T11:28:10.000Z"  itemprop="datePublished">2019-07-21</time>
-
-      
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
-
-
-
-    </div>
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/21/hadoop-InputFormat-Concurrency/">MapTask并行度决定机制</a>
-    </h3>
-  
-
-
-
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
-
-    </div>
-    
-  </article>
-</div>
-
-    
-    </div>
+    </ul>
 
     
 <nav id="page-nav">
     <div class="inner">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2019/page/2/">2</a><a class="extend next" rel="next" href="/archives/2019/page/2/">下一页</a>
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
     </div>
 </nav>
+
 
 </div>
 
@@ -545,7 +354,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/archives/2019/&title=开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/page/2/&title=开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -555,22 +364,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/archives/2019/&title=开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/page/2/&title=开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/archives/2019/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/page/2/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=开嘴的板栗&url=http://yoursite.com/archives/2019/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=开嘴的板栗&url=http://yoursite.com/page/2/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/archives/2019/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/page/2/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -581,7 +390,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/archives/2019/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/page/2/" alt="微信分享二维码">
 </div>
 
 
