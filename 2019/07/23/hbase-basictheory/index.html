@@ -14,25 +14,32 @@
     
     
     
-    <title>Hello World | 开嘴的板栗</title>
+    <title>Hbase原理 | 开嘴的板栗</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="hadoop">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Qui">
-<meta name="keywords" content="hadoop">
+    <meta name="keywords" content="hbase">
+    <meta name="description" content="Hbase原理一、读流程  （1）Client先访问zookeeper，从meta表读取region的位置，然后读取meta表中的数据。meta中又存储了用户表的region信息；     meta表中记录了每张表的region信息：     （2）根据namespace、表名和rowkey在meta表中找到对应的region信息； （3）找到这个region对应的regionserver； （4">
+<meta name="keywords" content="hbase">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2019/07/22/hello-world/index.html">
+<meta property="og:title" content="Hbase原理">
+<meta property="og:url" content="http://yoursite.com/2019/07/23/hbase-basictheory/index.html">
 <meta property="og:site_name" content="开嘴的板栗">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Qui">
+<meta property="og:description" content="Hbase原理一、读流程  （1）Client先访问zookeeper，从meta表读取region的位置，然后读取meta表中的数据。meta中又存储了用户表的region信息；     meta表中记录了每张表的region信息：     （2）根据namespace、表名和rowkey在meta表中找到对应的region信息； （3）找到这个region对应的regionserver； （4">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-23T04:35:59.109Z">
+<meta property="og:image" content="http://yoursite.com/2019/07/23/hbase-basictheory/1563858409385.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/23/hbase-basictheory/1563858997826.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/23/hbase-basictheory/1563858899454.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/23/hbase-basictheory/1563858580258.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/23/hbase-basictheory/1563858616258.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/23/hbase-basictheory/1563859267509.png">
+<meta property="og:updated_time" content="2019-07-23T05:36:33.563Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Qui">
+<meta name="twitter:title" content="Hbase原理">
+<meta name="twitter:description" content="Hbase原理一、读流程  （1）Client先访问zookeeper，从meta表读取region的位置，然后读取meta表中的数据。meta中又存储了用户表的region信息；     meta表中记录了每张表的region信息：     （2）根据namespace、表名和rowkey在meta表中找到对应的region信息； （3）找到这个region对应的regionserver； （4">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/23/hbase-basictheory/1563858409385.png">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
@@ -118,7 +125,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">Hello World</div>
+        <div class="flex-col header-title ellipsis">Hbase原理</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -140,15 +147,15 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">Hello World</h1>
+        <h1 class="title">Hbase原理</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-07-22T08:04:09.000Z" itemprop="datePublished" class="page-time">
-  2019-07-22
+                <time datetime="2019-07-23T04:38:33.000Z" itemprop="datePublished" class="page-time">
+  2019-07-23
 </time>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hbase/">hbase</a></li></ul>
 
             
         </h5>
@@ -165,21 +172,21 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Quick-Start"><span class="post-toc-text">Quick Start</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Create-a-new-post"><span class="post-toc-text">Create a new post</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Run-server"><span class="post-toc-text">Run server</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Generate-static-files"><span class="post-toc-text">Generate static files</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Deploy-to-remote-sites"><span class="post-toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Hbase原理"><span class="post-toc-text">Hbase原理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、读流程"><span class="post-toc-text">一、读流程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、写流程"><span class="post-toc-text">二、写流程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、数据Flush过程"><span class="post-toc-text">三、数据Flush过程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、数据合并过程"><span class="post-toc-text">四、数据合并过程</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
 
-<article id="post-hello-world"
+<article id="post-hbase-basictheory"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">Hello World</h1>
+        <h1 class="post-card-title">Hbase原理</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-07-22 16:04:09" datetime="2019-07-22T08:04:09.000Z"  itemprop="datePublished">2019-07-22</time>
+            <time class="post-time" title="2019-07-23 12:38:33" datetime="2019-07-23T04:38:33.000Z"  itemprop="datePublished">2019-07-23</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hbase/">hbase</a></li></ul>
 
 
 
@@ -191,21 +198,39 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            
+            <h1 id="Hbase原理"><a href="#Hbase原理" class="headerlink" title="Hbase原理"></a>Hbase原理</h1><h2 id="一、读流程"><a href="#一、读流程" class="headerlink" title="一、读流程"></a>一、读流程</h2><img src="/2019/07/23/hbase-basictheory/1563858409385.png" title="This is an image">
 
-<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>（1）Client先访问zookeeper，从meta表读取region的位置，然后读取meta表中的数据。meta中又存储了用户表的region信息；</p>
+<img src="/2019/07/23/hbase-basictheory/1563858997826.png" title="This is an image">
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<img src="/2019/07/23/hbase-basictheory/1563858899454.png" title="This is an image">
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>meta表中记录了每张表的region信息：</p>
+<img src="/2019/07/23/hbase-basictheory/1563858580258.png" title="This is an image">
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<img src="/2019/07/23/hbase-basictheory/1563858616258.png" title="This is an image">
 
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>（2）根据namespace、表名和rowkey在meta表中找到对应的region信息；</p>
+<p>（3）找到这个region对应的regionserver；</p>
+<p>（4）查找对应的region；</p>
+<p>（5）先从MemStore找数据，如果没有，再到BlockCache里面读；</p>
+<p>（6）BlockCache还没有，再到StoreFile上读(为了读取的效率)；</p>
+<p>（7）如果是从StoreFile里面读取的数据，不是直接返回给客户端，而是先写入BlockCache，再返回给客户端。</p>
+<p><strong>Hbase读取数据的流程中，没有HMaster的参与。</strong></p>
+<h2 id="二、写流程"><a href="#二、写流程" class="headerlink" title="二、写流程"></a>二、写流程</h2><img src="/2019/07/23/hbase-basictheory/1563859267509.png" title="This is an image">
+
+<p>（1）Client向HregionServer发送写请求；</p>
+<p>（2）HregionServer将数据写到HLog（write ahead log）。为了数据的持久化和恢复；</p>
+<p>（3）HregionServer将数据写到内存（MemStore）；</p>
+<p>（4）反馈Client写成功。</p>
+<h2 id="三、数据Flush过程"><a href="#三、数据Flush过程" class="headerlink" title="三、数据Flush过程"></a>三、数据Flush过程</h2><p>（1）当MemStore数据达到阈值（默认是128M，老版本是64M），将数据刷到硬盘，将内存中的数据删除，同时删除HLog中的历史数据；</p>
+<p>（2）并将数据存储到HDFS中；</p>
+<p>（3）在HLog中做标记点。</p>
+<h2 id="四、数据合并过程"><a href="#四、数据合并过程" class="headerlink" title="四、数据合并过程"></a>四、数据合并过程</h2><p>数据合并由Hmaster触发。</p>
+<p>（1）当数据块达到4块，Hmaster触发合并操作，Region将数据块加载到本地，进行合并；</p>
+<p>（2）当合并的数据超过256M，进行拆分，将拆分后的Region分配给不同的HregionServer管理；</p>
+<p>（3）当HregionServer宕机后，将HregionServer上的hlog拆分，然后分配给不同的HregionServer加载，修改.META.；</p>
+<p>（4）注意：HLog会同步到HDFS。</p>
 
         </div>
 
@@ -214,12 +239,12 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2019-07-23T04:35:59.109Z" itemprop="dateUpdated">2019-07-23 12:35:59</time>
+    最終更新：<time datetime="2019-07-23T05:36:33.563Z" itemprop="dateUpdated">2019-07-23 13:36:33</time>
 </span><br>
 
 
         
-        原文链接：<a href="/2019/07/22/hello-world/" target="_blank" rel="external">http://yoursite.com/2019/07/22/hello-world/</a>
+        原文链接：<a href="/2019/07/23/hbase-basictheory/" target="_blank" rel="external">http://yoursite.com/2019/07/23/hbase-basictheory/</a>
         
     </div>
     
@@ -240,7 +265,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">hbase</a></li></ul>
 
 
             
@@ -250,7 +275,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/23/hbase-basictheory/&title=《Hbase原理》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -260,22 +285,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/23/hbase-basictheory/&title=《Hbase原理》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hello-world/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/23/hbase-basictheory/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hello World》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hello-world/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hbase原理》 — 开嘴的板栗&url=http://yoursite.com/2019/07/23/hbase-basictheory/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hello-world/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/23/hbase-basictheory/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -295,21 +320,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2019/07/22/hadoop-yarn/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">Yarn资源调度器</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/07/22/hadoop-compress/" id="post-next" class="post-nav-link">
+      <a href="/2019/07/23/hbase-datastructure/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">Hadoop压缩</h4>
+        <h4 class="title">Hbase数据结构</h4>
       </a>
     </div>
   
@@ -407,7 +425,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/23/hbase-basictheory/&title=《Hbase原理》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -417,22 +435,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/23/hbase-basictheory/&title=《Hbase原理》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hello-world/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/23/hbase-basictheory/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hello World》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hello-world/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hbase原理》 — 开嘴的板栗&url=http://yoursite.com/2019/07/23/hbase-basictheory/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hello-world/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/23/hbase-basictheory/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -443,7 +461,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/22/hello-world/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/23/hbase-basictheory/" alt="微信分享二维码">
 </div>
 
 
