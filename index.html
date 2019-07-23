@@ -156,6 +156,59 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-hbase-datastructure"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-07-23 11:36:29" datetime="2019-07-23T03:36:29.000Z"  itemprop="datePublished">2019-07-23</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hbase/">hbase</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/07/23/hbase-datastructure/">Hbase数据结构</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Hbase数据结构一、RowKey与nosql数据库们一样,RowKey是用来检索记录的主键。访问HBASE table中的行，只有三种方式：
+
+通过单个RowKey访问；
+通过RowKey的range（正则）；
+全表扫描
+
+RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用中长度一般为 10-100bytes)，在HBASE内部，RowKey保存为字节数组。存...
+    
+
+        <a href="/2019/07/23/hbase-datastructure/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">hbase</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-hbase-introduction"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -386,8 +439,10 @@ HBase的目标是存储并处理大型的数据，更具体来说是仅需使用
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Qu...
+        
+
+Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+...
     
 
         <a href="/2019/07/22/hello-world/" class="post-more waves-effect waves-button">
@@ -593,56 +648,6 @@ Collect收集阶段在用户编写map()函数中，当数据处理完成后，�
     
 
         <a href="/2019/07/21/hadoop-mapreduce-partition/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-hadoop-InputFormat-Concurrency"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2019-07-21 19:28:10" datetime="2019-07-21T11:28:10.000Z"  itemprop="datePublished">2019-07-21</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/21/hadoop-InputFormat-Concurrency/">MapTask并行度决定机制</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        MapTask并行度决定机制一、哪些因素影响了MapTask并行度？MapTask的并行度决定Map阶段的任务处理并发度，进而影响到整个Job的处理速度。
-对于1G的数据，启动8个MapTask，可以提高集群的并发处理能力。那么1K的数据，也启动8个MapTask，会提高集群性能吗？MapTask并行任务是否越多越好呢？
-那么，到底是哪些因素影响了MapTask并行度？
-二、MapTask并...
-    
-
-        <a href="/2019/07/21/hadoop-InputFormat-Concurrency/" class="post-more waves-effect waves-button">
             Continue reading...
         </a>
     </div>

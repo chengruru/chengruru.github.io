@@ -14,25 +14,27 @@
     
     
     
-    <title>Hello World | 开嘴的板栗</title>
+    <title>Hbase数据结构 | 开嘴的板栗</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="hadoop">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Qui">
-<meta name="keywords" content="hadoop">
+    <meta name="keywords" content="hbase">
+    <meta name="description" content="Hbase数据结构一、RowKey与nosql数据库们一样,RowKey是用来检索记录的主键。访问HBASE table中的行，只有三种方式：  通过单个RowKey访问； 通过RowKey的range（正则）； 全表扫描  RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用中长度一般为 10-100bytes)，在HBASE内部，RowKey保存为字节数组。存储时，">
+<meta name="keywords" content="hbase">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2019/07/22/hello-world/index.html">
+<meta property="og:title" content="Hbase数据结构">
+<meta property="og:url" content="http://yoursite.com/2019/07/23/hbase-datastructure/index.html">
 <meta property="og:site_name" content="开嘴的板栗">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Qui">
+<meta property="og:description" content="Hbase数据结构一、RowKey与nosql数据库们一样,RowKey是用来检索记录的主键。访问HBASE table中的行，只有三种方式：  通过单个RowKey访问； 通过RowKey的range（正则）； 全表扫描  RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用中长度一般为 10-100bytes)，在HBASE内部，RowKey保存为字节数组。存储时，">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-23T04:35:59.109Z">
+<meta property="og:image" content="http://yoursite.com/2019/07/23/hbase-datastructure/1563856456627.png">
+<meta property="og:updated_time" content="2019-07-23T04:36:14.464Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Qui">
+<meta name="twitter:title" content="Hbase数据结构">
+<meta name="twitter:description" content="Hbase数据结构一、RowKey与nosql数据库们一样,RowKey是用来检索记录的主键。访问HBASE table中的行，只有三种方式：  通过单个RowKey访问； 通过RowKey的range（正则）； 全表扫描  RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用中长度一般为 10-100bytes)，在HBASE内部，RowKey保存为字节数组。存储时，">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/23/hbase-datastructure/1563856456627.png">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
@@ -118,7 +120,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">Hello World</div>
+        <div class="flex-col header-title ellipsis">Hbase数据结构</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -140,15 +142,15 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">Hello World</h1>
+        <h1 class="title">Hbase数据结构</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-07-22T08:04:09.000Z" itemprop="datePublished" class="page-time">
-  2019-07-22
+                <time datetime="2019-07-23T03:36:29.000Z" itemprop="datePublished" class="page-time">
+  2019-07-23
 </time>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hbase/">hbase</a></li></ul>
 
             
         </h5>
@@ -165,21 +167,21 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Quick-Start"><span class="post-toc-text">Quick Start</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Create-a-new-post"><span class="post-toc-text">Create a new post</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Run-server"><span class="post-toc-text">Run server</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Generate-static-files"><span class="post-toc-text">Generate static files</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Deploy-to-remote-sites"><span class="post-toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Hbase数据结构"><span class="post-toc-text">Hbase数据结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、RowKey"><span class="post-toc-text">一、RowKey</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、Column-Family"><span class="post-toc-text">二、Column Family</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、Cell"><span class="post-toc-text">三、Cell</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、Time-Stamp"><span class="post-toc-text">四、Time Stamp</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#五、命名空间"><span class="post-toc-text">五、命名空间</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
 
-<article id="post-hello-world"
+<article id="post-hbase-datastructure"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">Hello World</h1>
+        <h1 class="post-card-title">Hbase数据结构</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-07-22 16:04:09" datetime="2019-07-22T08:04:09.000Z"  itemprop="datePublished">2019-07-22</time>
+            <time class="post-time" title="2019-07-23 11:36:29" datetime="2019-07-23T03:36:29.000Z"  itemprop="datePublished">2019-07-23</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hbase/">hbase</a></li></ul>
 
 
 
@@ -191,21 +193,25 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            
+            <h1 id="Hbase数据结构"><a href="#Hbase数据结构" class="headerlink" title="Hbase数据结构"></a>Hbase数据结构</h1><h2 id="一、RowKey"><a href="#一、RowKey" class="headerlink" title="一、RowKey"></a>一、RowKey</h2><p>与nosql数据库们一样,RowKey是用来检索记录的主键。访问HBASE table中的行，只有三种方式：</p>
+<ul>
+<li>通过单个RowKey访问；</li>
+<li>通过RowKey的range（正则）；</li>
+<li>全表扫描</li>
+</ul>
+<p>RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用中长度一般为 10-100bytes)，在HBASE内部，RowKey保存为字节数组。存储时，数据按照RowKey的字典序(byte order)排序存储。设计RowKey时，要充分排序存储这个特性，将经常一起读取的行存储放到一起。(位置相关性)</p>
+<h2 id="二、Column-Family"><a href="#二、Column-Family" class="headerlink" title="二、Column Family"></a>二、Column Family</h2><p>列族：HBASE表中的每个列，都归属于某个列族。列族是表的schema的一部 分(而列不是)，必须在使用表之前定义。列名都以列族作为前缀。例如 courses:history，courses:math都属于courses 这个列族。</p>
+<h2 id="三、Cell"><a href="#三、Cell" class="headerlink" title="三、Cell"></a>三、Cell</h2><p>由{rowkey, column Family:columu, version} 唯一确定的单元。cell中的数据是没有类型的，全部是字节码形式存贮。</p>
+<p>关键字：无类型、字节码</p>
+<h2 id="四、Time-Stamp"><a href="#四、Time-Stamp" class="headerlink" title="四、Time Stamp"></a>四、Time Stamp</h2><p>HBASE 中通过rowkey和columns确定的为一个存贮单元称为cell。每个 cell都保存 着同一份数据的多个版本。版本通过时间戳来索引。时间戳的类型是 64位整型。时间戳可以由HBASE(在数据写入时自动 )赋值，此时时间戳是精确到毫秒 的当前系统时间。时间戳也可以由客户显式赋值。如果应用程序要避免数据版 本冲突，就必须自己生成具有唯一性的时间戳。每个 cell中，不同版本的数据按照时间倒序排序，即最新的数据排在最前面。</p>
+<p>为了避免数据存在过多版本造成的的管理 (包括存贮和索引)负担，HBASE提供 了两种数据版本回收方式。一是保存数据的最后n个版本，二是保存最近一段 时间内的版本（比如最近七天）。用户可以针对每个列族进行设置。</p>
+<h2 id="五、命名空间"><a href="#五、命名空间" class="headerlink" title="五、命名空间"></a>五、命名空间</h2><p>命名空间的结构:</p>
+<img src="/2019/07/23/hbase-datastructure/1563856456627.png" title="This is an image">
 
-<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p><strong>（1) Table</strong>：表，所有的表都是命名空间的成员，即表必属于某个命名空间，如果没有指定，则在default默认的命名空间中。</p>
+<p><strong>（2) RegionServer group：</strong>一个命名空间包含了默认的RegionServer Group。</p>
+<p><strong>（3) Permission：</strong>权限，命名空间能够让我们来定义访问控制列表ACL（Access Control List）。例如，创建表，读取表，删除，更新等等操作。</p>
+<p><strong>（4) Quota：</strong>限额，可以强制一个命名空间可包含的region的数量。</p>
 
         </div>
 
@@ -214,12 +220,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-23T04:35:59.109Z" itemprop="dateUpdated">2019-07-23 12:35:59</time>
+    Last updated: <time datetime="2019-07-23T04:36:14.464Z" itemprop="dateUpdated">2019-07-23 12:36:14</time>
 </span><br>
 
 
         
-        原文链接：<a href="/2019/07/22/hello-world/" target="_blank" rel="external">http://yoursite.com/2019/07/22/hello-world/</a>
+        原文链接：<a href="/2019/07/23/hbase-datastructure/" target="_blank" rel="external">http://yoursite.com/2019/07/23/hbase-datastructure/</a>
         
     </div>
     
@@ -240,7 +246,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">hbase</a></li></ul>
 
 
             
@@ -250,7 +256,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/23/hbase-datastructure/&title=《Hbase数据结构》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -260,22 +266,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/23/hbase-datastructure/&title=《Hbase数据结构》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hello-world/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/23/hbase-datastructure/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hello World》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hello-world/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hbase数据结构》 — 开嘴的板栗&url=http://yoursite.com/2019/07/23/hbase-datastructure/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hello-world/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/23/hbase-datastructure/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -295,21 +301,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2019/07/22/hadoop-yarn/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">Yarn资源调度器</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/07/22/hadoop-compress/" id="post-next" class="post-nav-link">
+      <a href="/2019/07/23/hbase-introduction/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">Hadoop压缩</h4>
+        <h4 class="title">Hbase入门</h4>
       </a>
     </div>
   
@@ -407,7 +406,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/23/hbase-datastructure/&title=《Hbase数据结构》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -417,22 +416,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/22/hello-world/&title=《Hello World》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/23/hbase-datastructure/&title=《Hbase数据结构》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/22/hello-world/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/23/hbase-datastructure/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hello World》 — 开嘴的板栗&url=http://yoursite.com/2019/07/22/hello-world/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hbase数据结构》 — 开嘴的板栗&url=http://yoursite.com/2019/07/23/hbase-datastructure/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/22/hello-world/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/23/hbase-datastructure/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -443,7 +442,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/22/hello-world/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/23/hbase-datastructure/" alt="微信分享二维码">
 </div>
 
 
