@@ -122,7 +122,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -154,6 +154,58 @@
 <div class="container body-wrap">
 
     <ul class="post-list">
+    
+        <li class="post-list-item fade">
+            <article id="post-hbase-optimization"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-07-23 15:33:43" datetime="2019-07-23T07:33:43.000Z"  itemprop="datePublished">2019-07-23</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hbase/">hbase</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/07/23/hbase-optimization/">Hbase优化</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Hbase优化一、高可用在HBase中Hmaster负责监控RegionServer的生命周期，均衡RegionServer的负载，如果Hmaster挂掉了，那么整个HBase集群将陷入不健康的状态，并且此时的工作状态并不会维持太久。所以HBase支持对HMaster的高可用配置。
+配置步骤：
+
+在conf目录下创建backup-masters文件
+
+1touch conf/backup-m...
+    
+
+        <a href="/2019/07/23/hbase-optimization/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">hbase</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
     
         <li class="post-list-item fade">
             <article id="post-hbase-basictheory"
@@ -201,7 +253,7 @@ meta表中记录了每张表的region信息：
     
 
         <a href="/2019/07/23/hbase-basictheory/" class="post-more waves-effect waves-button">
-            続きを読む…
+            Continue reading...
         </a>
     </div>
     
@@ -254,7 +306,7 @@ RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用
     
 
         <a href="/2019/07/23/hbase-datastructure/" class="post-more waves-effect waves-button">
-            続きを読む…
+            Continue reading...
         </a>
     </div>
     
@@ -303,7 +355,7 @@ HBase的目标是存储并处理大型的数据，更具体来说是仅需使用
     
 
         <a href="/2019/07/23/hbase-introduction/" class="post-more waves-effect waves-button">
-            続きを読む…
+            Continue reading...
         </a>
     </div>
     
@@ -354,7 +406,7 @@ HBase的目标是存储并处理大型的数据，更具体来说是仅需使用
     
 
         <a href="/2019/07/22/zookeeper-interview-questions/" class="post-more waves-effect waves-button">
-            続きを読む…
+            Continue reading...
         </a>
     </div>
     
@@ -405,7 +457,7 @@ HBase的目标是存储并处理大型的数据，更具体来说是仅需使用
     
 
         <a href="/2019/07/22/hadoop-HA/" class="post-more waves-effect waves-button">
-            続きを読む…
+            Continue reading...
         </a>
     </div>
     
@@ -427,7 +479,7 @@ HBase的目标是存储并处理大型的数据，更具体来说是仅需使用
         <time class="post-time" title="2019-07-22 16:39:25" datetime="2019-07-22T08:39:25.000Z"  itemprop="datePublished">2019-07-22</time>
 
         
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/categories/">categories</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
 
 
 
@@ -456,7 +508,7 @@ HBase的目标是存储并处理大型的数据，更具体来说是仅需使用
     
 
         <a href="/2019/07/22/hadoop-yarn/" class="post-more waves-effect waves-button">
-            続きを読む…
+            Continue reading...
         </a>
     </div>
     
@@ -506,7 +558,7 @@ Welcome to Hexo! This is your very first post. Check documentation for more info
     
 
         <a href="/2019/07/22/hello-world/" class="post-more waves-effect waves-button">
-            続きを読む…
+            Continue reading...
         </a>
     </div>
     
@@ -554,7 +606,7 @@ Welcome to Hexo! This is your very first post. Check documentation for more info
     
 
         <a href="/2019/07/22/hadoop-compress/" class="post-more waves-effect waves-button">
-            続きを読む…
+            Continue reading...
         </a>
     </div>
     
@@ -608,58 +660,7 @@ Sort阶段
     
 
         <a href="/2019/07/22/hadoop-mapreduce-reducetask/" class="post-more waves-effect waves-button">
-            続きを読む…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-hadoop-mapreduce-maptask"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2019-07-22 13:06:11" datetime="2019-07-22T05:06:11.000Z"  itemprop="datePublished">2019-07-22</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/22/hadoop-mapreduce-maptask/">MapTask工作机制</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        MapTask工作机制
-
-Read阶段MapTask通过用户编写的RecordReader，从输入InputSplit中解析出一个个key/value。
-Map阶段该节点主要是将解析出的key/value交给用户编写map()函数处理，并产生一系列新的key/value，MapTask的数量由切片决定。
-Collect收集阶段在用户编写map()函数中，当数据处理完成后，一般会调用Outpu...
-    
-
-        <a href="/2019/07/22/hadoop-mapreduce-maptask/" class="post-more waves-effect waves-button">
-            続きを読む…
+            Continue reading...
         </a>
     </div>
     
@@ -700,7 +701,7 @@ Collect收集阶段在用户编写map()函数中，当数据处理完成后，�
 
         <p>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">

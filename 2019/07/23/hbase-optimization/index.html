@@ -14,28 +14,28 @@
     
     
     
-    <title>MapTask并行度决定机制 | 开嘴的板栗</title>
+    <title>Hbase优化 | 开嘴的板栗</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="hadoop">
-    <meta name="description" content="MapTask并行度决定机制一、哪些因素影响了MapTask并行度？MapTask的并行度决定Map阶段的任务处理并发度，进而影响到整个Job的处理速度。 对于1G的数据，启动8个MapTask，可以提高集群的并发处理能力。那么1K的数据，也启动8个MapTask，会提高集群性能吗？MapTask并行任务是否越多越好呢？ 那么，到底是哪些因素影响了MapTask并行度？ 二、MapTask并行度决">
-<meta name="keywords" content="hadoop">
+    <meta name="keywords" content="hbase">
+    <meta name="description" content="Hbase优化一、高可用在HBase中Hmaster负责监控RegionServer的生命周期，均衡RegionServer的负载，如果Hmaster挂掉了，那么整个HBase集群将陷入不健康的状态，并且此时的工作状态并不会维持太久。所以HBase支持对HMaster的高可用配置。 配置步骤：  在conf目录下创建backup-masters文件  1touch conf/backup-mast">
+<meta name="keywords" content="hbase">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MapTask并行度决定机制">
-<meta property="og:url" content="http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/index.html">
+<meta property="og:title" content="Hbase优化">
+<meta property="og:url" content="http://yoursite.com/2019/07/23/hbase-optimization/index.html">
 <meta property="og:site_name" content="开嘴的板栗">
-<meta property="og:description" content="MapTask并行度决定机制一、哪些因素影响了MapTask并行度？MapTask的并行度决定Map阶段的任务处理并发度，进而影响到整个Job的处理速度。 对于1G的数据，启动8个MapTask，可以提高集群的并发处理能力。那么1K的数据，也启动8个MapTask，会提高集群性能吗？MapTask并行任务是否越多越好呢？ 那么，到底是哪些因素影响了MapTask并行度？ 二、MapTask并行度决">
+<meta property="og:description" content="Hbase优化一、高可用在HBase中Hmaster负责监控RegionServer的生命周期，均衡RegionServer的负载，如果Hmaster挂掉了，那么整个HBase集群将陷入不健康的状态，并且此时的工作状态并不会维持太久。所以HBase支持对HMaster的高可用配置。 配置步骤：  在conf目录下创建backup-masters文件  1touch conf/backup-mast">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/1563709632929.png">
-<meta property="og:image" content="http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/1563710085827.png">
-<meta property="og:updated_time" content="2019-07-22T00:17:46.027Z">
+<meta property="og:image" content="http://yoursite.com/2019/07/23/hbase-optimization/assets/1563868088290.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/23/hbase-optimization/assets/1563868259606.png">
+<meta property="og:updated_time" content="2019-07-23T07:51:58.096Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MapTask并行度决定机制">
-<meta name="twitter:description" content="MapTask并行度决定机制一、哪些因素影响了MapTask并行度？MapTask的并行度决定Map阶段的任务处理并发度，进而影响到整个Job的处理速度。 对于1G的数据，启动8个MapTask，可以提高集群的并发处理能力。那么1K的数据，也启动8个MapTask，会提高集群性能吗？MapTask并行任务是否越多越好呢？ 那么，到底是哪些因素影响了MapTask并行度？ 二、MapTask并行度决">
-<meta name="twitter:image" content="http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/1563709632929.png">
+<meta name="twitter:title" content="Hbase优化">
+<meta name="twitter:description" content="Hbase优化一、高可用在HBase中Hmaster负责监控RegionServer的生命周期，均衡RegionServer的负载，如果Hmaster挂掉了，那么整个HBase集群将陷入不健康的状态，并且此时的工作状态并不会维持太久。所以HBase支持对HMaster的高可用配置。 配置步骤：  在conf目录下创建backup-masters文件  1touch conf/backup-mast">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/23/hbase-optimization/assets/1563868088290.png">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
@@ -121,7 +121,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">MapTask并行度决定机制</div>
+        <div class="flex-col header-title ellipsis">Hbase优化</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -143,15 +143,15 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">MapTask并行度决定机制</h1>
+        <h1 class="title">Hbase优化</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-07-21T11:28:10.000Z" itemprop="datePublished" class="page-time">
-  2019-07-21
+                <time datetime="2019-07-23T07:33:43.000Z" itemprop="datePublished" class="page-time">
+  2019-07-23
 </time>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hbase/">hbase</a></li></ul>
 
             
         </h5>
@@ -168,21 +168,21 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MapTask并行度决定机制"><span class="post-toc-text">MapTask并行度决定机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、哪些因素影响了MapTask并行度？"><span class="post-toc-text">一、哪些因素影响了MapTask并行度？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、MapTask并行度决定机制"><span class="post-toc-text">二、MapTask并行度决定机制</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Hbase优化"><span class="post-toc-text">Hbase优化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、高可用"><span class="post-toc-text">一、高可用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、预分区"><span class="post-toc-text">二、预分区</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、RowKey设计"><span class="post-toc-text">三、RowKey设计</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、内存优化"><span class="post-toc-text">四、内存优化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#五、基础优化"><span class="post-toc-text">五、基础优化</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
 
-<article id="post-hadoop-InputFormat-Concurrency"
+<article id="post-hbase-optimization"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">MapTask并行度决定机制</h1>
+        <h1 class="post-card-title">Hbase优化</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-07-21 19:28:10" datetime="2019-07-21T11:28:10.000Z"  itemprop="datePublished">2019-07-21</time>
+            <time class="post-time" title="2019-07-23 15:33:43" datetime="2019-07-23T07:33:43.000Z"  itemprop="datePublished">2019-07-23</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hbase/">hbase</a></li></ul>
 
 
 
@@ -194,23 +194,43 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="MapTask并行度决定机制"><a href="#MapTask并行度决定机制" class="headerlink" title="MapTask并行度决定机制"></a>MapTask并行度决定机制</h1><h2 id="一、哪些因素影响了MapTask并行度？"><a href="#一、哪些因素影响了MapTask并行度？" class="headerlink" title="一、哪些因素影响了MapTask并行度？"></a>一、哪些因素影响了MapTask并行度？</h2><p>MapTask的并行度决定Map阶段的任务处理并发度，进而影响到整个Job的处理速度。</p>
-<p>对于1G的数据，启动8个MapTask，可以提高集群的并发处理能力。那么1K的数据，也启动8个MapTask，会提高集群性能吗？MapTask并行任务是否越多越好呢？</p>
-<p>那么，到底是哪些因素影响了MapTask并行度？</p>
-<h2 id="二、MapTask并行度决定机制"><a href="#二、MapTask并行度决定机制" class="headerlink" title="二、MapTask并行度决定机制"></a>二、MapTask并行度决定机制</h2><p><strong>数据块：</strong>Block是HDFS<strong>物理上</strong>把数据分成一块一块。</p>
-<p><strong>数据切片：</strong>数据切片只是在<strong>逻辑上</strong>对输入进行分片，并不会在磁盘上将其切分成片进行存储。</p>
-<p>一个Job的Map阶段并行度由客户端在提交Job时的切片数决定，每一个split切片分配一个MapTask并行实例处理。在默认情况下，切片大小等于BlockSize，切片时不需要考虑数据集整体，而是诸葛针对每一个文件单独切片。</p>
-<p><strong>（1）数据块与数据切片大小不一致</strong></p>
-<p>假设切片大小设置为100M，数据块大小为128M。</p>
-<img src="/2019/07/21/hadoop-InputFormat-Concurrency/1563709632929.png" title="This is an image">
+            <h1 id="Hbase优化"><a href="#Hbase优化" class="headerlink" title="Hbase优化"></a>Hbase优化</h1><h2 id="一、高可用"><a href="#一、高可用" class="headerlink" title="一、高可用"></a>一、高可用</h2><p>在HBase中Hmaster负责监控RegionServer的生命周期，均衡RegionServer的负载，如果Hmaster挂掉了，那么整个HBase集群将陷入不健康的状态，并且此时的工作状态并不会维持太久。所以HBase支持对HMaster的高可用配置。</p>
+<p>配置步骤：</p>
+<ul>
+<li>在conf目录下创建backup-masters文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch conf/backup-masters</span><br></pre></td></tr></table></figure>
 
-<p>一个MapTask对应一个数据切片，若是数据切片和数据块大小不一致，那么就必然会涉及到跨节点的数据拷贝。</p>
-<p>在图中可以看出，节点2上的MapTask需要将节点1上的28M数据拷贝过来，然后进行数据处理。同样，节点3上的MapTask需要将节点2上的28M数据拷贝过来，然后进行数据处理。因而会消耗大量的网络IO,性能非常低下。</p>
-<p><strong>（2）数据块与数据切片大小一致</strong></p>
-<img src="/2019/07/21/hadoop-InputFormat-Concurrency/1563710085827.png" title="This is an image">
+<ul>
+<li>在backup-masters文件中配置高可用HMaster节点;</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> hadoop103 &gt; conf/backup-masters</span><br></pre></td></tr></table></figure>
 
-<p>在图中可以看出，每个节点上的MapTask只需要处理本地的数据块即可，不涉及网络IO，性能优于数据块与数据切片大小不一致的情况。</p>
+<ul>
+<li>将整个conf目录scp到其他节点</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r conf/ hadoop103:/opt/module/hbase/</span><br><span class="line">scp -r conf/ hadoop104:/opt/module/hbase/</span><br></pre></td></tr></table></figure>
 
+<p>在web端查看：hadoop102是属于Active HMaster, 而hadoop103是属于备用HMaster。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1563868088290.png" alt="1563868088290" title>
+                </div>
+                <div class="image-caption">1563868088290</div>
+            </figure>
+
+<p>若是hadoop102上的HMaster挂掉之后，hadoop103自动切换成Active HMaster，在web页面查看，如下图所示，hadoop103已经切换成Active状态。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1563868259606.png" alt="1563868259606" title>
+                </div>
+                <div class="image-caption">1563868259606</div>
+            </figure>
+
+<h2 id="二、预分区"><a href="#二、预分区" class="headerlink" title="二、预分区"></a>二、预分区</h2><p>每一个region维护着startRow与endRowKey，如果加入的数据符合某个region维护的rowKey范围，则该数据交给这个region维护。那么依照这个原则，我们可以将数据所要投放的分区提前大致的规划好，以提高HBase性能。</p>
+<h2 id="三、RowKey设计"><a href="#三、RowKey设计" class="headerlink" title="三、RowKey设计"></a>三、RowKey设计</h2><h2 id="四、内存优化"><a href="#四、内存优化" class="headerlink" title="四、内存优化"></a>四、内存优化</h2><h2 id="五、基础优化"><a href="#五、基础优化" class="headerlink" title="五、基础优化"></a>五、基础优化</h2>
         </div>
 
         <blockquote class="post-copyright">
@@ -218,12 +238,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-22T00:17:46.027Z" itemprop="dateUpdated">2019-07-22 08:17:46</time>
+    Last updated: <time datetime="2019-07-23T07:51:58.096Z" itemprop="dateUpdated">2019-07-23 15:51:58</time>
 </span><br>
 
 
         
-        原文链接：<a href="/2019/07/21/hadoop-InputFormat-Concurrency/" target="_blank" rel="external">http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/</a>
+        原文链接：<a href="/2019/07/23/hbase-optimization/" target="_blank" rel="external">http://yoursite.com/2019/07/23/hbase-optimization/</a>
         
     </div>
     
@@ -244,7 +264,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">hbase</a></li></ul>
 
 
             
@@ -254,7 +274,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/&title=《MapTask并行度决定机制》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/23/hbase-optimization/&title=《Hbase优化》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -264,22 +284,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/&title=《MapTask并行度决定机制》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/23/hbase-optimization/&title=《Hbase优化》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/23/hbase-optimization/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MapTask并行度决定机制》 — 开嘴的板栗&url=http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hbase优化》 — 开嘴的板栗&url=http://yoursite.com/2019/07/23/hbase-optimization/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/23/hbase-optimization/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -299,21 +319,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2019/07/21/hadoop-mapreduce-partition/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">Patition分区</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/07/21/hadoop-mapreduce-serialization/" id="post-next" class="post-nav-link">
+      <a href="/2019/07/23/hbase-basictheory/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">hadoop序列化</h4>
+        <h4 class="title">Hbase原理</h4>
       </a>
     </div>
   
@@ -411,7 +424,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/&title=《MapTask并行度决定机制》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/23/hbase-optimization/&title=《Hbase优化》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -421,22 +434,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/&title=《MapTask并行度决定机制》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/23/hbase-optimization/&title=《Hbase优化》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/23/hbase-optimization/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MapTask并行度决定机制》 — 开嘴的板栗&url=http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hbase优化》 — 开嘴的板栗&url=http://yoursite.com/2019/07/23/hbase-optimization/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/23/hbase-optimization/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -447,7 +460,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/21/hadoop-InputFormat-Concurrency/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/23/hbase-optimization/" alt="微信分享二维码">
 </div>
 
 
