@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>flume实践 | 开嘴的板栗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="flume">
+    <meta name="description" content="一、监控端口数据需求描述：监听本机4444端口，并将监听到的数据打印在控制台。 思路：首先，Flume监控本机44444端口，然后通过telnet工具向本机44444端口发送消息，最后Flume将监听的数据实时显示在控制台。 1.创建Flume Agent配置文件flume-telnet-logger.conf 1234567891011121314151617181920212223242526">
+<meta name="keywords" content="flume">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flume实践">
+<meta property="og:url" content="http://yoursite.com/2019/07/24/flume-practices/index.html">
+<meta property="og:site_name" content="开嘴的板栗">
+<meta property="og:description" content="一、监控端口数据需求描述：监听本机4444端口，并将监听到的数据打印在控制台。 思路：首先，Flume监控本机44444端口，然后通过telnet工具向本机44444端口发送消息，最后Flume将监听的数据实时显示在控制台。 1.创建Flume Agent配置文件flume-telnet-logger.conf 1234567891011121314151617181920212223242526">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-practices/assets/1563951273278.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-practices/assets/1563951981993.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-practices/assets/1563952490683.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-practices/assets/1563952703396.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-practices/assets/1563945618112.png">
+<meta property="og:updated_time" content="2019-07-24T08:16:25.925Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="flume实践">
+<meta name="twitter:description" content="一、监控端口数据需求描述：监听本机4444端口，并将监听到的数据打印在控制台。 思路：首先，Flume监控本机44444端口，然后通过telnet工具向本机44444端口发送消息，最后Flume将监听的数据实时显示在控制台。 1.创建Flume Agent配置文件flume-telnet-logger.conf 1234567891011121314151617181920212223242526">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/24/flume-practices/assets/1563951273278.png">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">kaizuidebanli</h5>
+          <a href="mailto:945562363@qq.com" title="945562363@qq.com" class="mail">945562363@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/chengruru" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">flume实践</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">flume实践</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-24T05:48:40.000Z" itemprop="datePublished" class="page-time">
+  2019-07-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/flume/">flume</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、监控端口数据"><span class="post-toc-text">一、监控端口数据</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、实时读取本地文件到HDFS"><span class="post-toc-text">二、实时读取本地文件到HDFS</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三、实时读取目录文件到HDFS"><span class="post-toc-text">三、实时读取目录文件到HDFS</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#四、单数据源多出口"><span class="post-toc-text">四、单数据源多出口</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#五、多数据"><span class="post-toc-text">五、多数据</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-flume-practices"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">flume实践</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-24 13:48:40" datetime="2019-07-24T05:48:40.000Z"  itemprop="datePublished">2019-07-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/flume/">flume</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="一、监控端口数据"><a href="#一、监控端口数据" class="headerlink" title="一、监控端口数据"></a>一、监控端口数据</h1><p>需求描述：监听本机4444端口，并将监听到的数据打印在控制台。</p>
+<p>思路：首先，Flume监控本机44444端口，然后通过telnet工具向本机44444端口发送消息，最后Flume将监听的数据实时显示在控制台。</p>
+<p>1.创建Flume Agent配置文件flume-telnet-logger.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># Name the components on this agent</span><br><span class="line"># a1 : 表示agent的名称</span><br><span class="line">a1.sources = r1		# r1 : 表示a1的输入源</span><br><span class="line">a1.sinks = k1		# k1 : 表示a1的输出目的地</span><br><span class="line">a1.channels = c1	# c1 : 表示a1的缓冲区</span><br><span class="line"></span><br><span class="line"># Describe/configure the source，数据源信息</span><br><span class="line"># 表示a1的输入源类型为netcat端口类型</span><br><span class="line">a1.sources.r1.type = netcat</span><br><span class="line"># 表示a1的监听的主机</span><br><span class="line">a1.sources.r1.bind = localhost</span><br><span class="line"># 表示a1的监听端口号</span><br><span class="line">a1.sources.r1.port = 44444</span><br><span class="line"></span><br><span class="line"># Describe the sink</span><br><span class="line"># 表示a1的输出目的地是控制台logger类型</span><br><span class="line">a1.sinks.k1.type = logger</span><br><span class="line"></span><br><span class="line"># Use a channel which buffers events in memory</span><br><span class="line"># 表示a1的channel类型是memory内存型</span><br><span class="line">a1.channels.c1.type = memory</span><br><span class="line"># 表示a1的channel总容量1000个event</span><br><span class="line">a1.channels.c1.capacity = 1000</span><br><span class="line"># 表示a1的channel传输时收集到了100条event以后再去提交事务</span><br><span class="line">a1.channels.c1.transactionCapacity = 100</span><br><span class="line"></span><br><span class="line"># Bind the source and sink to the channel</span><br><span class="line"># 表示将r1和c1连接起来</span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line"># 表示k1和c1连接起来</span><br><span class="line">a1.sinks.k1.channel = c1</span><br></pre></td></tr></table></figure>
+
+<p>详细的配置说明，请参考<a href="http://flume.apache.org/FlumeUserGuide.html" target="_blank" rel="noopener">官网</a></p>
+<p>2.开启flume监听端口</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bin/flume-ng agent --conf conf/ </span><br><span class="line">				   --name a1 </span><br><span class="line">				   --conf-file job/flume-telnet-logger.conf 				   -Dflume.root.logger=INFO,console</span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">--conf conf/  ：表示配置文件存储在conf/目录</span><br><span class="line">--name a1	：表示给agent起名为a1</span><br><span class="line">--conf-file job/flume-telnet.conf ：flume本次启动读取的配置文件是在job文件夹下的flume-telnet.conf文件。</span><br><span class="line">-Dflume.root.logger==INFO,console ：-D表示flume运行时动态修改flume.root.logger参数属性值，并将控制台日志打印级别设置为INFO级别。日志级别包括:log、info、warn、error。</span><br></pre></td></tr></table></figure>
+
+<p>3.使用telnet工具向本机的44444端口发送内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet localhost 44444</span><br></pre></td></tr></table></figure>
+
+<h1 id="二、实时读取本地文件到HDFS"><a href="#二、实时读取本地文件到HDFS" class="headerlink" title="二、实时读取本地文件到HDFS"></a>二、实时读取本地文件到HDFS</h1><p>需求描述：实时监控Hive日志，并上传到HDFS中。</p>
+<p>思路：首先，Flume监控本机44444端口，然后通过telnet工具向本机44444端口发送消息，最后Flume将监听的数据实时显示在控制台。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1563951273278.png" alt="1563951273278" title>
+                </div>
+                <div class="image-caption">1563951273278</div>
+            </figure>
+
+<p>1.Flume要想将数据输出到HDFS，必须持有Hadoop相关jar包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">commons-configuration-1.6.jar、</span><br><span class="line"></span><br><span class="line">hadoop-auth-2.7.2.jar、</span><br><span class="line"></span><br><span class="line">hadoop-common-2.7.2.jar、</span><br><span class="line"></span><br><span class="line">hadoop-hdfs-2.7.2.jar、</span><br></pre></td></tr></table></figure>
+
+<p>将上述jar包拷贝到flume/lib文件夹下。</p>
+<p>1.创建配置文件flume-file-hdfs.conf</p>
+<p>创建一个文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch flume-file-hdfs.conf</span><br></pre></td></tr></table></figure>
+
+<p>注：要想读取Linux系统中的文件，就得按照Linux命令的规则执行命令。由于hive日志在Linux系统中所以读取文件的类型选择：exec即execute执行的意思。表示执行Linux命令来读取文件。</p>
+<p>配置如下信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"># Name the components on this agent</span><br><span class="line">a2.sources = r2</span><br><span class="line">a2.sinks = k2</span><br><span class="line">a2.channels = c2</span><br><span class="line"></span><br><span class="line"># Describe/configure the source</span><br><span class="line">a2.sources.r2.type = exec</span><br><span class="line">a2.sources.r2.command = tail -F /opt/module/hive/logs/hive.log</span><br><span class="line">a2.sources.r2.shell = /bin/bash -c</span><br><span class="line"></span><br><span class="line"># Describe the sink</span><br><span class="line">a2.sinks.k2.type = hdfs</span><br><span class="line">a2.sinks.k2.hdfs.path = hdfs://hadoop102:9000/flume/%Y%m%d/%H</span><br><span class="line">#上传文件的前缀</span><br><span class="line">a2.sinks.k2.hdfs.filePrefix = logs-</span><br><span class="line">#是否按照时间滚动文件夹</span><br><span class="line">a2.sinks.k2.hdfs.round = true</span><br><span class="line">#多少时间单位创建一个新的文件夹</span><br><span class="line">a2.sinks.k2.hdfs.roundValue = 1</span><br><span class="line">#重新定义时间单位</span><br><span class="line">a2.sinks.k2.hdfs.roundUnit = hour</span><br><span class="line">#是否使用本地时间戳</span><br><span class="line">a2.sinks.k2.hdfs.useLocalTimeStamp = true</span><br><span class="line">#积攒多少个Event才flush到HDFS一次</span><br><span class="line">a2.sinks.k2.hdfs.batchSize = 1000</span><br><span class="line">#设置文件类型，可支持压缩</span><br><span class="line">a2.sinks.k2.hdfs.fileType = DataStream</span><br><span class="line">#多久生成一个新的文件</span><br><span class="line">a2.sinks.k2.hdfs.rollInterval = 600</span><br><span class="line">#设置每个文件的滚动大小</span><br><span class="line">a2.sinks.k2.hdfs.rollSize = 134217700</span><br><span class="line">#文件的滚动与Event数量无关</span><br><span class="line">a2.sinks.k2.hdfs.rollCount = 0</span><br><span class="line">#最小冗余数</span><br><span class="line">a2.sinks.k2.hdfs.minBlockReplicas = 1</span><br><span class="line"></span><br><span class="line"># Use a channel which buffers events in memory</span><br><span class="line">a2.channels.c2.type = memory</span><br><span class="line">a2.channels.c2.capacity = 1000</span><br><span class="line">a2.channels.c2.transactionCapacity = 100</span><br><span class="line"></span><br><span class="line"># Bind the source and sink to the channel</span><br><span class="line">a2.sources.r2.channels = c2</span><br><span class="line">a2.sinks.k2.channel = c2</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.执行监控配置</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bin/flume-ng agent --conf conf/ </span><br><span class="line">				   --name a2</span><br><span class="line">				   --conf-file job/flume-file-hdfs.conf</span><br></pre></td></tr></table></figure>
+
+<p>说明： 在使用Spooling Directory Source时,</p>
+<p>1) 不要在监控目录中创建并持续修改文件;</p>
+<p>2) 上传完成的文件会以.COMPLETED结尾;</p>
+<p>3)  被监控文件夹每600毫秒扫描一次文件变动.</p>
+<p><strong>4.开启hadoop和hive并操作hive产生日志</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sbin/start-dfs.sh	<span class="comment"># start hadoop</span></span><br><span class="line">sbin/start-yarn.sh	<span class="comment"># start yarn</span></span><br><span class="line">bin/hive	<span class="comment"># start hive</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>5.查看hdfs上flume文件夹下是否存在</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1563951981993.png" alt="1563951981993" title>
+                </div>
+                <div class="image-caption">1563951981993</div>
+            </figure>
+
+<h1 id="三、实时读取目录文件到HDFS"><a href="#三、实时读取目录文件到HDFS" class="headerlink" title="三、实时读取目录文件到HDFS"></a>三、实时读取目录文件到HDFS</h1><p>需求描述：使用flume监听整个目录的文件。</p>
+<p>思路：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1563952490683.png" alt="1563952490683" title>
+                </div>
+                <div class="image-caption">1563952490683</div>
+            </figure>
+
+<p><strong>1.创建配置文件flume-dir-hdfs.conf</strong></p>
+<p>创建一个文件:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch flume-dir-hdfs.conf</span><br></pre></td></tr></table></figure>
+
+<p>添加如下内容:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">a3.sources = r3</span><br><span class="line">a3.sinks = k3</span><br><span class="line">a3.channels = c3</span><br><span class="line"></span><br><span class="line"># Describe/configure the source</span><br><span class="line">a3.sources.r3.type = spooldir</span><br><span class="line">a3.sources.r3.spoolDir = /opt/module/flume/upload</span><br><span class="line">a3.sources.r3.fileSuffix = .COMPLETED</span><br><span class="line">a3.sources.r3.fileHeader = true</span><br><span class="line">#忽略所有以.tmp结尾的文件，不上传</span><br><span class="line">a3.sources.r3.ignorePattern = ([^ ]*\.tmp)</span><br><span class="line"></span><br><span class="line"># Describe the sink</span><br><span class="line">a3.sinks.k3.type = hdfs</span><br><span class="line">a3.sinks.k3.hdfs.path = hdfs://hadoop102:9000/flume/upload/%Y%m%d/%H</span><br><span class="line">#上传文件的前缀</span><br><span class="line">a3.sinks.k3.hdfs.filePrefix = upload-</span><br><span class="line">#是否按照时间滚动文件夹</span><br><span class="line">a3.sinks.k3.hdfs.round = true</span><br><span class="line">#多少时间单位创建一个新的文件夹</span><br><span class="line">a3.sinks.k3.hdfs.roundValue = 1</span><br><span class="line">#重新定义时间单位</span><br><span class="line">a3.sinks.k3.hdfs.roundUnit = hour</span><br><span class="line">#是否使用本地时间戳</span><br><span class="line">a3.sinks.k3.hdfs.useLocalTimeStamp = true</span><br><span class="line">#积攒多少个Event才flush到HDFS一次</span><br><span class="line">a3.sinks.k3.hdfs.batchSize = 100</span><br><span class="line">#设置文件类型，可支持压缩</span><br><span class="line">a3.sinks.k3.hdfs.fileType = DataStream</span><br><span class="line">#多久生成一个新的文件</span><br><span class="line">a3.sinks.k3.hdfs.rollInterval = 600</span><br><span class="line">#设置每个文件的滚动大小大概是128M</span><br><span class="line">a3.sinks.k3.hdfs.rollSize = 134217700</span><br><span class="line">#文件的滚动与Event数量无关</span><br><span class="line">a3.sinks.k3.hdfs.rollCount = 0</span><br><span class="line">#最小冗余数</span><br><span class="line">a3.sinks.k3.hdfs.minBlockReplicas = 1</span><br><span class="line"></span><br><span class="line"># Use a channel which buffers events in memory</span><br><span class="line">a3.channels.c3.type = memory</span><br><span class="line">a3.channels.c3.capacity = 1000</span><br><span class="line">a3.channels.c3.transactionCapacity = 100</span><br><span class="line"></span><br><span class="line"># Bind the source and sink to the channel</span><br><span class="line">a3.sources.r3.channels = c3</span><br><span class="line">a3.sinks.k3.channel = c3</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.启动监控文件夹命令</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bin/flume-ng agent --conf conf/ </span><br><span class="line">				   --name a3 </span><br><span class="line">				   --conf-file job/flume-dir-hdfs.conf</span><br></pre></td></tr></table></figure>
+
+<p>说明： 在使用Spooling Directory Source时</p>
+<p>1) 不要在监控目录中创建并持续修改文件</p>
+<p>2) 上传完成的文件会以.COMPLETED结尾</p>
+<p>3)  被监控文件夹每600毫秒扫描一次文件变动</p>
+<p><strong>3.向upload文件夹中添加文件</strong></p>
+<p>在flume目录下创建upload文件夹:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir upload</span><br><span class="line"><span class="comment"># 向upload文件夹中添加文件</span></span><br><span class="line">touch atguigu.txt</span><br><span class="line">touch atguigu.tmp</span><br><span class="line">touch atguigu.log</span><br></pre></td></tr></table></figure>
+
+<p><strong>4.查看HDFS上的数据</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1563952703396.png" alt="1563952703396" title>
+                </div>
+                <div class="image-caption">1563952703396</div>
+            </figure>
+
+<p><strong>5.等待1s，再次查询upload文件夹</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ll</span><br><span class="line">atguigu.log.COMPLETED</span><br><span class="line">atguigu.tmp</span><br><span class="line">atguigu.txt.COMPLETED</span><br></pre></td></tr></table></figure>
+
+<h1 id="四、单数据源多出口"><a href="#四、单数据源多出口" class="headerlink" title="四、单数据源多出口"></a>四、单数据源多出口</h1><p>单Source多Channel、Sink如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1563945618112.png" alt="1563945618112" title>
+                </div>
+                <div class="image-caption">1563945618112</div>
+            </figure>
+
+<p>需求：使用flume-1监控文件变动，flume-1将变动内容传递给flume-2，flume-2负责存储到HDFS。同时flume-1将变动内容传递给flume-3，flume-3负责输出到local filesystem。</p>
+<p>分析：</p>
+<h1 id="五、多数据"><a href="#五、多数据" class="headerlink" title="五、多数据"></a>五、多数据</h1>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-07-24T08:16:25.925Z" itemprop="dateUpdated">2019-07-24 16:16:25</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/07/24/flume-practices/" target="_blank" rel="external">http://yoursite.com/2019/07/24/flume-practices/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="kaizuidebanli">
+            kaizuidebanli
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flume/">flume</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/24/flume-practices/&title=《flume实践》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/24/flume-practices/&title=《flume实践》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/24/flume-practices/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《flume实践》 — 开嘴的板栗&url=http://yoursite.com/2019/07/24/flume-practices/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/24/flume-practices/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/07/24/flume-interview-questions/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">flume面试题</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/24/flume-introduction/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Flume概述</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        打赏杯咖啡呗~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>kaizuidebanli &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/24/flume-practices/&title=《flume实践》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/24/flume-practices/&title=《flume实践》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/24/flume-practices/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《flume实践》 — 开嘴的板栗&url=http://yoursite.com/2019/07/24/flume-practices/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/24/flume-practices/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/24/flume-practices/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

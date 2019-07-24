@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>flume面试题 | 开嘴的板栗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="flume,interview">
+    <meta name="description" content="1.你是如何实现Flume数据传输监控的使用第三方框架Ganglia实时监控Flume。 2.Flume的Source,Sink, Channel的作用？（1）作用 source组件： 是专门用来收集数据的，可以处理各种类型、各种格式的日志数据，包括avro,thrift,exec,jms,spooling directory,netcat,sequence generator,syslog,ht">
+<meta name="keywords" content="flume,interview">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flume面试题">
+<meta property="og:url" content="http://yoursite.com/2019/07/24/flume-interview-questions/index.html">
+<meta property="og:site_name" content="开嘴的板栗">
+<meta property="og:description" content="1.你是如何实现Flume数据传输监控的使用第三方框架Ganglia实时监控Flume。 2.Flume的Source,Sink, Channel的作用？（1）作用 source组件： 是专门用来收集数据的，可以处理各种类型、各种格式的日志数据，包括avro,thrift,exec,jms,spooling directory,netcat,sequence generator,syslog,ht">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-interview-questions/1563956798665.png">
+<meta property="og:updated_time" content="2019-07-24T08:48:02.536Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="flume面试题">
+<meta name="twitter:description" content="1.你是如何实现Flume数据传输监控的使用第三方框架Ganglia实时监控Flume。 2.Flume的Source,Sink, Channel的作用？（1）作用 source组件： 是专门用来收集数据的，可以处理各种类型、各种格式的日志数据，包括avro,thrift,exec,jms,spooling directory,netcat,sequence generator,syslog,ht">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/24/flume-interview-questions/1563956798665.png">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">kaizuidebanli</h5>
+          <a href="mailto:945562363@qq.com" title="945562363@qq.com" class="mail">945562363@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/chengruru" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">flume面试题</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">flume面试题</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-24T08:17:27.000Z" itemprop="datePublished" class="page-time">
+  2019-07-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/flume/">flume</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-你是如何实现Flume数据传输监控的"><span class="post-toc-text">1.你是如何实现Flume数据传输监控的</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-Flume的Source-Sink-Channel的作用？"><span class="post-toc-text">2.Flume的Source,Sink, Channel的作用？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-Flume的Channel-Selectors"><span class="post-toc-text">3.Flume的Channel Selectors</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-Flume参数调优"><span class="post-toc-text">4.Flume参数调优</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-Flume的事务机制"><span class="post-toc-text">5.Flume的事务机制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-Flume采集数据会丢失吗？"><span class="post-toc-text">6.Flume采集数据会丢失吗？</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-flume-interview-questions"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">flume面试题</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-24 16:17:27" datetime="2019-07-24T08:17:27.000Z"  itemprop="datePublished">2019-07-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/flume/">flume</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="1-你是如何实现Flume数据传输监控的"><a href="#1-你是如何实现Flume数据传输监控的" class="headerlink" title="1.你是如何实现Flume数据传输监控的"></a>1.你是如何实现Flume数据传输监控的</h3><p>使用第三方框架Ganglia实时监控Flume。</p>
+<h3 id="2-Flume的Source-Sink-Channel的作用？"><a href="#2-Flume的Source-Sink-Channel的作用？" class="headerlink" title="2.Flume的Source,Sink, Channel的作用？"></a>2.Flume的Source,Sink, Channel的作用？</h3><p>（1）作用</p>
+<p>source组件： 是专门用来<strong>收集数据</strong>的，可以处理各种类型、各种格式的日志数据，包括avro,thrift,exec,jms,spooling directory,netcat,sequence generator,syslog,http,legacy</p>
+<p>channel组件： <strong>对采集到的数据进行缓存</strong>，可以存放在Memory或者File中；</p>
+<p>Sink组件： <strong>是用于把数据发送到目的地的组件</strong>，目的地包括HDFS,Logger,avro,thrift, ipc,file,hbase,solr,自定义。</p>
+<p>（2）你用的Source类型？</p>
+<p>监控后台日志：exec;</p>
+<p>监控后台产生日志的端口：netcat.</p>
+<h3 id="3-Flume的Channel-Selectors"><a href="#3-Flume的Channel-Selectors" class="headerlink" title="3.Flume的Channel Selectors"></a>3.Flume的Channel Selectors</h3><img src="/2019/07/24/flume-interview-questions/1563956798665.png" title="This is an image">
+
+<p>Channel选择器有两种类型：<strong>Replicating Channel Selector</strong> 和 <strong>MultiPlexing channel selector</strong>。</p>
+<p>Replicating Channel Selector会将source过来的events发往所有channel,而Multiplexing可以配置发往哪些Channel。 </p>
+<h3 id="4-Flume参数调优"><a href="#4-Flume参数调优" class="headerlink" title="4.Flume参数调优"></a>4.Flume参数调优</h3><p>（1）Source</p>
+<p>增加Source个数（使用Tair Dir Source时可增加FileGroups个数）可以增大Source的读取数据的能力。例如：当某一个目录产生的文件过多时需要将这个文件目录拆分成多个文件目录，同时配置好多个Source以保证Source由足够的能力获取到新产生的数据。</p>
+<p>batchsize参数决定Source依次批量运输到Channel的event条数，适当调大这个参数可以提高Source搬运Event到Channel时的性能。</p>
+<p>（2）Channel</p>
+<p>type选择memory时Channel的性能最好，但是如果Flume进程意外挂掉可能会丢掉数据。type选择file时Channel的容错性更好，但是性能上回避memory channel差。</p>
+<p>使用file channel时dataDirs配置多个不同盘下的目录可以提高性能。</p>
+<p>capacity参数决定channel可容纳最大的event条数。tansactionCapacity参数决定每次source网channel里面写的最大event条数和灭此sink从channel里面读的最大event条数。tansactionCapacity需要大于source和sink的batchSize参数。</p>
+<p>（3）Sink</p>
+<p>增加Sink的个数可以增加Sink消费event的能力。Sink也不是越多越好，够用就行，过多的Sink会占用系统资源，造成系统资源不必要的浪费。</p>
+<p>batchsize参数决定Sink依次批量从Channel读取的event条数，适当增大这个参数可以提高Sink从Channel搬出event的性能。</p>
+<h3 id="5-Flume的事务机制"><a href="#5-Flume的事务机制" class="headerlink" title="5.Flume的事务机制"></a>5.Flume的事务机制</h3><p>Flume的事务机制（类似数据库的事务机制）：Flume使用两个独立的事务分别负责从Source到Channel，以及从Channel到Sink的事件传递。比如spooling directory source 为文件的每一行创建一个事件，一旦事务中所有的事件全部传递到Channel且提交成功，那么Source就将该文件标记为完成。同理，事务以类似的方式处理从Channel到Sink的传递过程，如果因为某种原因使得事件无法记录，那么事务将会回滚。且所有的事件都会保持到Channel中，等待重新传递。</p>
+<h3 id="6-Flume采集数据会丢失吗？"><a href="#6-Flume采集数据会丢失吗？" class="headerlink" title="6.Flume采集数据会丢失吗？"></a>6.Flume采集数据会丢失吗？</h3><p>不会，Channel存储可以存储在File中，数据传输自身有事务机制。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-07-24T08:48:02.536Z" itemprop="dateUpdated">2019-07-24 16:48:02</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/07/24/flume-interview-questions/" target="_blank" rel="external">http://yoursite.com/2019/07/24/flume-interview-questions/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="kaizuidebanli">
+            kaizuidebanli
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flume/">flume</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/interview/">interview</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/24/flume-interview-questions/&title=《flume面试题》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/24/flume-interview-questions/&title=《flume面试题》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/24/flume-interview-questions/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《flume面试题》 — 开嘴的板栗&url=http://yoursite.com/2019/07/24/flume-interview-questions/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/24/flume-interview-questions/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/24/flume-practices/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">flume实践</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        打赏杯咖啡呗~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>kaizuidebanli &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/24/flume-interview-questions/&title=《flume面试题》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/24/flume-interview-questions/&title=《flume面试题》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/24/flume-interview-questions/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《flume面试题》 — 开嘴的板栗&url=http://yoursite.com/2019/07/24/flume-interview-questions/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/24/flume-interview-questions/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/24/flume-interview-questions/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
