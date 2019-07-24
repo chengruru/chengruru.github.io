@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Hive简介 | 开嘴的板栗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="hive">
+    <meta name="description" content="Hive简介一、什么是HiveHive：由Facebook开源用于解决海量结构化日志的数据统计（分析）。 Hive是基于Hadoop的一个数据仓库工具，可以将结构化的数据文件映射为一张表，并提供类SQL查询功能。 本质是：将HQL转化成MapReduce程序。   Hive处理的数据存储在HDFS，Hive分析数据底层的实现是依赖MapReduce，且执行程序运行在Yarn上。 二、Hive的优缺">
+<meta name="keywords" content="hive">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive简介">
+<meta property="og:url" content="http://yoursite.com/2019/07/23/hive-introduction/index.html">
+<meta property="og:site_name" content="开嘴的板栗">
+<meta property="og:description" content="Hive简介一、什么是HiveHive：由Facebook开源用于解决海量结构化日志的数据统计（分析）。 Hive是基于Hadoop的一个数据仓库工具，可以将结构化的数据文件映射为一张表，并提供类SQL查询功能。 本质是：将HQL转化成MapReduce程序。   Hive处理的数据存储在HDFS，Hive分析数据底层的实现是依赖MapReduce，且执行程序运行在Yarn上。 二、Hive的优缺">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/07/23/hive-introduction/1563881888675.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/23/hive-introduction/1563882657564.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/23/hive-introduction/1563882830060.png">
+<meta property="og:updated_time" content="2019-07-23T12:01:14.326Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hive简介">
+<meta name="twitter:description" content="Hive简介一、什么是HiveHive：由Facebook开源用于解决海量结构化日志的数据统计（分析）。 Hive是基于Hadoop的一个数据仓库工具，可以将结构化的数据文件映射为一张表，并提供类SQL查询功能。 本质是：将HQL转化成MapReduce程序。   Hive处理的数据存储在HDFS，Hive分析数据底层的实现是依赖MapReduce，且执行程序运行在Yarn上。 二、Hive的优缺">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/23/hive-introduction/1563881888675.png">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">kaizuidebanli</h5>
+          <a href="mailto:945562363@qq.com" title="945562363@qq.com" class="mail">945562363@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/chengruru" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Hive简介</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Hive简介</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-23T11:07:46.000Z" itemprop="datePublished" class="page-time">
+  2019-07-23
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hive/">hive</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Hive简介"><span class="post-toc-text">Hive简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、什么是Hive"><span class="post-toc-text">一、什么是Hive</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、Hive的优缺点"><span class="post-toc-text">二、Hive的优缺点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-优点"><span class="post-toc-text">1.优点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-缺点"><span class="post-toc-text">2.缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、Hive架构原理"><span class="post-toc-text">三、Hive架构原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、Hive和数据库比较"><span class="post-toc-text">四、Hive和数据库比较</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-hive-introduction"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Hive简介</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-23 19:07:46" datetime="2019-07-23T11:07:46.000Z"  itemprop="datePublished">2019-07-23</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hive/">hive</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="Hive简介"><a href="#Hive简介" class="headerlink" title="Hive简介"></a>Hive简介</h1><h2 id="一、什么是Hive"><a href="#一、什么是Hive" class="headerlink" title="一、什么是Hive"></a>一、什么是Hive</h2><p>Hive：由Facebook开源用于解决海量结构化日志的数据统计（分析）。</p>
+<p>Hive是基于Hadoop的一个<strong>数据仓库工具</strong>，可以将<strong>结构化的数据文件映射为一张表</strong>，并提供<strong>类SQL</strong>查询功能。</p>
+<p><strong>本质是</strong>：将HQL转化成MapReduce程序。</p>
+<img src="/2019/07/23/hive-introduction/1563881888675.png" title="This is an image">
+
+<p>Hive处理的数据存储在HDFS，Hive分析数据底层的实现是依赖MapReduce，且执行程序运行在Yarn上。</p>
+<h2 id="二、Hive的优缺点"><a href="#二、Hive的优缺点" class="headerlink" title="二、Hive的优缺点"></a>二、Hive的优缺点</h2><h3 id="1-优点"><a href="#1-优点" class="headerlink" title="1.优点"></a>1.优点</h3><p>操作接口采用类SQL语法，提供快速开发的能力（简单、容易上手），避免了去写MapReduce，减少开发人员的学习成本。</p>
+<p>但是，Hive的执行延迟比较高，因此Hive常用于数据分析，对实时性要求不高的场合。</p>
+<p>Hive优势在于处理大数据，对于处理小数据没有优势，因为Hive的执行延迟比较高。</p>
+<p>Hive支持用户自定义函数，用户可以根据自己的需求来实现自己的函数。</p>
+<h3 id="2-缺点"><a href="#2-缺点" class="headerlink" title="2.缺点"></a>2.缺点</h3><p><strong>1、Hive的HQL表达能力有限</strong></p>
+<p>（1）迭代式算法无法表达；</p>
+<p>（2）数据挖掘方面不擅长；</p>
+<p><strong>2、Hive的效率比较低</strong></p>
+<p>（1）Hive自动生成的MapReduce作业，通常情况下不够智能化；</p>
+<p>（2）Hive调优比较困难，粒度较粗；</p>
+<h2 id="三、Hive架构原理"><a href="#三、Hive架构原理" class="headerlink" title="三、Hive架构原理"></a>三、Hive架构原理</h2><img src="/2019/07/23/hive-introduction/1563882657564.png" title="This is an image">
+
+<p><strong>1．用户接口：Client</strong></p>
+<p>客户端可以通过CLI（hive shell）、JDBC/ODBC(java访问hive)、WEBUI（浏览器访问hive）。</p>
+<p><strong>2．元数据：Metastore</strong></p>
+<p>元数据包括：表名、表所属的数据库（默认是default）、表的拥有者、列/分区字段、表的类型（是否是外部表）、表的数据所在目录等；</p>
+<p>默认存储在自带的derby数据库中，推荐使用MySQL存储Metastore</p>
+<p><strong>3．Hadoop</strong></p>
+<p>使用HDFS进行存储，使用MapReduce进行计算。</p>
+<p><strong>4．驱动器：Driver</strong></p>
+<p>（1）解析器（SQL Parser）：将SQL字符串转换成抽象语法树AST，这一步一般都用第三方工具库完成，比如antlr；对AST进行语法分析，比如表是否存在、字段是否存在、SQL语义是否有误。</p>
+<p>（2）编译器（Physical Plan）：将AST编译生成逻辑执行计划。</p>
+<p>（3）优化器（Query Optimizer）：对逻辑执行计划进行优化。</p>
+<p>（4）执行器（Execution）：把逻辑执行计划转换成可以运行的物理计划。对于Hive来说，就是MR/Spark。</p>
+<p>Hive通过给用户提供的一系列交互接口，接收到用户的指令(SQL)，使用自己的Driver，结合元数据(MetaStore)，将这些指令翻译成MapReduce，提交到Hadoop中执行，最后，将执行返回的结果输出到用户交互接口。Hive的运行机制可用下图进行直观的描述：</p>
+<img src="/2019/07/23/hive-introduction/1563882830060.png" title="This is an image">
+
+<h2 id="四、Hive和数据库比较"><a href="#四、Hive和数据库比较" class="headerlink" title="四、Hive和数据库比较"></a>四、Hive和数据库比较</h2><p>由于 Hive 采用了类似SQL 的查询语言 HQL(Hive Query Language)，因此很容易将 Hive 理解为数据库。其实从结构上来看，Hive 和数据库除了拥有类似的查询语言，再无类似之处。数据库可以用在 Online 的应用中，但是Hive 是为数据仓库而设计的，清楚这一点，有助于从应用角度理解 Hive 的特性。</p>
+<p><strong>1.查询语言</strong></p>
+<p>由于SQL被广泛的应用在数据仓库中，因此，专门针对Hive的特性设计了类SQL的查询语言HQL。熟悉SQL开发的开发者可以很方便的使用Hive进行开发。</p>
+<p><strong>2.数据存储位置</strong></p>
+<p>Hive 是建立在 Hadoop 之上的，所有 Hive 的数据都是存储在 HDFS 中的。而数据库则可以将数据保存在块设备或者本地文件系统中。</p>
+<p><strong>3.数据更新</strong></p>
+<p>由于Hive是针对数据仓库应用设计的，而<strong>数据仓库的内容是读多写少的</strong>。因此，<strong>Hive中不建议对数据的改写，所有的数据都是在加载的时候确定好的</strong>。而数据库中的数据通常是需要经常进行修改的，因此可以使用 INSERT INTO …  VALUES 添加数据，使用 UPDATE … SET修改数据。</p>
+<p><strong>4.索引</strong></p>
+<p>Hive在加载数据的过程中不会对数据进行任何处理，甚至不会对数据进行扫描，因此也<strong>没有</strong>对数据中的某些Key建立<strong>索引</strong>。Hive要访问数据中满足条件的特定值时，需要<strong>暴力扫描整个数据，因此访问延迟较高</strong>。</p>
+<p>由于 MapReduce 的引入， Hive 可以并行访问数据，因此即使没有索引，对于大数据量的访问，Hive 仍然可以体现出优势。数据库中，通常会针对一个或者几个列建立索引，因此对于少量的特定条件的数据的访问，数据库可以有很高的效率，较低的延迟。由于数据的访问延迟较高，决定了 Hive 不适合在线数据查询。</p>
+<p><strong>5.执行</strong></p>
+<p>Hive中大多数查询的执行是通过 Hadoop 提供的 MapReduce 来实现的。而数据库通常有自己的执行引擎。</p>
+<p><strong>6.执行延迟</strong></p>
+<p>Hive 在查询数据的时候，由于没有索引，需要扫描整个表，因此延迟较高。另外一个导致 Hive 执行延迟高的因素是 MapReduce框架。由于MapReduce 本身具有较高的延迟，因此在利用MapReduce 执行Hive查询时，也会有较高的延迟。相对的，数据库的执行延迟较低。当然，这个低是有条件的，即数据规模较小，当数据规模大到超过数据库的处理能力的时候，Hive的并行计算显然能体现出优势。</p>
+<p><strong>7.可扩展性</strong></p>
+<p>由于Hive是建立在Hadoop之上的，因此Hive的可扩展性是和Hadoop的可扩展性是一致的（世界上最大的Hadoop 集群在 Yahoo!，2009年的规模在4000 台节点左右）。而数据库由于 ACID 语义的严格限制，扩展行非常有限。目前最先进的并行数据库 Oracle 在理论上的扩展能力也只有100台左右。</p>
+<p><strong>8.数据规模</strong></p>
+<p>由于Hive建立在集群上并可以利用MapReduce进行并行计算，因此可以支持很大规模的数据；对应的，数据库可以支持的数据规模较小。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-07-23T12:01:14.326Z" itemprop="dateUpdated">2019-07-23 20:01:14</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/07/23/hive-introduction/" target="_blank" rel="external">http://yoursite.com/2019/07/23/hive-introduction/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="kaizuidebanli">
+            kaizuidebanli
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hive/">hive</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/23/hive-introduction/&title=《Hive简介》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/23/hive-introduction/&title=《Hive简介》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/23/hive-introduction/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hive简介》 — 开嘴的板栗&url=http://yoursite.com/2019/07/23/hive-introduction/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/23/hive-introduction/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/07/24/flume-introduction/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Flume概述</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/23/hadoop-interview-questions/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">hadoop-interview-questions</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        打赏杯咖啡呗~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>kaizuidebanli &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/23/hive-introduction/&title=《Hive简介》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/23/hive-introduction/&title=《Hive简介》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/23/hive-introduction/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hive简介》 — 开嘴的板栗&url=http://yoursite.com/2019/07/23/hive-introduction/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/23/hive-introduction/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/23/hive-introduction/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

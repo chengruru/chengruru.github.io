@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Flume概述 | 开嘴的板栗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="flume">
+    <meta name="description" content="Flume概述一、Flume概念Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统。Flume基于流式架构，灵活简单。 聚合：若是多台日志，需要聚合到一台； 传输：将日志数据导到HDFS、Kafka中。 为什么选用Flume？ （1）原始的解决方法：   （2）使用flume   Flume最主要的作用就是，实时读取服务器本地磁盘的数据，将数据写入到H">
+<meta name="keywords" content="flume">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flume概述">
+<meta property="og:url" content="http://yoursite.com/2019/07/24/flume-introduction/index.html">
+<meta property="og:site_name" content="开嘴的板栗">
+<meta property="og:description" content="Flume概述一、Flume概念Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统。Flume基于流式架构，灵活简单。 聚合：若是多台日志，需要聚合到一台； 传输：将日志数据导到HDFS、Kafka中。 为什么选用Flume？ （1）原始的解决方法：   （2）使用flume   Flume最主要的作用就是，实时读取服务器本地磁盘的数据，将数据写入到H">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-introduction/1563937501801.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-introduction/1563937204302.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-introduction/1563937627124.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-introduction/1563944504698.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-introduction/1563945512397.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-introduction/1563945618112.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-introduction/1563945974530.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-introduction/1563945648883.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/flume-introduction/1563946898946.png">
+<meta property="og:updated_time" content="2019-07-24T05:46:38.719Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flume概述">
+<meta name="twitter:description" content="Flume概述一、Flume概念Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统。Flume基于流式架构，灵活简单。 聚合：若是多台日志，需要聚合到一台； 传输：将日志数据导到HDFS、Kafka中。 为什么选用Flume？ （1）原始的解决方法：   （2）使用flume   Flume最主要的作用就是，实时读取服务器本地磁盘的数据，将数据写入到H">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/24/flume-introduction/1563937501801.png">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">kaizuidebanli</h5>
+          <a href="mailto:945562363@qq.com" title="945562363@qq.com" class="mail">945562363@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/chengruru" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Flume概述</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Flume概述</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-24T02:44:02.000Z" itemprop="datePublished" class="page-time">
+  2019-07-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/flume/">flume</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Flume概述"><span class="post-toc-text">Flume概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、Flume概念"><span class="post-toc-text">一、Flume概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、Flume组成架构"><span class="post-toc-text">二、Flume组成架构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Agent"><span class="post-toc-text">1.Agent</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-Source"><span class="post-toc-text">2.Source</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-Channel"><span class="post-toc-text">3.Channel</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-Sink"><span class="post-toc-text">4.Sink</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-Event"><span class="post-toc-text">5.Event</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、Flume拓扑结构"><span class="post-toc-text">三、Flume拓扑结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-点对点（串行模式）"><span class="post-toc-text">1.点对点（串行模式）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-多副本结构"><span class="post-toc-text">2.多副本结构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-负载均衡"><span class="post-toc-text">3.负载均衡</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-聚合模式"><span class="post-toc-text">4.聚合模式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、Flume-Agent内部原理"><span class="post-toc-text">四、Flume Agent内部原理</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-flume-introduction"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Flume概述</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-24 10:44:02" datetime="2019-07-24T02:44:02.000Z"  itemprop="datePublished">2019-07-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/flume/">flume</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="Flume概述"><a href="#Flume概述" class="headerlink" title="Flume概述"></a>Flume概述</h1><h2 id="一、Flume概念"><a href="#一、Flume概念" class="headerlink" title="一、Flume概念"></a>一、Flume概念</h2><p>Flume是Cloudera提供的一个高可用的，高可靠的，<strong>分布式的海量日志采集、聚合和传输的系统</strong>。Flume基于流式架构，灵活简单。</p>
+<p>聚合：若是多台日志，需要聚合到一台；</p>
+<p>传输：将日志数据导到HDFS、Kafka中。</p>
+<p><strong>为什么选用Flume？</strong></p>
+<p>（1）原始的解决方法：</p>
+<img src="/2019/07/24/flume-introduction/1563937501801.png" title="This is an image">
+
+<p>（2）使用flume</p>
+<img src="/2019/07/24/flume-introduction/1563937204302.png" title="This is an image">
+
+<p><strong>Flume最主要的作用就是，实时读取服务器本地磁盘的数据，将数据写入到HDFS.</strong></p>
+<h2 id="二、Flume组成架构"><a href="#二、Flume组成架构" class="headerlink" title="二、Flume组成架构"></a>二、Flume组成架构</h2><p>Flume组成架构如下图所示：</p>
+<img src="/2019/07/24/flume-introduction/1563937627124.png" title="This is an image">
+
+<h3 id="1-Agent"><a href="#1-Agent" class="headerlink" title="1.Agent"></a>1.Agent</h3><p>Agent是一个JVM进程，它以事件的形式将数据从源头送至目的，是Flume数据传输的基本单元。</p>
+<p>Agent主要有3个部分组成，Source、Channel、Sink。</p>
+<h3 id="2-Source"><a href="#2-Source" class="headerlink" title="2.Source"></a>2.Source</h3><p>Source是负责接收数据到Flume Agent的组件。Source组件可以处理各种类型、各种格式的日志数据，包括avro、thrift、exec、jms、spooling directory、netcat、sequence generator、syslog、http、legacy。</p>
+<h3 id="3-Channel"><a href="#3-Channel" class="headerlink" title="3.Channel"></a>3.Channel</h3><p>Channel是位于Source和Sink之间的缓冲区。因此，Channel允许Source和Sink运作在不同的速率上。Channel是线程安全的，可以同时处理几个Source的写入操作和几个Sink的读取操作。</p>
+<p>Flume自带两种Channel：Memory Channel和File Channel。</p>
+<p>Memory Channel是内存中的队列。Memory Channel在不需要关心数据丢失的情景下适用。如果需要关心数据丢失，那么Memory Channel就不应该使用，因为程序死亡、机器宕机或者重启都会导致数据丢失。</p>
+<p>File Channel将所有事件写到磁盘。因此在程序关闭或机器宕机的情况下不会丢失数据。</p>
+<h3 id="4-Sink"><a href="#4-Sink" class="headerlink" title="4.Sink"></a>4.Sink</h3><p>Sink不断地轮询Channel中的事件且批量地移除它们，并将这些事件批量写入到存储或索引系统、或者被发送到另一个Flume Agent。</p>
+<p>Sink是完全事务性的。在从Channel批量删除数据之前，每个Sink用Channel启动一个事务。批量事件一旦成功写出到存储系统或下一个Flume Agent，Sink就利用Channel提交事务。事务一旦被提交，该Channel从自己的内部缓冲区删除事件。</p>
+<p>Sink组件目的地包括hdfs、logger、avro、thrift、ipc、file、null、HBase、solr、自定义。</p>
+<h3 id="5-Event"><a href="#5-Event" class="headerlink" title="5.Event"></a>5.Event</h3><p>传输单元，Flume数据传输的基本单元，以事件的形式将数据从源头送至目的地。</p>
+<img src="/2019/07/24/flume-introduction/1563944504698.png" title="This is an image">
+
+<p>注意：</p>
+<p><strong>Put事务流程有三步：</strong></p>
+<p>1）doPut : 将皮数据先写入临时缓冲区putList;</p>
+<p>2）doCommit : 检查channel内存队列是否足够合并；</p>
+<p>3）doRollback : channel内存队列空间不足，回滚数据。</p>
+<p><strong>Take事务流程有三步：</strong></p>
+<p>1）doTake : 先将数据取道临时缓冲区takeList;</p>
+<p>2）doCommit : 如果数据全部发送成功，则清除临时缓冲区takeList中的数据归还给channel内存队列。</p>
+<p>3）doRollback : 数据发送过程中如果出现异常，rollback将临时缓冲区takeList中的数据归还给channel内存队列。</p>
+<h2 id="三、Flume拓扑结构"><a href="#三、Flume拓扑结构" class="headerlink" title="三、Flume拓扑结构"></a>三、Flume拓扑结构</h2><h3 id="1-点对点（串行模式）"><a href="#1-点对点（串行模式）" class="headerlink" title="1.点对点（串行模式）"></a>1.点对点（串行模式）</h3><p>这种模式是将多个flume给顺序连接起来了，前一个的sink是后面一个的source，这种结构有点像链式结构，后面还可以接着加节点。</p>
+<img src="/2019/07/24/flume-introduction/1563945512397.png" title="This is an image">
+
+<p>但是，该模式不建议连接过多的flume，因为数量过多不仅会影响传输速率，而且一旦传输过程中某个节点flume宕机，会影响整个传输系统。</p>
+<h3 id="2-多副本结构"><a href="#2-多副本结构" class="headerlink" title="2.多副本结构"></a>2.多副本结构</h3><p>这种结构特点: 一个source，多个channel，而<strong>多个channel是同一内容</strong>，只不过后面的sink不同，这种场景比如，读取一个日志文件，一份要交给hadoop离线处理，一份相同的交给spark实时处理。</p>
+<img src="/2019/07/24/flume-introduction/1563945618112.png" title="This is an image">
+
+<h3 id="3-负载均衡"><a href="#3-负载均衡" class="headerlink" title="3.负载均衡"></a>3.负载均衡</h3><p>Flume支持使用将多个sink逻辑上分到一个sink组，flume将数据发送到不同的sink，主要解决负载均衡和故障转移问题。</p>
+<img src="/2019/07/24/flume-introduction/1563945974530.png" title="This is an image">
+
+<h3 id="4-聚合模式"><a href="#4-聚合模式" class="headerlink" title="4.聚合模式"></a>4.聚合模式</h3><p>每台服务器部署一个flume采集日志，传送到一个集中收集日志的flume，再由此flume上传到hdfs、hive、hbase、jms等，进行日志分析。</p>
+<p>这种模式是我们最常见的，也非常实用，可解决日常web应用通常分布在上百个服务器，大者甚至上千个、上万个服务器。产生的日志，处理起来也非常麻烦的问题。</p>
+<img src="/2019/07/24/flume-introduction/1563945648883.png" title="This is an image">
+
+<h2 id="四、Flume-Agent内部原理"><a href="#四、Flume-Agent内部原理" class="headerlink" title="四、Flume Agent内部原理"></a>四、Flume Agent内部原理</h2><img src="/2019/07/24/flume-introduction/1563946898946.png" title="This is an image">
+
+<p>注意：Channel选择器有两种类型：Replicating Channel Selector 和 MultiPlexing channel selector。</p>
+<p>Replicating Channel Selector会将source过来的events发往所有channel,而Multiplexing可以配置发往哪些Channel。 </p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-07-24T05:46:38.719Z" itemprop="dateUpdated">2019-07-24 13:46:38</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/07/24/flume-introduction/" target="_blank" rel="external">http://yoursite.com/2019/07/24/flume-introduction/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="kaizuidebanli">
+            kaizuidebanli
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flume/">flume</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/24/flume-introduction/&title=《Flume概述》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/24/flume-introduction/&title=《Flume概述》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/24/flume-introduction/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Flume概述》 — 开嘴的板栗&url=http://yoursite.com/2019/07/24/flume-introduction/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/24/flume-introduction/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/23/hive-introduction/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Hive简介</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        打赏杯咖啡呗~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>kaizuidebanli &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/24/flume-introduction/&title=《Flume概述》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/24/flume-introduction/&title=《Flume概述》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/24/flume-introduction/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Flume概述》 — 开嘴的板栗&url=http://yoursite.com/2019/07/24/flume-introduction/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/24/flume-introduction/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/24/flume-introduction/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
