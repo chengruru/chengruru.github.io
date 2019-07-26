@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Spark RDD | 开嘴的板栗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="spark">
+    <meta name="description" content="Spark RDD一、RDD为什么会产生RDD是Spark的基石，是实现Spark数据处理的核心抽象。那么RDD为什么会产生呢？ Hadoop的MapReduce是一种基于数据集的工作模式，面向数据，这种工作模式一般是从存储上加载数据集，然后操作数据集，最后写入物理存储设备。数据更多面临的是一次性处理。 MR的这种方式对数据领域两种常见的操作不是很高效。第一种是迭代式的算法。比如机器学习中ALS、">
+<meta name="keywords" content="spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark RDD">
+<meta property="og:url" content="http://yoursite.com/2019/07/25/spark-rdd/index.html">
+<meta property="og:site_name" content="开嘴的板栗">
+<meta property="og:description" content="Spark RDD一、RDD为什么会产生RDD是Spark的基石，是实现Spark数据处理的核心抽象。那么RDD为什么会产生呢？ Hadoop的MapReduce是一种基于数据集的工作模式，面向数据，这种工作模式一般是从存储上加载数据集，然后操作数据集，最后写入物理存储设备。数据更多面临的是一次性处理。 MR的这种方式对数据领域两种常见的操作不是很高效。第一种是迭代式的算法。比如机器学习中ALS、">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564042629500.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564042669061.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564042807422.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564043112147.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564043166528.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564043191567.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564043224295.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564043280888.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564043309886.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564043341649.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564043644197.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564043715925.png">
+<meta property="og:updated_time" content="2019-07-26T02:35:15.523Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spark RDD">
+<meta name="twitter:description" content="Spark RDD一、RDD为什么会产生RDD是Spark的基石，是实现Spark数据处理的核心抽象。那么RDD为什么会产生呢？ Hadoop的MapReduce是一种基于数据集的工作模式，面向数据，这种工作模式一般是从存储上加载数据集，然后操作数据集，最后写入物理存储设备。数据更多面临的是一次性处理。 MR的这种方式对数据领域两种常见的操作不是很高效。第一种是迭代式的算法。比如机器学习中ALS、">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564042629500.png">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">kaizuidebanli</h5>
+          <a href="mailto:945562363@qq.com" title="945562363@qq.com" class="mail">945562363@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/chengruru" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Spark RDD</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Spark RDD</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-25T08:04:37.000Z" itemprop="datePublished" class="page-time">
+  2019-07-25
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spark/">spark</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Spark-RDD"><span class="post-toc-text">Spark RDD</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、RDD为什么会产生"><span class="post-toc-text">一、RDD为什么会产生</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、RDD是什么"><span class="post-toc-text">二、RDD是什么</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、RDD的弹性"><span class="post-toc-text">三、RDD的弹性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、RDD的特点"><span class="post-toc-text">四、RDD的特点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-分区"><span class="post-toc-text">1.分区</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-只读"><span class="post-toc-text">2.只读</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-依赖"><span class="post-toc-text">3.依赖</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-缓存"><span class="post-toc-text">4.缓存</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-CheckPoint"><span class="post-toc-text">5.CheckPoint</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#五、RDD编程"><span class="post-toc-text">五、RDD编程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-RDD编程模型"><span class="post-toc-text">1.RDD编程模型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-RDD创建"><span class="post-toc-text">2.RDD创建</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-spark-rdd"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Spark RDD</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-25 16:04:37" datetime="2019-07-25T08:04:37.000Z"  itemprop="datePublished">2019-07-25</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spark/">spark</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="Spark-RDD"><a href="#Spark-RDD" class="headerlink" title="Spark RDD"></a>Spark RDD</h1><h2 id="一、RDD为什么会产生"><a href="#一、RDD为什么会产生" class="headerlink" title="一、RDD为什么会产生"></a>一、RDD为什么会产生</h2><p>RDD是Spark的基石，是实现Spark数据处理的核心抽象。那么RDD为什么会产生呢？</p>
+<p>Hadoop的MapReduce是一种基于数据集的工作模式，面向数据，这种工作模式一般是从存储上加载数据集，然后操作数据集，最后写入物理存储设备。数据更多面临的是一次性处理。</p>
+<p>MR的这种方式对数据领域两种常见的操作不是很高效。第一种是迭代式的算法。比如机器学习中ALS、凸优化梯度下降等。这些都需要基于数据集或者数据集的衍生数据反复查询反复操作。MR这种模式不太合适，即使多MR串行处理，性能和时间也是一个问题。数据的共享依赖于磁盘。另外一种是交互式数据挖掘，MR显然不擅长。</p>
+<p>MR中的迭代：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564042629500.png" alt="1564042629500" title>
+                </div>
+                <div class="image-caption">1564042629500</div>
+            </figure>
+
+<p>Spark中的迭代：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564042669061.png" alt="1564042669061" title>
+                </div>
+                <div class="image-caption">1564042669061</div>
+            </figure>
+
+<p>我们需要一个效率非常快，且能够支持迭代计算和有效数据共享的模型，Spark应运而生。RDD是基于工作集的工作模式，更多的是面向工作流。</p>
+<p>但是无论是MR还是RDD都应该具有类似位置感知、容错和负载均衡等特性。</p>
+<h2 id="二、RDD是什么"><a href="#二、RDD是什么" class="headerlink" title="二、RDD是什么"></a>二、RDD是什么</h2><p><strong>RDD（Resilient Distributed Dataset）：弹性分布式数据集</strong>，Spark计算的基石，为用户屏蔽了底层对数据的复杂抽象和处理，为用户提供了一组方便的数据转换与求值方法。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564042807422.png" alt="1564042807422" title>
+                </div>
+                <div class="image-caption">1564042807422</div>
+            </figure>
+
+<p>RDD是Spark中最基本的数据抽象，它代表一个不可变、可分区、里面的元素可并行计算的集合。在 Spark 中，对数据的所有操作不外乎创建 RDD、转化已有RDD 以及调用 RDD 操作进行求值。</p>
+<p>每个 RDD 都被分为多个分区，这些分区运行在集群中的不同节点上。RDD 可以包含 Python、Java、Scala 中任意类型的对象， 甚至可以包含用户自定义的对象。</p>
+<p>RDD具有数据流模型的特点：自动容错、位置感知性调度和可伸缩性。RDD允许用户在执行多个查询时显式地将工作集缓存在内存中，后续的查询能够重用工作集，这极大地提升了查询速度。</p>
+<p><strong>RDD支持两种操作:转化操作和行动操作。</strong>RDD 的转化操作是返回一个新的 RDD的操作，比如 map()和 filter()，而行动操作则是向驱动器程序返回结果或把结果写入外部系统的操作。比如 count() 和 first()。 </p>
+<p>Spark采用<strong>惰性计算模式（懒执行）</strong>，只有第一次在一个行动操作中用到时，才会真正计算。可以优化整个计算过程。默认情况下，的会在你每次对它们进行行动操作时重新计算。如果想在多个行动操作中重用同一个，可以使用让把这个缓存下来。</p>
+<h2 id="三、RDD的弹性"><a href="#三、RDD的弹性" class="headerlink" title="三、RDD的弹性"></a>三、RDD的弹性</h2><p>（1) 自动进行内存和磁盘数据存储的切换</p>
+<p>Spark优先把数据放到内存中，如果内存放不下，就会放到磁盘里面，程序进行自动的存储切换</p>
+<p>（2) 基于血统的高效容错机制</p>
+<p>在RDD进行转换和动作的时候，会形成RDD的<strong>Lineage</strong>依赖链，当某一个RDD失效的时候，可以通过重新计算上游的RDD来重新生成丢失的RDD数据。</p>
+<p>（3) Task如果失败会自动进行特定次数的重试</p>
+<p>RDD的计算任务如果运行失败，会自动进行任务的重新计算，默认次数是4次。</p>
+<p>（4) Stage如果失败会自动进行特定次数的重试</p>
+<p>如果Job的某个Stage阶段计算失败，框架也会自动进行任务的重新计算，默认次数也是4次。</p>
+<p><strong>（5) Checkpoint和Persist可主动或被动触发</strong></p>
+<p>RDD可以通过Persist持久化将RDD缓存到内存或者磁盘，当再次用到该RDD时直接读取就行。也可以将RDD进行<strong>检查点CheckPoint</strong>，检查点会将数据存储在HDFS中，该RDD的所有父RDD依赖都会被移除。</p>
+<p>（6) 数据调度弹性</p>
+<p>Spark把这个JOB执行模型抽象为通用的有向无环图DAG，可以将多Stage的任务串联或并行执行，调度引擎自动处理Stage的失败以及Task的失败。</p>
+<p>（7) 数据分片的高度弹性</p>
+<p>可以根据业务的特征，动态调整数据分片的个数，提升整体的应用执行效率。</p>
+<p>RDD全称叫做<strong>弹性分布式数据集</strong>(Resilient Distributed Datasets)，它是一种分布式的内存抽象，表示一个只读的记录分区的集合，它只能通过其他RDD转换而创建，为此，RDD支持丰富的转换操作(如map, join, filter, groupBy等)，通过这种转换操作，新的RDD则包含了如何从其他RDDs衍生所必需的信息，所以说RDDs之间是有依赖关系的。基于RDDs之间的依赖，RDDs会形成一个有向无环图DAG，该DAG描述了整个流式计算的流程，实际执行的时候，RDD是通过血缘关系(Lineage)一气呵成的，即使出现数据分区丢失，也可以通过血缘关系重建分区，总结起来，基于RDD的流式计算任务可描述为：从稳定的物理存储(如分布式文件系统)中加载记录，记录被传入由一组确定性操作构成的DAG，然后写回稳定存储。另外RDD还可以将数据集缓存到内存中，使得在多个操作之间可以重用数据集，基于这个特点可以很方便地构建迭代型应用(图计算、机器学习等)或者交互式数据分析应用。可以说Spark最初也就是实现RDD的一个分布式系统，后面通过不断发展壮大成为现在较为完善的大数据生态系统，简单来讲，Spark-RDD的关系类似于Hadoop-MapReduce关系。</p>
+<h2 id="四、RDD的特点"><a href="#四、RDD的特点" class="headerlink" title="四、RDD的特点"></a>四、RDD的特点</h2><h3 id="1-分区"><a href="#1-分区" class="headerlink" title="1.分区"></a>1.分区</h3><p>RDD逻辑上是分区的，每个分区的数据是抽象存在的，计算的时候会通过一个compute函数得到每个分区的数据。如果RDD是通过已有的文件系统构建，则compute函数是读取指定文件系统中的数据，如果RDD是通过其他RDD转换而来，则compute函数是执行转换逻辑将其他RDD的数据进行转换。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564043112147.png" alt="1564043112147" title>
+                </div>
+                <div class="image-caption">1564043112147</div>
+            </figure>
+
+<h3 id="2-只读"><a href="#2-只读" class="headerlink" title="2.只读"></a>2.只读</h3><p>RDD是只读的，要想改变RDD中的数据，只能在现有的RDD基础上创建新的RDD。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564043166528.png" alt="1564043166528" title>
+                </div>
+                <div class="image-caption">1564043166528</div>
+            </figure>
+
+<p>由一个RDD转换到另一个RDD，可以通过丰富的操作算子实现，不再像MapReduce那样只能写map和reduce了，如下图所示。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564043191567.png" alt="1564043191567" title>
+                </div>
+                <div class="image-caption">1564043191567</div>
+            </figure>
+
+<p>RDD的操作算子包括两类，一类叫做transformations，它是用来将RDD进行转化，构建RDD的血缘关系；另一类叫做actions，它是用来触发RDD的计算，得到RDD的相关计算结果或者将RDD保存的文件系统中。下图是RDD所支持的操作算子列表。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564043224295.png" alt="1564043224295" title>
+                </div>
+                <div class="image-caption">1564043224295</div>
+            </figure>
+
+<h3 id="3-依赖"><a href="#3-依赖" class="headerlink" title="3.依赖"></a>3.依赖</h3><p>RDDs通过操作算子进行转换，转换得到的新RDD包含了从其他RDDs衍生所必需的信息，RDDs之间维护着这种血缘关系，也称之为依赖。如下图所示，依赖包括两种，一种是<strong>窄依赖，RDDs之间分区是一一对应的</strong>，另一种是<strong>宽依赖，下游RDD的每个分区与上游RDD(也称之为父RDD)的每个分区都有关，是多对多的关系。</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564043280888.png" alt="1564043280888" title>
+                </div>
+                <div class="image-caption">1564043280888</div>
+            </figure>
+
+<p>通过RDDs之间的这种依赖关系，一个任务流可以描述为<strong>DAG</strong>(有向无环图)，如下图所示，在实际执行过程中<strong>宽依赖对应于Shuffle</strong>(图中的reduceByKey和join)，窄依赖中的所有转换操作可以通过类似于管道的方式一气呵成执行(图中map和union可以一起执行)。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564043309886.png" alt="1564043309886" title>
+                </div>
+                <div class="image-caption">1564043309886</div>
+            </figure>
+
+<h3 id="4-缓存"><a href="#4-缓存" class="headerlink" title="4.缓存"></a>4.缓存</h3><p>如果在应用程序中多次使用同一个RDD，可以将该RDD缓存起来，该RDD<strong>只有在第一次计算的时候会根据血缘关系得到分区的数据</strong>，在后续其他地方用到该RDD的时候，会直接从缓存处取而不用再根据血缘关系计算，这样就加速后期的重用。如下图所示，RDD-1经过一系列的转换后得到RDD-n并保存到hdfs，RDD-1在这一过程中会有个中间结果，如果将其缓存到内存，那么在随后的RDD-1转换到RDD-m这一过程中，就不会计算其之前的RDD-0了。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564043341649.png" alt="1564043341649" title>
+                </div>
+                <div class="image-caption">1564043341649</div>
+            </figure>
+
+<h3 id="5-CheckPoint"><a href="#5-CheckPoint" class="headerlink" title="5.CheckPoint"></a>5.CheckPoint</h3><p>虽然RDD的血缘关系天然地可以实现容错，当RDD的某个分区数据失败或丢失，可以通过血缘关系重建。但是对于长时间迭代型应用来说，随着迭代的进行，RDDs之间的血缘关系会越来越长，一旦在后续迭代过程中出错，则需要通过非常长的血缘关系去重建，势必影响性能。为此，<strong>RDD支持checkpoint将数据保存到持久化的存储中</strong>，这样就<strong>可以切断之前的血缘关系</strong>，因为checkpoint后的RDD不需要知道它的父RDDs了，它可以从checkpoint处拿到数据。</p>
+<p>给定一个RDD我们至少可以知道如下几点信息：1、分区数以及分区方式；2、由父RDDs衍生而来的相关依赖信息；3、计算每个分区的数据，计算步骤为：1）如果被缓存，则从缓存中取的分区的数据；2）如果被checkpoint，则从checkpoint处恢复数据；3）根据血缘关系计算分区的数据。</p>
+<h2 id="五、RDD编程"><a href="#五、RDD编程" class="headerlink" title="五、RDD编程"></a>五、RDD编程</h2><h3 id="1-RDD编程模型"><a href="#1-RDD编程模型" class="headerlink" title="1.RDD编程模型"></a>1.RDD编程模型</h3><p>在Spark中，RDD被表示为对象，通过对象上的方法调用来对RDD进行转换。经过一系列的transformations定义RDD之后，就可以调用actions触发RDD的计算，action可以是向应用程序返回结果(count, collect等)，或者是向存储系统保存数据(saveAsTextFile等)。在Spark中，只有遇到action，才会执行RDD的计算(即延迟计算)，这样在运行时可以通过管道的方式传输多个转换。</p>
+<p>要使用Spark，开发者需要编写一个Driver程序，它被提交到集群以调度运行Worker，如下图所示。Driver中定义了一个或多个RDD，并调用RDD上的action，Worker则执行RDD分区计算任务。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564043644197.png" alt="1564043644197" title>
+                </div>
+                <div class="image-caption">1564043644197</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564043715925.png" alt="1564043715925" title>
+                </div>
+                <div class="image-caption">1564043715925</div>
+            </figure>
+
+<h3 id="2-RDD创建"><a href="#2-RDD创建" class="headerlink" title="2.RDD创建"></a>2.RDD创建</h3>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2019-07-26T02:35:15.523Z" itemprop="dateUpdated">2019-07-26 10:35:15</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/07/25/spark-rdd/" target="_blank" rel="external">http://yoursite.com/2019/07/25/spark-rdd/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="kaizuidebanli">
+            kaizuidebanli
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/25/spark-rdd/&title=《Spark RDD》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/25/spark-rdd/&title=《Spark RDD》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/25/spark-rdd/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spark RDD》 — 开嘴的板栗&url=http://yoursite.com/2019/07/25/spark-rdd/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/25/spark-rdd/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/07/26/PyQT5-introduction/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">PyQT5介绍</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/25/spark-introduction/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Spark介绍</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        打赏杯咖啡呗~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>kaizuidebanli &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/25/spark-rdd/&title=《Spark RDD》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/25/spark-rdd/&title=《Spark RDD》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/25/spark-rdd/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spark RDD》 — 开嘴的板栗&url=http://yoursite.com/2019/07/25/spark-rdd/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/25/spark-rdd/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/25/spark-rdd/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
