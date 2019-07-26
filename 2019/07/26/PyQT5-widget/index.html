@@ -14,28 +14,27 @@
     
     
     
-    <title>PyQT5顶层窗口 | 开嘴的板栗</title>
+    <title>PyQT5控件 | 开嘴的板栗</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
     <meta name="keywords" content="PyQT5">
-    <meta name="description" content="刚创建好一个控件之后,(这个控件没有什么父控件), 默认情况下不会被展示,只有手动的调用show()才可以。 12345678910111213141516171819import sysfrom PyQt5.QtWidgets import QApplication, QWidget, QLabelif __name__ == &apos;__main__&apos;:    app = QApplication(">
+    <meta name="description" content="常用的控件有输入控件、展示控件、容器控件、结构控件、滚动控件、辅助控件等控件，下面我们对上述控件分类别进行介绍。 一、输入控件1.纯键盘输入控件  QLineEdit">
 <meta name="keywords" content="PyQT5">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PyQT5顶层窗口">
-<meta property="og:url" content="http://yoursite.com/2019/07/26/PyQT5-topwindow/index.html">
+<meta property="og:title" content="PyQT5控件">
+<meta property="og:url" content="http://yoursite.com/2019/07/26/PyQT5-widget/index.html">
 <meta property="og:site_name" content="开嘴的板栗">
-<meta property="og:description" content="刚创建好一个控件之后,(这个控件没有什么父控件), 默认情况下不会被展示,只有手动的调用show()才可以。 12345678910111213141516171819import sysfrom PyQt5.QtWidgets import QApplication, QWidget, QLabelif __name__ == &apos;__main__&apos;:    app = QApplication(">
+<meta property="og:description" content="常用的控件有输入控件、展示控件、容器控件、结构控件、滚动控件、辅助控件等控件，下面我们对上述控件分类别进行介绍。 一、输入控件1.纯键盘输入控件  QLineEdit">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2019/07/26/PyQT5-topwindow/1564128278775.png">
-<meta property="og:image" content="http://yoursite.com/2019/07/26/PyQT5-topwindow/1564128477092.png">
-<meta property="og:updated_time" content="2019-07-26T08:10:23.485Z">
+<meta property="og:image" content="http://yoursite.com/2019/07/26/PyQT5-widget/QLineEdit.gif">
+<meta property="og:updated_time" content="2019-07-26T08:35:41.287Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PyQT5顶层窗口">
-<meta name="twitter:description" content="刚创建好一个控件之后,(这个控件没有什么父控件), 默认情况下不会被展示,只有手动的调用show()才可以。 12345678910111213141516171819import sysfrom PyQt5.QtWidgets import QApplication, QWidget, QLabelif __name__ == &apos;__main__&apos;:    app = QApplication(">
-<meta name="twitter:image" content="http://yoursite.com/2019/07/26/PyQT5-topwindow/1564128278775.png">
+<meta name="twitter:title" content="PyQT5控件">
+<meta name="twitter:description" content="常用的控件有输入控件、展示控件、容器控件、结构控件、滚动控件、辅助控件等控件，下面我们对上述控件分类别进行介绍。 一、输入控件1.纯键盘输入控件  QLineEdit">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/26/PyQT5-widget/QLineEdit.gif">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
@@ -121,7 +120,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">PyQT5顶层窗口</div>
+        <div class="flex-col header-title ellipsis">PyQT5控件</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -143,10 +142,10 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">PyQT5顶层窗口</h1>
+        <h1 class="title">PyQT5控件</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-07-26T08:04:09.000Z" itemprop="datePublished" class="page-time">
+                <time datetime="2019-07-26T08:29:24.000Z" itemprop="datePublished" class="page-time">
   2019-07-26
 </time>
 
@@ -165,14 +164,21 @@
 
 <div class="container body-wrap">
     
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、输入控件"><span class="post-toc-text">一、输入控件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-纯键盘输入控件"><span class="post-toc-text">1.纯键盘输入控件</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
 
-<article id="post-PyQT5-topwindow"
+
+<article id="post-PyQT5-widget"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">PyQT5顶层窗口</h1>
+        <h1 class="post-card-title">PyQT5控件</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-07-26 16:04:09" datetime="2019-07-26T08:04:09.000Z"  itemprop="datePublished">2019-07-26</time>
+            <time class="post-time" title="2019-07-26 16:29:24" datetime="2019-07-26T08:29:24.000Z"  itemprop="datePublished">2019-07-26</time>
 
             
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/PyQT5/">PyQT5</a></li></ul>
@@ -187,17 +193,12 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>刚创建好一个控件之后,(这个控件没有什么父控件), 默认情况下不会被展示,只有手动的调用show()才可以。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> PyQt5.QtWidgets <span class="keyword">import</span> QApplication, QWidget, QLabel</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app = QApplication(sys.argv)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 定义label</span></span><br><span class="line">    label = QLabel()</span><br><span class="line">    label.setStyleSheet(<span class="string">"background: yellow"</span>)</span><br><span class="line">    label.setText(<span class="string">"label"</span>)</span><br><span class="line">    label.resize(<span class="number">300</span>, <span class="number">300</span>)</span><br><span class="line">    label.show()</span><br><span class="line"></span><br><span class="line">    w = QWidget()</span><br><span class="line">    w.resize(<span class="number">500</span>, <span class="number">500</span>)</span><br><span class="line">    w.setWindowTitle(<span class="string">"开嘴的板栗"</span>)</span><br><span class="line">    w.show()</span><br><span class="line">    sys.exit(app.exec_())</span><br></pre></td></tr></table></figure>
+            <p>常用的控件有输入控件、展示控件、容器控件、结构控件、滚动控件、辅助控件等控件，下面我们对上述控件分类别进行介绍。</p>
+<h1 id="一、输入控件"><a href="#一、输入控件" class="headerlink" title="一、输入控件"></a>一、输入控件</h1><h2 id="1-纯键盘输入控件"><a href="#1-纯键盘输入控件" class="headerlink" title="1.纯键盘输入控件"></a>1.纯键盘输入控件</h2><blockquote>
+<p> QLineEdit</p>
+</blockquote>
+<img src="/2019/07/26/PyQT5-widget/QLineEdit.gif" title="This is an image">
 
-<img src="/2019/07/26/PyQT5-topwindow/1564128278775.png" title="This is an image">
-
-<p>如果说这个控件, 有父控件的,那么一般情况下, 父控件展示之后, 子控件会自动展示：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> PyQt5.QtWidgets <span class="keyword">import</span> QApplication, QWidget, QLabel</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app = QApplication(sys.argv)</span><br><span class="line"></span><br><span class="line">    w = QWidget()</span><br><span class="line">    w.resize(<span class="number">500</span>, <span class="number">500</span>)</span><br><span class="line">    w.setWindowTitle(<span class="string">"开嘴的板栗"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 定义label,并设置它的父控件</span></span><br><span class="line">    label = QLabel(w)</span><br><span class="line">    label.setStyleSheet(<span class="string">"background: yellow"</span>)</span><br><span class="line">    label.setText(<span class="string">"label"</span>)</span><br><span class="line">    label.resize(<span class="number">300</span>, <span class="number">300</span>)</span><br><span class="line"></span><br><span class="line">    w.show()</span><br><span class="line">    sys.exit(app.exec_())</span><br></pre></td></tr></table></figure>
-
-<img src="/2019/07/26/PyQT5-topwindow/1564128477092.png" title="This is an image">
-
-<p>通过上面的两个例子可以明白夫控件和子控件之间的展示关系。</p>
 
         </div>
 
@@ -206,12 +207,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-26T08:10:23.485Z" itemprop="dateUpdated">2019-07-26 16:10:23</time>
+    Last updated: <time datetime="2019-07-26T08:35:41.287Z" itemprop="dateUpdated">2019-07-26 16:35:41</time>
 </span><br>
 
 
         
-        原文链接：<a href="/2019/07/26/PyQT5-topwindow/" target="_blank" rel="external">http://yoursite.com/2019/07/26/PyQT5-topwindow/</a>
+        原文链接：<a href="/2019/07/26/PyQT5-widget/" target="_blank" rel="external">http://yoursite.com/2019/07/26/PyQT5-widget/</a>
         
     </div>
     
@@ -242,7 +243,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/26/PyQT5-topwindow/&title=《PyQT5顶层窗口》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/26/PyQT5-widget/&title=《PyQT5控件》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -252,22 +253,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/26/PyQT5-topwindow/&title=《PyQT5顶层窗口》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/26/PyQT5-widget/&title=《PyQT5控件》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/26/PyQT5-topwindow/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/26/PyQT5-widget/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PyQT5顶层窗口》 — 开嘴的板栗&url=http://yoursite.com/2019/07/26/PyQT5-topwindow/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PyQT5控件》 — 开嘴的板栗&url=http://yoursite.com/2019/07/26/PyQT5-widget/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/26/PyQT5-topwindow/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/26/PyQT5-widget/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -287,21 +288,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2019/07/26/PyQT5-widget/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">PyQT5控件</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/07/26/PyQT5-introduction/" id="post-next" class="post-nav-link">
+      <a href="/2019/07/26/PyQT5-topwindow/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">PyQT5介绍</h4>
+        <h4 class="title">PyQT5顶层窗口</h4>
       </a>
     </div>
   
@@ -399,7 +393,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/26/PyQT5-topwindow/&title=《PyQT5顶层窗口》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/26/PyQT5-widget/&title=《PyQT5控件》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -409,22 +403,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/26/PyQT5-topwindow/&title=《PyQT5顶层窗口》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/26/PyQT5-widget/&title=《PyQT5控件》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/26/PyQT5-topwindow/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/26/PyQT5-widget/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PyQT5顶层窗口》 — 开嘴的板栗&url=http://yoursite.com/2019/07/26/PyQT5-topwindow/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PyQT5控件》 — 开嘴的板栗&url=http://yoursite.com/2019/07/26/PyQT5-widget/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/26/PyQT5-topwindow/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/26/PyQT5-widget/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -435,7 +429,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/26/PyQT5-topwindow/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/26/PyQT5-widget/" alt="微信分享二维码">
 </div>
 
 
