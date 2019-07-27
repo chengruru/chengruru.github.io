@@ -41,7 +41,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564043341649.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564043644197.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/25/spark-rdd/assets/1564043715925.png">
-<meta property="og:updated_time" content="2019-07-26T02:35:15.523Z">
+<meta property="og:updated_time" content="2019-07-27T04:11:38.925Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark RDD">
 <meta name="twitter:description" content="Spark RDD一、RDD为什么会产生RDD是Spark的基石，是实现Spark数据处理的核心抽象。那么RDD为什么会产生呢？ Hadoop的MapReduce是一种基于数据集的工作模式，面向数据，这种工作模式一般是从存储上加载数据集，然后操作数据集，最后写入物理存储设备。数据更多面临的是一次性处理。 MR的这种方式对数据领域两种常见的操作不是很高效。第一种是迭代式的算法。比如机器学习中ALS、">
@@ -339,7 +339,13 @@
                 <div class="image-caption">1564043715925</div>
             </figure>
 
-<h3 id="2-RDD创建"><a href="#2-RDD创建" class="headerlink" title="2.RDD创建"></a>2.RDD创建</h3>
+<h3 id="2-RDD创建"><a href="#2-RDD创建" class="headerlink" title="2.RDD创建"></a>2.RDD创建</h3><p>在Spark中创建RDD的创建方式大概可以分为三种：</p>
+<ul>
+<li>从集合中创建RDD；</li>
+<li>从外部存储创建RDD；</li>
+<li>从其他RDD创建。</li>
+</ul>
+
         </div>
 
         <blockquote class="post-copyright">
@@ -347,7 +353,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-26T02:35:15.523Z" itemprop="dateUpdated">2019-07-26 10:35:15</time>
+    Last updated: <time datetime="2019-07-27T04:11:38.925Z" itemprop="dateUpdated">2019-07-27 12:11:38</time>
 </span><br>
 
 

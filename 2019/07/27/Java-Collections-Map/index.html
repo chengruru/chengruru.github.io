@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Java-Collections-Map | 开嘴的板栗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java">
+    <meta name="description" content="一、HashMap1.参数在HashMap中有两个很重要的参数，容量(Capacity)和负载因子(Load factor)。简单的说，Capacity就是bucket的大小，Load factor就是bucket填满程度的最大比例。如果对迭代性能要求很高的话，不要把capacity设置过大，也不要把load factor设置过小。当bucket中的entries的数目大于 capacity*lo">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-Collections-Map">
+<meta property="og:url" content="http://yoursite.com/2019/07/27/Java-Collections-Map/index.html">
+<meta property="og:site_name" content="开嘴的板栗">
+<meta property="og:description" content="一、HashMap1.参数在HashMap中有两个很重要的参数，容量(Capacity)和负载因子(Load factor)。简单的说，Capacity就是bucket的大小，Load factor就是bucket填满程度的最大比例。如果对迭代性能要求很高的话，不要把capacity设置过大，也不要把load factor设置过小。当bucket中的entries的数目大于 capacity*lo">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/assets/1564202370147.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/assets/1564202772671.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/assets/1564202789271.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/assets/1564202825243.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/assets/1564204948533.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/assets/1564204969231.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/assets/1564204979150.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/assets/1564203644868.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/assets/1564204613482.png">
+<meta property="og:updated_time" content="2019-07-27T05:23:48.660Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java-Collections-Map">
+<meta name="twitter:description" content="一、HashMap1.参数在HashMap中有两个很重要的参数，容量(Capacity)和负载因子(Load factor)。简单的说，Capacity就是bucket的大小，Load factor就是bucket填满程度的最大比例。如果对迭代性能要求很高的话，不要把capacity设置过大，也不要把load factor设置过小。当bucket中的entries的数目大于 capacity*lo">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/assets/1564202370147.png">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">kaizuidebanli</h5>
+          <a href="mailto:945562363@qq.com" title="945562363@qq.com" class="mail">945562363@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/chengruru" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java-Collections-Map</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Java-Collections-Map</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-27T04:32:13.000Z" itemprop="datePublished" class="page-time">
+  2019-07-27
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、HashMap"><span class="post-toc-text">一、HashMap</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-参数"><span class="post-toc-text">1.参数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-put函数的实现"><span class="post-toc-text">2.put函数的实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-get函数的实现"><span class="post-toc-text">3.get函数的实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-hash函数的实现"><span class="post-toc-text">4.hash函数的实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-RESIZE的实现"><span class="post-toc-text">5.RESIZE的实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、Collections-synchronizedMap"><span class="post-toc-text">二、Collections.synchronizedMap()</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三、ConcurrentHashMap"><span class="post-toc-text">三、ConcurrentHashMap</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JDK7版本"><span class="post-toc-text">1.JDK7版本</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-JDK8版本"><span class="post-toc-text">2.JDK8版本</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#四、面试问题"><span class="post-toc-text">四、面试问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-HashMap的特性："><span class="post-toc-text">1.HashMap的特性：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-HashMap的原理，内部数据结构？"><span class="post-toc-text">2.HashMap的原理，内部数据结构？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-你知道get和put的原理吗？equals-和hashCode-的都有什么作用？"><span class="post-toc-text">3.你知道get和put的原理吗？equals()和hashCode()的都有什么作用？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-你知道hash的实现吗？为什么要这样实现？"><span class="post-toc-text">4.你知道hash的实现吗？为什么要这样实现？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-如果HashMap的大小超过了负载因子-load-factor-定义的容量，怎么办？"><span class="post-toc-text">5.如果HashMap的大小超过了负载因子( load factor  )定义的容量，怎么办？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-Get方法的时间复杂度是多少？"><span class="post-toc-text">6.Get方法的时间复杂度是多少？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-既然链表如此短，为啥Java8要对HashMap的链表进行改造，使用红黑树来代替链表呢？"><span class="post-toc-text">7.既然链表如此短，为啥Java8要对HashMap的链表进行改造，使用红黑树来代替链表呢？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-HashMap中hash函数怎么是是实现的？还有哪些-hash-的实现方式？"><span class="post-toc-text">8.HashMap中hash函数怎么是是实现的？还有哪些 hash 的实现方式？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-当两个对象的hashcode相同会发生什么？"><span class="post-toc-text">9.当两个对象的hashcode相同会发生什么？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#10-抛开-HashMap，hash-冲突有那些解决办法？"><span class="post-toc-text">10.抛开 HashMap，hash 冲突有那些解决办法？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#11-如果两个键的hashcode相同，你如何获取值对象？"><span class="post-toc-text">11.如果两个键的hashcode相同，你如何获取值对象？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#12-针对-HashMap-中某个-Entry-链太长，查找的时间复杂度可能达到-O-n-，怎么优化？"><span class="post-toc-text">12.针对 HashMap 中某个 Entry 链太长，查找的时间复杂度可能达到 O(n)，怎么优化？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#13-为什么String-Interger这样的类适合作为键？"><span class="post-toc-text">13.为什么String, Interger这样的类适合作为键？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#14-hashcode和equals"><span class="post-toc-text">14.hashcode和equals</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#15-请解释一下HashMap的参数loadFactor，它的作用是什么？"><span class="post-toc-text">15.请解释一下HashMap的参数loadFactor，它的作用是什么？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#16-为什么数组的长度必须是2的指数？"><span class="post-toc-text">16.为什么数组的长度必须是2的指数？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#17-resize重新调整-HashMap-大小存在什么问题吗？"><span class="post-toc-text">17.resize重新调整 HashMap 大小存在什么问题吗？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#18-为什么多线程会导致死循环，它是怎么发生的？"><span class="post-toc-text">18.为什么多线程会导致死循环，它是怎么发生的？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#19-Hashmap-中的-key-可以为任意对象或数据类型吗？"><span class="post-toc-text">19.Hashmap 中的 key 可以为任意对象或数据类型吗？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#20-为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？"><span class="post-toc-text">20.为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#21-HashMap与HashTable区别"><span class="post-toc-text">21.HashMap与HashTable区别</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#22-能否让HashMap同步？"><span class="post-toc-text">22.能否让HashMap同步？</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考资料"><span class="post-toc-text">参考资料</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Java-Collections-Map"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Java-Collections-Map</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-27 12:32:13" datetime="2019-07-27T04:32:13.000Z"  itemprop="datePublished">2019-07-27</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="一、HashMap"><a href="#一、HashMap" class="headerlink" title="一、HashMap"></a>一、HashMap</h1><h2 id="1-参数"><a href="#1-参数" class="headerlink" title="1.参数"></a>1.参数</h2><p>在HashMap中有两个很重要的参数，容量(Capacity)和负载因子(Load factor)。简单的说，Capacity就是bucket的大小，Load factor就是bucket填满程度的最大比例。如果对迭代性能要求很高的话，不要把capacity设置过大，也不要把load factor设置过小。当bucket中的entries的数目大于 capacity*load factor  时就需要调整bucket的大小为当前的2倍。</p>
+<h2 id="2-put函数的实现"><a href="#2-put函数的实现" class="headerlink" title="2.put函数的实现"></a>2.put函数的实现</h2><p>put函数大致的思路为：</p>
+<ol>
+<li>对key的hashCode()做hash，然后再计算index;</li>
+<li>如果没碰撞直接放到bucket里；</li>
+<li>如果碰撞了，以链表的形式存在buckets后；</li>
+<li>如果碰撞导致链表过长(大于等于 TREEIFY_THRESHOLD  )，就把链表转换成红黑树；</li>
+<li>如果节点已经存在就替换old value(保证key的唯一性)</li>
+<li>如果bucket满了(超过 load factor*current capacity  )，就要resize。</li>
+</ol>
+<h2 id="3-get函数的实现"><a href="#3-get函数的实现" class="headerlink" title="3.get函数的实现"></a>3.get函数的实现</h2><p>get大致思路为：</p>
+<ol>
+<li>bucket里的第一个节点，直接命中；</li>
+<li>如果有冲突，则通过key.equals(k)去查找对应的entry若为树，则在树中通过key.equals(k)查找，O(logn)；<br>若为链表，则在链表中通过key.equals(k)查找，O(n)。</li>
+</ol>
+<h2 id="4-hash函数的实现"><a href="#4-hash函数的实现" class="headerlink" title="4.hash函数的实现"></a>4.hash函数的实现</h2><p>在get和put的过程中，计算下标时，先对hashCode进行hash操作，然后再通过hash值进一步计算下标，如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564202370147.png" alt="1564202370147" title>
+                </div>
+                <div class="image-caption">1564202370147</div>
+            </figure>
+
+<p>在对hashCode()计算hash时具体实现是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> h;</span><br><span class="line">	<span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : </span><br><span class="line">					(h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到这个函数大概的作用就是：高16bit不变，低16bit和高16bit做了一个异或。</p>
+<p><strong>下标计算</strong>，在设计hash函数时，因为目前的table长度n为2的幂，而计算下标的时候，是这样实现的(使用 &amp;  位操作，而非 % 求余)：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(n - <span class="number">1</span>) &amp; hash</span><br></pre></td></tr></table></figure>
+
+<p>设计者认为这方法很容易发生碰撞。为什么这么说呢？不妨思考一下，在n - 1为15(0x1111)时，其实散列真正生效的只是低4bit的有效位，当然容易碰撞了。<br>因此，设计者想了一个顾全大局的方法(综合考虑了速度、作用、质量)，就是把高16bit和低16bit异或了一下。设计者还解释到因为现在大多数的hashCode的分布已经很不错了，就算是发生了碰撞也用 O(logn)  的tree去做了。仅仅异或一下，既减少了系统的开销，也不会造成的因为高位没有参与下标的计算(table长度比较小时)，从而引起的碰撞。</p>
+<p>如果还是产生了频繁的碰撞，会发生什么问题呢？作者注释说，他们使用树来处理频繁的碰撞(we use trees to handle large sets of collisions in bins)，在JEP-180中，描述了这个问题.</p>
+<p>之前已经提过，在获取HashMap的元素时，基本分两步：</p>
+<ol>
+<li>首先根据hashCode()做hash，然后确定bucket的index；<br>Java集合——HashMap<br>42</li>
+<li>如果bucket的节点的key不是我们需要的，则通过keys.equals()在链中找。</li>
+</ol>
+<p>在Java 8之前的实现中是用链表解决冲突的，在产生碰撞的情况下，进行get时，两步的时间复杂度是O(1)+O(n)。因此，当碰撞很厉害的时候n很大，O(n)的速度显然是影响速度的。<br>因此在Java 8中，利用红黑树替换链表，这样复杂度就变成了O(1)+O(logn)了，这样在n很大的时候，能够比较理想的解决这个问题，在Java 8：HashMap的性能提升一文中有性能测试的结果。</p>
+<h2 id="5-RESIZE的实现"><a href="#5-RESIZE的实现" class="headerlink" title="5.RESIZE的实现"></a>5.RESIZE的实现</h2><p>当put时，如果发现目前的bucket占用程度已经超过了Load Factor所希望的比例，那么就会发生resize。在resize的过程，简单的说就是把bucket扩充为2倍，之后重新计算index，把节点再放到新的bucket中。</p>
+<p>当超过限制的时候会resize，然而又因为我们使用的是2次幂的扩展(指长度扩为原来2倍)，所以，元素的位置要么是在原位置，要么是在原位置再移动2次幂的位置。</p>
+<p>怎么理解呢？例如我们从16扩展为32时，具体的变化如下所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564202772671.png" alt="1564202772671" title>
+                </div>
+                <div class="image-caption">1564202772671</div>
+            </figure>
+
+<p>因此元素在重新计算hash之后，因为n变为2倍，那么n-1的mask范围在高位多1bit(红色)，因此新的index就会发生这样的变化：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564202789271.png" alt="1564202789271" title>
+                </div>
+                <div class="image-caption">1564202789271</div>
+            </figure>
+
+<p>因此，我们在扩充HashMap的时候，不需要重新计算hash，只需要看看原来的hash值新增的那个bit是1还是0就好了，是0的话索引没变，是1的话索引变成“原索引+oldCap”。可以看看下图为16扩充为32的resize示意图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564202825243.png" alt="1564202825243" title>
+                </div>
+                <div class="image-caption">1564202825243</div>
+            </figure>
+
+<p>这个设计确实非常的巧妙，既省去了重新计算hash值的时间，而且同时，由于新增的1bit是0还是1可以认为是随机的，因此resize的过程，均匀的把之前的冲突的节点分散到新的bucket了。</p>
+<h1 id="二、Collections-synchronizedMap"><a href="#二、Collections-synchronizedMap" class="headerlink" title="二、Collections.synchronizedMap()"></a>二、Collections.synchronizedMap()</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SynchronizedMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1978198479659022715L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;K, V&gt; m;     <span class="comment">// Backing Map</span></span><br><span class="line">    <span class="keyword">final</span> Object mutex;        <span class="comment">// Object on which to synchronize</span></span><br><span class="line"></span><br><span class="line">    SynchronizedMap(Map&lt;K, V&gt; m) &#123;</span><br><span class="line">        <span class="keyword">this</span>.m = Objects.requireNonNull(m);</span><br><span class="line">        mutex = <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    SynchronizedMap(Map&lt;K, V&gt; m, Object mutex) &#123;</span><br><span class="line">        <span class="keyword">this</span>.m = m;</span><br><span class="line">        <span class="keyword">this</span>.mutex = mutex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (mutex) &#123;</span><br><span class="line">            <span class="keyword">return</span> m.size();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (mutex) &#123;</span><br><span class="line">            <span class="keyword">return</span> m.isEmpty();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">containsKey</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (mutex) &#123;</span><br><span class="line">            <span class="keyword">return</span> m.containsKey(key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">containsValue</span><span class="params">(Object value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (mutex) &#123;</span><br><span class="line">            <span class="keyword">return</span> m.containsValue(value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (mutex) &#123;</span><br><span class="line">            <span class="keyword">return</span> m.get(key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (mutex) &#123;</span><br><span class="line">            <span class="keyword">return</span> m.put(key, value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> V <span class="title">remove</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (mutex) &#123;</span><br><span class="line">            <span class="keyword">return</span> m.remove(key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 其他方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Collections.synchronizedMap只是将HashMap的操纵放在了同步代码块中来保证SynchronizedMap的线程安全性。因此，SynchronizedMap也可以允许key和value为null。这样带来的问题也是任何一个时刻只能有一个线程可以操纵synchronizedMap，所以其效率比较低。</p>
+<p>同样，Collections下的SynchronizedXX也是用同样方法实现线程安全性的。如SynchronizedSortedMap。</p>
+<h1 id="三、ConcurrentHashMap"><a href="#三、ConcurrentHashMap" class="headerlink" title="三、ConcurrentHashMap"></a>三、ConcurrentHashMap</h1><h2 id="1-JDK7版本"><a href="#1-JDK7版本" class="headerlink" title="1.JDK7版本"></a>1.JDK7版本</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564204948533.png" alt="1564204948533" title>
+                </div>
+                <div class="image-caption">1564204948533</div>
+            </figure>
+
+<h2 id="2-JDK8版本"><a href="#2-JDK8版本" class="headerlink" title="2.JDK8版本"></a>2.JDK8版本</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564204969231.png" alt="1564204969231" title>
+                </div>
+                <div class="image-caption">1564204969231</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564204979150.png" alt="1564204979150" title>
+                </div>
+                <div class="image-caption">1564204979150</div>
+            </figure>
+
+<h1 id="四、面试问题"><a href="#四、面试问题" class="headerlink" title="四、面试问题"></a>四、面试问题</h1><h2 id="1-HashMap的特性："><a href="#1-HashMap的特性：" class="headerlink" title="1.HashMap的特性："></a>1.HashMap的特性：</h2><ul>
+<li>HashMap存储键值对，实现快速存取数据；</li>
+<li>允许null键/值；</li>
+<li>非同步；</li>
+<li>不保证有序(比如插入的顺序)；</li>
+<li>实现map接口。</li>
+</ul>
+<h2 id="2-HashMap的原理，内部数据结构？"><a href="#2-HashMap的原理，内部数据结构？" class="headerlink" title="2.HashMap的原理，内部数据结构？"></a>2.HashMap的原理，内部数据结构？</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564203644868.png" alt="1564203644868" title>
+                </div>
+                <div class="image-caption">1564203644868</div>
+            </figure>
+
+<p>HashMap是基于hashing的原理，底层使用哈希表（数组 + 链表）实现。里边最重要的两个方法put、get，使用put(key, value)存储对象到HashMap中，使用get(key)从HashMap中获取对象。</p>
+<p>存储对象时，我们将K/V传给put方法时，它调用hashCode计算hash从而得到bucket位置，进一步存储，HashMap会根据当前bucket的占用情况自动调整容量(超过Load Facotr则resize为原来的2倍)。获取对象时，我们将K传给get，它调用hashCode计算hash从而得到bucket位置，并进一步调用equals()方法确定键值对。如果发生碰撞的时候，Hashmap通过链表将产生碰撞冲突的元素组织起来，在Java 8中，如果一个bucket中碰撞冲突的元素超过某个限制(默认是8)，则使用红黑树来替换链表，从而提高速度。</p>
+<h2 id="3-你知道get和put的原理吗？equals-和hashCode-的都有什么作用？"><a href="#3-你知道get和put的原理吗？equals-和hashCode-的都有什么作用？" class="headerlink" title="3.你知道get和put的原理吗？equals()和hashCode()的都有什么作用？"></a>3.你知道get和put的原理吗？equals()和hashCode()的都有什么作用？</h2><p>（1）put的原理</p>
+<ul>
+<li>若果HashMap未被初始化过，则初始化；</li>
+<li>对key求hash值，然后再计算下标；</li>
+<li>若果没有碰撞，直接放入桶中；</li>
+<li>如果碰撞了，以链表的方式链接到后面；</li>
+<li>如果链表长度超过阈值，就把链表转成红黑树；</li>
+<li>如果链表长度低于6，就把红黑树转回链表；</li>
+<li>如果节点已经存在就替换旧值；</li>
+<li>如果桶满了（容量 * 负载因子），就需要resize（扩容2倍后重排）。</li>
+</ul>
+<p>（2）get()方法的工作原理</p>
+<p>通过对key的hashCode()进行hashing，并计算下标(  (n-1) &amp; hash  )，从而获得buckets的位置。如果产生碰撞，则利用key.equals()方法去链表或树中去查找对应的节点。</p>
+<h2 id="4-你知道hash的实现吗？为什么要这样实现？"><a href="#4-你知道hash的实现吗？为什么要这样实现？" class="headerlink" title="4.你知道hash的实现吗？为什么要这样实现？"></a>4.你知道hash的实现吗？为什么要这样实现？</h2><p>在Java 1.8的实现中，是通过hashCode()的高16位异或低16位实现的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(h = k.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>)</span><br></pre></td></tr></table></figure>
+
+<p> 主要是从速度、功效、质量来考虑的，这么做可以在bucket的n比较小的时候，也能保证考虑到高低bit都参与到hash的计算中，同时不会有太大的开销。</p>
+<h2 id="5-如果HashMap的大小超过了负载因子-load-factor-定义的容量，怎么办？"><a href="#5-如果HashMap的大小超过了负载因子-load-factor-定义的容量，怎么办？" class="headerlink" title="5.如果HashMap的大小超过了负载因子( load factor  )定义的容量，怎么办？"></a>5.如果HashMap的大小超过了负载因子( load factor  )定义的容量，怎么办？</h2><p>如果超过了负载因子(默认0.75)，则会重新resize一个原来长度两倍的HashMap，并且重新调用hash方法。</p>
+<p>扩容。这个过程也叫作rehashing，因为它重建内部数据结构，并调用hash方法找到新的bucket位置。 </p>
+<p>大致分两步： </p>
+<p><strong>1.扩容</strong>：容量扩充为原来的两倍（2 * table.length）； </p>
+<p><strong>2.移动：</strong>对每个节点重新计算哈希值，重新计算每个元素在数组中的位置，将原来的元素移动到新的哈希表中。 因为它调用 hash 方法找到新的 bucket 位置。这个值只可能在两个地方，一个是原下标的位置，另一种是在下标为 &lt;原下标+原容量&gt; 的位置。</p>
+<h2 id="6-Get方法的时间复杂度是多少？"><a href="#6-Get方法的时间复杂度是多少？" class="headerlink" title="6.Get方法的时间复杂度是多少？"></a>6.Get方法的时间复杂度是多少？</h2><p>O(1)，虽然Get方法的流程里需要遍历链表，若HashMap里的元素有100w个，那么链表的长度很短，相比总元素的个数可以忽略不计。</p>
+<h2 id="7-既然链表如此短，为啥Java8要对HashMap的链表进行改造，使用红黑树来代替链表呢？"><a href="#7-既然链表如此短，为啥Java8要对HashMap的链表进行改造，使用红黑树来代替链表呢？" class="headerlink" title="7.既然链表如此短，为啥Java8要对HashMap的链表进行改造，使用红黑树来代替链表呢？"></a>7.既然链表如此短，为啥Java8要对HashMap的链表进行改造，使用红黑树来代替链表呢？</h2><p>这道题的关键在于如果Key的hashcode不是随机的，而是人为特殊构造的话，那么第二维链表可能会无比的长，而且分布极为不均匀，这个时候就会出现性能问题。比如我们把对象的hashcode都统一返回一个常量，最终的结果就是hashmap会退化为一维链表，Get方法的性能巨降为O(n)，使用红黑树可以将性能提升到O(log(n))。</p>
+<h2 id="8-HashMap中hash函数怎么是是实现的？还有哪些-hash-的实现方式？"><a href="#8-HashMap中hash函数怎么是是实现的？还有哪些-hash-的实现方式？" class="headerlink" title="8.HashMap中hash函数怎么是是实现的？还有哪些 hash 的实现方式？"></a>8.HashMap中hash函数怎么是是实现的？还有哪些 hash 的实现方式？</h2><p>HashMap中hash函数怎么是是实现的？可以参考上文。</p>
+<h2 id="9-当两个对象的hashcode相同会发生什么？"><a href="#9-当两个对象的hashcode相同会发生什么？" class="headerlink" title="9.当两个对象的hashcode相同会发生什么？"></a>9.当两个对象的hashcode相同会发生什么？</h2><p>因为两个对象的Hashcode相同，所以它们的bucket位置相同，会发生“碰撞”。HashMap使用链表存储对象，这个Entry(包含有键值对的Map.Entry对象)会存储在链表中。</p>
+<h2 id="10-抛开-HashMap，hash-冲突有那些解决办法？"><a href="#10-抛开-HashMap，hash-冲突有那些解决办法？" class="headerlink" title="10.抛开 HashMap，hash 冲突有那些解决办法？"></a>10.抛开 HashMap，hash 冲突有那些解决办法？</h2><p>开放定址法、链地址法、再哈希法。</p>
+<h2 id="11-如果两个键的hashcode相同，你如何获取值对象？"><a href="#11-如果两个键的hashcode相同，你如何获取值对象？" class="headerlink" title="11.如果两个键的hashcode相同，你如何获取值对象？"></a>11.如果两个键的hashcode相同，你如何获取值对象？</h2><p>重点在于理解<strong>hashCode()</strong>与<strong>equals()</strong>。 </p>
+<p>通过对key的hashCode()进行hashing，并计算下标( n-1 &amp; hash)，从而获得buckets的位置。两个键的hashcode相同会产生碰撞，则利用key.equals()方法去链表或树（java1.8）中去查找对应的节点。</p>
+<h2 id="12-针对-HashMap-中某个-Entry-链太长，查找的时间复杂度可能达到-O-n-，怎么优化？"><a href="#12-针对-HashMap-中某个-Entry-链太长，查找的时间复杂度可能达到-O-n-，怎么优化？" class="headerlink" title="12.针对 HashMap 中某个 Entry 链太长，查找的时间复杂度可能达到 O(n)，怎么优化？"></a>12.针对 HashMap 中某个 Entry 链太长，查找的时间复杂度可能达到 O(n)，怎么优化？</h2><p>将链表转为红黑树，实现 O(logn) 时间复杂度内查找。JDK1.8 已经实现了。</p>
+<h2 id="13-为什么String-Interger这样的类适合作为键？"><a href="#13-为什么String-Interger这样的类适合作为键？" class="headerlink" title="13.为什么String, Interger这样的类适合作为键？"></a>13.为什么String, Interger这样的类适合作为键？</h2><p>String, Interger这样的类作为HashMap的键是再适合不过了，而且String最为常用。 因为String对象是不可变的，而且已经重写了equals()和hashCode()方法了。 </p>
+<p>1.不可变性是必要的，因为为了要计算hashCode()，就要防止键值改变，如果键值在放入时和获取时返回不同的hashcode的话，那么就不能从HashMap中找到你想要的对象。不可变性还有其他的优点如线程安全。 </p>
+<p>2.因为获取对象的时候要用到equals()和hashCode()方法，那么键对象正确的重写这两个方法是非常重要的。如果两个不相等的对象返回不同的hashcode的话，那么碰撞的几率就会小些，这样就能提高HashMap的性能。</p>
+<h2 id="14-hashcode和equals"><a href="#14-hashcode和equals" class="headerlink" title="14.hashcode和equals"></a>14.hashcode和equals</h2><p>JDK对equals(Object obj)和hashcode()这两个方法的定义和规范： 在Java中任何一个对象都具备equals(Object obj)和hashcode()这两个方法，因为他们是在Object类中定义的。<br><strong>equals(Object obj)</strong>方法用来判断两个对象是否“相同”，如果“相同”则返回true，否则返回false。<br><strong>hashcode()</strong>方法返回一个int数，在Object类中的默认实现是“将该对象的内部地址转换成一个整数返回”。 </p>
+<p>推论： </p>
+<p>​       1、如果两个对象equals，Java运行时环境会认为他们的hashcode一定相等。<br>​        2、如果两个对象不equals，他们的hashcode有可能相等。<br>​        3、如果两个对象hashcode相等，他们不一定equals。<br>​        4、如果两个对象hashcode不相等，他们一定不equals。 </p>
+<h2 id="15-请解释一下HashMap的参数loadFactor，它的作用是什么？"><a href="#15-请解释一下HashMap的参数loadFactor，它的作用是什么？" class="headerlink" title="15.请解释一下HashMap的参数loadFactor，它的作用是什么？"></a>15.请解释一下HashMap的参数loadFactor，它的作用是什么？</h2><p>loadFactor表示HashMap的拥挤程度，影响hash操作到同一个数组位置的概率。默认loadFactor等于0.75，当HashMap里面容纳的元素已经达到HashMap数组长度的75%时，表示HashMap太挤了，需要扩容，在HashMap的构造器中可以定制loadFactor。</p>
+<h2 id="16-为什么数组的长度必须是2的指数？"><a href="#16-为什么数组的长度必须是2的指数？" class="headerlink" title="16.为什么数组的长度必须是2的指数？"></a>16.为什么数组的长度必须是2的指数？</h2><ol>
+<li>Java堆内存底层用的是TcMalloc这类library，它们在内存管理的分配单位就是以2的指数的单位，2倍内存的递增有助于减少内存碎片，减少内存管理的负担。</li>
+<li>HashMap为了存取高效，要尽量较少碰撞，就是要尽量把数据分配均匀，每个链表长度大致相同，这个实现就在把数据存到哪个链表中的算法；</li>
+</ol>
+<p>这个算法实际就是取模，hash%length，计算机中直接求余效率不如位移运算，源码中做了优化hash&amp;(length-1)，</p>
+<p>hash%length==hash&amp;(length-1)的前提是length是2的n次方；</p>
+<p>为什么这样能均匀分布减少碰撞呢？2的n次方实际就是1后面n个0，2的n次方-1  实际就是n个1；</p>
+<p>例如长度为9时候，3&amp;(9-1)=0  2&amp;(9-1)=0 ，都在0上，碰撞了；</p>
+<p>例如长度为8时候，3&amp;(8-1)=3  2&amp;(8-1)=2 ，不同位置上，不碰撞；</p>
+<p>​    其实就是按位“与”的时候，每一位都能  &amp;1  ，也就是和1111……1111111进行与运算。当然如果不考虑效率直接求余即可（就不需要要求长度必须是2的n次方了）；</p>
+<h2 id="17-resize重新调整-HashMap-大小存在什么问题吗？"><a href="#17-resize重新调整-HashMap-大小存在什么问题吗？" class="headerlink" title="17.resize重新调整 HashMap 大小存在什么问题吗？"></a>17.resize重新调整 HashMap 大小存在什么问题吗？</h2><p>重新调整 HashMap 大小的时候，确实存在条件竞争。</p>
+<p>因为如果两个线程都发现 HashMap 需要重新调整大小了，它们会同时试着调整大小。在调整大小的过程中，存储在链表中的元素的次序会反过来。因为移动到新的 bucket 位置的时候，HashMap 并不会将元素放在链表的尾部，而是放在头部。这是为了避免尾部遍历（tail traversing）。如果条件竞争发生了，那么就死循环了。多线程的环境下不使用 HashMap。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1564204613482.png" alt="1564204613482" title>
+                </div>
+                <div class="image-caption">1564204613482</div>
+            </figure>
+
+<p>此时，问题还没有直接产生。当调用Get查找一个不存在的Key，而这个Key的Hash结果恰好等于3的时候，由于位置3带有环形链表，所以程序将会进入<strong>死循环</strong>！</p>
+<h2 id="18-为什么多线程会导致死循环，它是怎么发生的？"><a href="#18-为什么多线程会导致死循环，它是怎么发生的？" class="headerlink" title="18.为什么多线程会导致死循环，它是怎么发生的？"></a>18.为什么多线程会导致死循环，它是怎么发生的？</h2><p>HashMap 的容量是有限的。当经过多次元素插入，使得 HashMap 达到一定饱和度时，Key 映射位置发生冲突的几率会逐渐提高。这时候， HashMap 需要扩展它的长度，也就是进行Resize。Resize死循环分析可参考问题17的回答。</p>
+<h2 id="19-Hashmap-中的-key-可以为任意对象或数据类型吗？"><a href="#19-Hashmap-中的-key-可以为任意对象或数据类型吗？" class="headerlink" title="19.Hashmap 中的 key 可以为任意对象或数据类型吗？"></a>19.Hashmap 中的 key 可以为任意对象或数据类型吗？</h2><h2 id="20-为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？"><a href="#20-为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？" class="headerlink" title="20.为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？"></a>20.为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？</h2><p>HashMap在JDK1.8及以后的版本中引入了红黑树结构，若桶中链表元素个数大于等于8时，链表转换成树结构；若桶中链表元素个数小于等于6时，树结构还原成链表。因为红黑树的平均查找长度是log(n)，长度为8的时候，平均查找长度为3，如果继续使用链表，平均查找长度为8/2=4，这才有转换为树的必要。链表长度如果是小于等于6，6/2=3，虽然速度也很快的，但是转化为树结构和生成树的时间并不会太短。</p>
+<p>还有选择6和8，中间有个差值7可以有效防止链表和树频繁转换。假设一下，如果设计成链表个数超过8则链表转换成树结构，链表个数小于8则树结构转换成链表，如果一个HashMap不停的插入、删除元素，链表个数在8左右徘徊，就会频繁的发生树转链表、链表转树，效率会很低。</p>
+<h2 id="21-HashMap与HashTable区别"><a href="#21-HashMap与HashTable区别" class="headerlink" title="21.HashMap与HashTable区别"></a>21.HashMap与HashTable区别</h2><p>Hashtable可以看做是线程安全版的HashMap，两者几乎“等价”（当然还是有很多不同）。Hashtable几乎在每个方法上都加上synchronized（同步锁），实现线程安全。</p>
+<p>区别如下：</p>
+<ol>
+<li>HashMap继承于AbstractMap，而Hashtable继承于Dictionary； </li>
+<li>线程安全不同。Hashtable的几乎所有函数都是同步的，即它是线程安全的，支持多线程。而HashMap的函数则是非同步的，它不是线程安全的。若要在多线程中使用HashMap，需要我们额外的进行同步处理；</li>
+<li>null值。HashMap的key、value都可以为null。Hashtable的key、value都不可以为null； </li>
+<li>迭代器(Iterator)。HashMap的迭代器(Iterator)是fail-fast迭代器，而Hashtable的enumerator迭代器不是fail-fast的。所以当有其它线程改变了HashMap的结构（增加或者移除元素），将会抛出ConcurrentModificationException。 </li>
+<li>容量的初始值和增加方式都不一样：HashMap默认的容量大小是16；增加容量时，每次将容量变为“原始容量x2”。Hashtable默认的容量大小是11；增加容量时，每次将容量变为“原始容量x2 + 1”； </li>
+<li>添加key-value时的hash值算法不同：HashMap添加元素时，是使用自定义的哈希算法。Hashtable没有自定义哈希算法，而直接采用的key的hashCode()。 </li>
+<li>速度。由于Hashtable是线程安全的也是synchronized，所以在单线程环境下它比HashMap要慢。如果你不需要同步，只需要单一线程，那么使用HashMap性能要好过Hashtable。</li>
+</ol>
+<h2 id="22-能否让HashMap同步？"><a href="#22-能否让HashMap同步？" class="headerlink" title="22.能否让HashMap同步？"></a>22.能否让HashMap同步？</h2><p>HashMap可以通过下面的语句进行同步：</p>
+   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Map m = Collections.synchronizeMap(hashMap);</span><br></pre></td></tr></table></figure>
+
+<p>Collections.synchronizedMap()实现原理是Collections定义了一个SynchronizedMap的内部类，这个类实现了Map接口，在调用方法时使用synchronized来保证线程同步,当然了实际上操作的还是我们传入的HashMap实例，简单的说就是Collections.synchronizedMap()方法帮我们在操作HashMap时自动添加了synchronized来实现线程同步，类似的其它Collections.synchronizedXX方法也是类似原理。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://blog.csdn.net/wobushixiaobailian/article/details/84074885" target="_blank" rel="noopener">java中为什么Hashtable是线程安全的</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-07-27T05:23:48.660Z" itemprop="dateUpdated">2019-07-27 13:23:48</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/07/27/Java-Collections-Map/" target="_blank" rel="external">http://yoursite.com/2019/07/27/Java-Collections-Map/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="kaizuidebanli">
+            kaizuidebanli
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/27/Java-Collections-Map/&title=《Java-Collections-Map》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/27/Java-Collections-Map/&title=《Java-Collections-Map》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/27/Java-Collections-Map/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java-Collections-Map》 — 开嘴的板栗&url=http://yoursite.com/2019/07/27/Java-Collections-Map/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/27/Java-Collections-Map/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/27/Java-Collections/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Java-Collections</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        打赏杯咖啡呗~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>kaizuidebanli &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/27/Java-Collections-Map/&title=《Java-Collections-Map》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/27/Java-Collections-Map/&title=《Java-Collections-Map》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/27/Java-Collections-Map/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java-Collections-Map》 — 开嘴的板栗&url=http://yoursite.com/2019/07/27/Java-Collections-Map/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/27/Java-Collections-Map/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/07/27/Java-Collections-Map/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
