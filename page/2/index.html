@@ -156,6 +156,117 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-flume-practices"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-07-24 13:48:40" datetime="2019-07-24T05:48:40.000Z"  itemprop="datePublished">2019-07-24</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/flume/">flume</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/07/24/flume-practices/">flume实践</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        一、监控端口数据需求描述：监听本机4444端口，并将监听到的数据打印在控制台。
+思路：首先，Flume监控本机4444端口，然后通过telnet工具向本机4444端口发送消息，最后Flume将监听的数据实时显示在控制台。
+具体流程，如下图所示：
+
+                
+                    
+                    
+              ...
+    
+
+        <a href="/2019/07/24/flume-practices/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flume/">flume</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-flume-introduction"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-07-24 10:44:02" datetime="2019-07-24T02:44:02.000Z"  itemprop="datePublished">2019-07-24</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/flume/">flume</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/07/24/flume-introduction/">Flume概述</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Flume概述一、Flume概念Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统。Flume基于流式架构，灵活简单。
+聚合：若是多台日志，需要聚合到一台；
+传输：将日志数据导到HDFS、Kafka中。
+为什么选用Flume？
+（1）原始的解决方法：
+
+
+（2）使用flume
+
+
+Flume最主要的作用就是，实时读取服务器本地磁盘的数据，将数据写...
+    
+
+        <a href="/2019/07/24/flume-introduction/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flume/">flume</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-hive-introduction"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -544,107 +655,6 @@ HBase的目标是存储并处理大型的数据，更具体来说是仅需使用
     
 
         <a href="/2019/07/22/hadoop-HA/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-hadoop-yarn"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2019-07-22 16:39:25" datetime="2019-07-22T08:39:25.000Z"  itemprop="datePublished">2019-07-22</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/22/hadoop-yarn/">Yarn资源调度器</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        Yarn资源调度器Yarn是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的操作系统平台，而MapReduce等运算程序则相当于运行于操作系统之上的应用程序。
-一、Yarn基本架构YARN主要由ResourceManager、NodeManager、ApplicationMaster和Container等组件构成，如下图所示：
-
-
-（1）ResourceManager（...
-    
-
-        <a href="/2019/07/22/hadoop-yarn/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-hello-world"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2019-07-22 16:04:09" datetime="2019-07-22T08:04:09.000Z"  itemprop="datePublished">2019-07-22</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/22/hello-world/">Hello World</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        
-
-Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-...
-    
-
-        <a href="/2019/07/22/hello-world/" class="post-more waves-effect waves-button">
             Continue reading...
         </a>
     </div>
