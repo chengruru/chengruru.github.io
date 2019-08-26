@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>zookeeper-basic-principles | 开嘴的板栗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="zookeeper">
+    <meta name="description" content="1、节点类型 永久节点（Persistent）: 客户端和服务器断开连接后，创建的节点不删除。 临时节点（Ephemeral）: 客户端和服务器断开连接后，创建的节点删除。  若是znode创建时设置顺序标识，znode名称后会附加一个值，顺序号是一个单调递增的计数器，由父节点维护。在分布式系统中，顺序号可以被用于为所有的事件进行全局排序，这样客户端可以通过顺序号推断事件的顺序。 2、监听器原理">
+<meta name="keywords" content="zookeeper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zookeeper-basic-principles">
+<meta property="og:url" content="http://yoursite.com/2019/08/22/zookeeper-basic-principles/index.html">
+<meta property="og:site_name" content="开嘴的板栗">
+<meta property="og:description" content="1、节点类型 永久节点（Persistent）: 客户端和服务器断开连接后，创建的节点不删除。 临时节点（Ephemeral）: 客户端和服务器断开连接后，创建的节点删除。  若是znode创建时设置顺序标识，znode名称后会附加一个值，顺序号是一个单调递增的计数器，由父节点维护。在分布式系统中，顺序号可以被用于为所有的事件进行全局排序，这样客户端可以通过顺序号推断事件的顺序。 2、监听器原理">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-22T09:28:10.366Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zookeeper-basic-principles">
+<meta name="twitter:description" content="1、节点类型 永久节点（Persistent）: 客户端和服务器断开连接后，创建的节点不删除。 临时节点（Ephemeral）: 客户端和服务器断开连接后，创建的节点删除。  若是znode创建时设置顺序标识，znode名称后会附加一个值，顺序号是一个单调递增的计数器，由父节点维护。在分布式系统中，顺序号可以被用于为所有的事件进行全局排序，这样客户端可以通过顺序号推断事件的顺序。 2、监听器原理">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">kaizuidebanli</h5>
+          <a href="mailto:945562363@qq.com" title="945562363@qq.com" class="mail">945562363@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/chengruru" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">zookeeper-basic-principles</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">zookeeper-basic-principles</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-22T09:05:15.000Z" itemprop="datePublished" class="page-time">
+  2019-08-22
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/zookeeper/">zookeeper</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、节点类型"><span class="post-toc-text">1、节点类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、监听器原理"><span class="post-toc-text">2、监听器原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3、选举机制"><span class="post-toc-text">3、选举机制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4、读写数据流程"><span class="post-toc-text">4、读写数据流程</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-zookeeper-basic-principles"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">zookeeper-basic-principles</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-22 17:05:15" datetime="2019-08-22T09:05:15.000Z"  itemprop="datePublished">2019-08-22</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/zookeeper/">zookeeper</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="1、节点类型"><a href="#1、节点类型" class="headerlink" title="1、节点类型"></a>1、节点类型</h2><ul>
+<li>永久节点（Persistent）: 客户端和服务器断开连接后，创建的节点不删除。</li>
+<li>临时节点（Ephemeral）: 客户端和服务器断开连接后，创建的节点删除。</li>
+</ul>
+<p>若是znode创建时设置顺序标识，znode名称后会附加一个值，顺序号是一个单调递增的计数器，由父节点维护。在分布式系统中，顺序号可以被用于为所有的事件进行全局排序，这样客户端可以通过顺序号推断事件的顺序。</p>
+<h2 id="2、监听器原理"><a href="#2、监听器原理" class="headerlink" title="2、监听器原理"></a>2、监听器原理</h2><ul>
+<li><p>首先要有一个main()线程；</p>
+</li>
+<li><p>在main线程中创建Zookeeper客户端，这时就会创建两个线程，<strong>一个负责网络连接通信（connet），一个负责监听（listener）</strong>;</p>
+</li>
+<li><p>通过connect线程将注册的监听事件发送给Zookeeper;</p>
+</li>
+<li><p>在Zookeeper的注册监听器列表中将注册的监听事件添加到列表中;</p>
+</li>
+<li><p>Zookeeper监听到有数据或路径变化，就会将这个消息发送给listener线程;</p>
+</li>
+<li><p>listener线程内部调用了process（）方法。</p>
+</li>
+</ul>
+<p>常见的监听类型有两种：</p>
+<p>（1）<strong>监听节点数据的变化</strong>：get path [watch]</p>
+<p>（2）<strong>监听子节点增减的变化</strong> ：ls path [watch]</p>
+<h2 id="3、选举机制"><a href="#3、选举机制" class="headerlink" title="3、选举机制"></a>3、选举机制</h2><p><strong>（1）半数机制：集群中半数以上机器存活，集群可用。所以Zookeeper适合安装奇数台服务器。</strong></p>
+<p>（2）Zookeeper虽然在配置文件中并没有指定<strong>Master和Slave</strong>。但是，Zookeeper工作时，是有一个节点为Leader，其他则为Follower，Leader是通过内部的选举机制临时产生的。</p>
+<p>（3）以一个简单的例子来说明整个选举的过程。</p>
+<p>假设有五台服务器组成的Zookeeper集群，它们的id从1-5，同时它们都是最新启动的，也就是没有历史数据，在存放数据量这一点上，都是一样的。假设这些服务器依序启动，来看看会发生什么，如下图所示：</p>
+
+
+<p>具体的选举流程步骤：</p>
+<p><strong>Step 1 :</strong> 服务器1启动，发起一次选举。服务器1投自己一票。此时服务器1票数一票，不够半数以上（3票），选举无法完成，服务器1状态保持为LOOKING；</p>
+<p><strong>Step 2 :</strong> 服务器2启动，再发起一次选举。服务器1和2分别投自己一票并交换选票信息：此时服务器1发现服务器2的ID比自己目前投票推举的（服务器1）大，更改选票为推举服务器2。此时服务器1票数0票，服务器2票数2票，没有半数以上结果，选举无法完成，服务器1，2状态保持LOOKING</p>
+<p><strong>Step 3 :</strong> 服务器3启动，发起一次选举。此时服务器1和2都会更改选票为服务器3。此次投票结果：服务器1为0票，服务器2为0票，服务器3为3票。此时服务器3的票数已经超过半数，服务器3当选Leader。服务器1，2更改状态为FOLLOWING，服务器3更改状态为LEADING；</p>
+<p><strong>Step 4 :</strong> 服务器4启动，发起一次选举。此时服务器1，2，3已经不是LOOKING状态，不会更改选票信息。交换选票信息结果：服务器3为3票，服务器4为1票。此时服务器4服从多数，更改选票信息为服务器3，并更改状态为FOLLOWING；</p>
+<p><strong>Step 5 :</strong> 服务器5启动，同4一样成为follower。</p>
+<h2 id="4、读写数据流程"><a href="#4、读写数据流程" class="headerlink" title="4、读写数据流程"></a>4、读写数据流程</h2><p><strong>（1）写数据</strong>，当一个客户端进行写数据请求时，会指定ZooKeeper集群中的一个server节点，如果该节点为Follower，则该节点会把写请求转发给Leader，Leader通过内部的协议进行原子广播，直到一半以上的server节点都成功写入了数据，这次写请求便算是成功，然后Leader便会通知相应Follower节点写请求成功，该节点向client返回写入成功响应。</p>
+<p><strong>（2）读数据</strong>，因为ZooKeeper集群中所有的server节点都拥有相同的数据，所以读的时候可以在任意一台server节点上，客户端连接到集群中某一节点，读请求，然后直接返回。当然因为ZooKeeper协议的原因（一半以上的server节点都成功写入了数据，这次写请求便算是成功），读数据的时候可能会读到数据不是最新的server节点，所以比较推荐使用watch机制，在数据改变时，及时感应到。</p>
+<p>Note : 其实写数据的时候不是要保证所有zk节点都写完才响应，而是保证<strong>一半以上</strong>的节点写完了就把这次变更更新到内存，并且当做最新命名空间的应用。所以在读数据的时候可能会读到不是最新的zk节点，这时候只能通过sync()解决。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-08-22T09:28:10.366Z" itemprop="dateUpdated">2019-08-22 17:28:10</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/08/22/zookeeper-basic-principles/" target="_blank" rel="external">http://yoursite.com/2019/08/22/zookeeper-basic-principles/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="kaizuidebanli">
+            kaizuidebanli
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zookeeper/">zookeeper</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/08/22/zookeeper-basic-principles/&title=《zookeeper-basic-principles》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/08/22/zookeeper-basic-principles/&title=《zookeeper-basic-principles》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/08/22/zookeeper-basic-principles/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《zookeeper-basic-principles》 — 开嘴的板栗&url=http://yoursite.com/2019/08/22/zookeeper-basic-principles/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/08/22/zookeeper-basic-principles/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/08/22/tools-git/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">tools-git</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/08/12/海量数据面试题/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">[no title]</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        打赏杯咖啡呗~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>kaizuidebanli &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/08/22/zookeeper-basic-principles/&title=《zookeeper-basic-principles》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/08/22/zookeeper-basic-principles/&title=《zookeeper-basic-principles》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/08/22/zookeeper-basic-principles/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《zookeeper-basic-principles》 — 开嘴的板栗&url=http://yoursite.com/2019/08/22/zookeeper-basic-principles/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/08/22/zookeeper-basic-principles/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/08/22/zookeeper-basic-principles/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

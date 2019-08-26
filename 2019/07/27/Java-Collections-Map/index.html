@@ -38,7 +38,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/1564204979150.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/1564203644868.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/27/Java-Collections-Map/1564204613482.png">
-<meta property="og:updated_time" content="2019-07-27T05:33:23.664Z">
+<meta property="og:updated_time" content="2019-08-26T07:48:36.963Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java-Collections-Map">
 <meta name="twitter:description" content="一、HashMap1.参数在HashMap中有两个很重要的参数，容量(Capacity)和负载因子(Load factor)。简单的说，Capacity就是bucket的大小，Load factor就是bucket填满程度的最大比例。如果对迭代性能要求很高的话，不要把capacity设置过大，也不要把load factor设置过小。当bucket中的entries的数目大于 capacity*lo">
@@ -134,7 +134,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -216,7 +216,7 @@
 <img src="/2019/07/27/Java-Collections-Map/1564202370147.png" title="This is an image">
 
 <p>在对hashCode()计算hash时具体实现是这样的：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> h;</span><br><span class="line">	<span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : </span><br><span class="line">					(h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> h;</span><br><span class="line">	<span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>可以看到这个函数大概的作用就是：高16bit不变，低16bit和高16bit做了一个异或。</p>
 <p><strong>下标计算</strong>，在设计hash函数时，因为目前的table长度n为2的幂，而计算下标的时候，是这样实现的(使用 &amp;  位操作，而非 % 求余)：</p>
@@ -226,7 +226,7 @@
 <p>如果还是产生了频繁的碰撞，会发生什么问题呢？作者注释说，他们使用树来处理频繁的碰撞(we use trees to handle large sets of collisions in bins)，在JEP-180中，描述了这个问题.</p>
 <p>之前已经提过，在获取HashMap的元素时，基本分两步：</p>
 <ol>
-<li>首先根据hashCode()做hash，然后确定bucket的index；<br>Java集合——HashMap<br>42</li>
+<li>首先根据hashCode()做hash，然后确定bucket的index；<br> Java集合——HashMap</li>
 <li>如果bucket的节点的key不是我们需要的，则通过keys.equals()在链中找。</li>
 </ol>
 <p>在Java 8之前的实现中是用链表解决冲突的，在产生碰撞的情况下，进行get时，两步的时间复杂度是O(1)+O(n)。因此，当碰撞很厉害的时候n很大，O(n)的速度显然是影响速度的。<br>因此在Java 8中，利用红黑树替换链表，这样复杂度就变成了O(1)+O(logn)了，这样在n很大的时候，能够比较理想的解决这个问题，在Java 8：HashMap的性能提升一文中有性能测试的结果。</p>
@@ -289,7 +289,9 @@
 <h2 id="7-既然链表如此短，为啥Java8要对HashMap的链表进行改造，使用红黑树来代替链表呢？"><a href="#7-既然链表如此短，为啥Java8要对HashMap的链表进行改造，使用红黑树来代替链表呢？" class="headerlink" title="7.既然链表如此短，为啥Java8要对HashMap的链表进行改造，使用红黑树来代替链表呢？"></a>7.既然链表如此短，为啥Java8要对HashMap的链表进行改造，使用红黑树来代替链表呢？</h2><p>这道题的关键在于如果Key的hashcode不是随机的，而是人为特殊构造的话，那么第二维链表可能会无比的长，而且分布极为不均匀，这个时候就会出现性能问题。比如我们把对象的hashcode都统一返回一个常量，最终的结果就是hashmap会退化为一维链表，Get方法的性能巨降为O(n)，使用红黑树可以将性能提升到O(log(n))。</p>
 <h2 id="8-HashMap中hash函数怎么是是实现的？还有哪些-hash-的实现方式？"><a href="#8-HashMap中hash函数怎么是是实现的？还有哪些-hash-的实现方式？" class="headerlink" title="8.HashMap中hash函数怎么是是实现的？还有哪些 hash 的实现方式？"></a>8.HashMap中hash函数怎么是是实现的？还有哪些 hash 的实现方式？</h2><p>HashMap中hash函数怎么是是实现的？可以参考上文。</p>
 <h2 id="9-当两个对象的hashcode相同会发生什么？"><a href="#9-当两个对象的hashcode相同会发生什么？" class="headerlink" title="9.当两个对象的hashcode相同会发生什么？"></a>9.当两个对象的hashcode相同会发生什么？</h2><p>因为两个对象的Hashcode相同，所以它们的bucket位置相同，会发生“碰撞”。HashMap使用链表存储对象，这个Entry(包含有键值对的Map.Entry对象)会存储在链表中。</p>
-<h2 id="10-抛开-HashMap，hash-冲突有那些解决办法？"><a href="#10-抛开-HashMap，hash-冲突有那些解决办法？" class="headerlink" title="10.抛开 HashMap，hash 冲突有那些解决办法？"></a>10.抛开 HashMap，hash 冲突有那些解决办法？</h2><p>开放定址法、链地址法、再哈希法。</p>
+<h2 id="10-抛开-HashMap，hash-冲突有那些解决办法？"><a href="#10-抛开-HashMap，hash-冲突有那些解决办法？" class="headerlink" title="10.抛开 HashMap，hash 冲突有那些解决办法？"></a>10.抛开 HashMap，hash 冲突有那些解决办法？</h2><p><strong>开放定址法：</strong>就是一旦发生了冲突，就去寻找下一个空的散列地址，只要散列表足够大，空的散列地址总能找到，并将记录存入。</p>
+<p><strong>链地址法：</strong>将所有关键字为同义词的记录存储在一个单链表中，我们称这种表为同义词子表，在散列表中只存储所有同义词子表的头指针。</p>
+<p><strong>再哈希法：</strong>再使用另外一个hash函数hash出一个值。</p>
 <h2 id="11-如果两个键的hashcode相同，你如何获取值对象？"><a href="#11-如果两个键的hashcode相同，你如何获取值对象？" class="headerlink" title="11.如果两个键的hashcode相同，你如何获取值对象？"></a>11.如果两个键的hashcode相同，你如何获取值对象？</h2><p>重点在于理解<strong>hashCode()</strong>与<strong>equals()</strong>。 </p>
 <p>通过对key的hashCode()进行hashing，并计算下标( n-1 &amp; hash)，从而获得buckets的位置。两个键的hashcode相同会产生碰撞，则利用key.equals()方法去链表或树（java1.8）中去查找对应的节点。</p>
 <h2 id="12-针对-HashMap-中某个-Entry-链太长，查找的时间复杂度可能达到-O-n-，怎么优化？"><a href="#12-针对-HashMap-中某个-Entry-链太长，查找的时间复杂度可能达到-O-n-，怎么优化？" class="headerlink" title="12.针对 HashMap 中某个 Entry 链太长，查找的时间复杂度可能达到 O(n)，怎么优化？"></a>12.针对 HashMap 中某个 Entry 链太长，查找的时间复杂度可能达到 O(n)，怎么优化？</h2><p>将链表转为红黑树，实现 O(logn) 时间复杂度内查找。JDK1.8 已经实现了。</p>
@@ -299,7 +301,7 @@
 <h2 id="14-hashcode和equals"><a href="#14-hashcode和equals" class="headerlink" title="14.hashcode和equals"></a>14.hashcode和equals</h2><p>JDK对equals(Object obj)和hashcode()这两个方法的定义和规范： 在Java中任何一个对象都具备equals(Object obj)和hashcode()这两个方法，因为他们是在Object类中定义的。<br><strong>equals(Object obj)</strong>方法用来判断两个对象是否“相同”，如果“相同”则返回true，否则返回false。<br><strong>hashcode()</strong>方法返回一个int数，在Object类中的默认实现是“将该对象的内部地址转换成一个整数返回”。 </p>
 <p>推论： </p>
 <p>​       1、如果两个对象equals，Java运行时环境会认为他们的hashcode一定相等。<br>​        2、如果两个对象不equals，他们的hashcode有可能相等。<br>​        3、如果两个对象hashcode相等，他们不一定equals。<br>​        4、如果两个对象hashcode不相等，他们一定不equals。 </p>
-<h2 id="15-请解释一下HashMap的参数loadFactor，它的作用是什么？"><a href="#15-请解释一下HashMap的参数loadFactor，它的作用是什么？" class="headerlink" title="15.请解释一下HashMap的参数loadFactor，它的作用是什么？"></a>15.请解释一下HashMap的参数loadFactor，它的作用是什么？</h2><p>loadFactor表示HashMap的拥挤程度，影响hash操作到同一个数组位置的概率。默认loadFactor等于0.75，当HashMap里面容纳的元素已经达到HashMap数组长度的75%时，表示HashMap太挤了，需要扩容，在HashMap的构造器中可以定制loadFactor。</p>
+<h2 id="15-请解释一下HashMap的参数loadFactor，它的作用是什么？"><a href="#15-请解释一下HashMap的参数loadFactor，它的作用是什么？" class="headerlink" title="15.请解释一下HashMap的参数loadFactor，它的作用是什么？"></a>15.请解释一下HashMap的参数loadFactor，它的作用是什么？</h2><p>​    loadFactor表示HashMap的拥挤程度，影响hash操作到同一个数组位置的概率。默认loadFactor等于0.75，当HashMap里面容纳的元素已经达到HashMap数组长度的75%时，表示HashMap太挤了，需要扩容，在HashMap的构造器中可以定制loadFactor。</p>
 <h2 id="16-为什么数组的长度必须是2的指数？"><a href="#16-为什么数组的长度必须是2的指数？" class="headerlink" title="16.为什么数组的长度必须是2的指数？"></a>16.为什么数组的长度必须是2的指数？</h2><ol>
 <li>Java堆内存底层用的是TcMalloc这类library，它们在内存管理的分配单位就是以2的指数的单位，2倍内存的递增有助于减少内存碎片，减少内存管理的负担。</li>
 <li>HashMap为了存取高效，要尽量较少碰撞，就是要尽量把数据分配均匀，每个链表长度大致相同，这个实现就在把数据存到哪个链表中的算法；</li>
@@ -316,7 +318,8 @@
 
 <p>此时，问题还没有直接产生。当调用Get查找一个不存在的Key，而这个Key的Hash结果恰好等于3的时候，由于位置3带有环形链表，所以程序将会进入<strong>死循环</strong>！</p>
 <h2 id="18-为什么多线程会导致死循环，它是怎么发生的？"><a href="#18-为什么多线程会导致死循环，它是怎么发生的？" class="headerlink" title="18.为什么多线程会导致死循环，它是怎么发生的？"></a>18.为什么多线程会导致死循环，它是怎么发生的？</h2><p>HashMap 的容量是有限的。当经过多次元素插入，使得 HashMap 达到一定饱和度时，Key 映射位置发生冲突的几率会逐渐提高。这时候， HashMap 需要扩展它的长度，也就是进行Resize。Resize死循环分析可参考问题17的回答。</p>
-<h2 id="19-Hashmap-中的-key-可以为任意对象或数据类型吗？"><a href="#19-Hashmap-中的-key-可以为任意对象或数据类型吗？" class="headerlink" title="19.Hashmap 中的 key 可以为任意对象或数据类型吗？"></a>19.Hashmap 中的 key 可以为任意对象或数据类型吗？</h2><h2 id="20-为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？"><a href="#20-为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？" class="headerlink" title="20.为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？"></a>20.为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？</h2><p>HashMap在JDK1.8及以后的版本中引入了红黑树结构，若桶中链表元素个数大于等于8时，链表转换成树结构；若桶中链表元素个数小于等于6时，树结构还原成链表。因为红黑树的平均查找长度是log(n)，长度为8的时候，平均查找长度为3，如果继续使用链表，平均查找长度为8/2=4，这才有转换为树的必要。链表长度如果是小于等于6，6/2=3，虽然速度也很快的，但是转化为树结构和生成树的时间并不会太短。</p>
+<h2 id="19-Hashmap-中的-key-可以为任意对象或数据类型吗？"><a href="#19-Hashmap-中的-key-可以为任意对象或数据类型吗？" class="headerlink" title="19.Hashmap 中的 key 可以为任意对象或数据类型吗？"></a>19.Hashmap 中的 key 可以为任意对象或数据类型吗？</h2><p>HashMap中的key可以是null，基本数据类型或引用数据类型。为了HashMap的正常使用，key一般是不可变对象，至少该对象中用于计算hash值的属性要不可变，方可保证HashMap的正常使用。</p>
+<h2 id="20-为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？"><a href="#20-为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？" class="headerlink" title="20.为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？"></a>20.为什么当桶中键值对数量大于8才转换成红黑树，数量小于6才转换成链表？</h2><p>HashMap在JDK1.8及以后的版本中引入了红黑树结构，若桶中链表元素个数大于等于8时，链表转换成树结构；若桶中链表元素个数小于等于6时，树结构还原成链表。因为红黑树的平均查找长度是log(n)，长度为8的时候，平均查找长度为3，如果继续使用链表，平均查找长度为8/2=4，这才有转换为树的必要。链表长度如果是小于等于6，6/2=3，虽然速度也很快的，但是转化为树结构和生成树的时间并不会太短。</p>
 <p>还有选择6和8，中间有个差值7可以有效防止链表和树频繁转换。假设一下，如果设计成链表个数超过8则链表转换成树结构，链表个数小于8则树结构转换成链表，如果一个HashMap不停的插入、删除元素，链表个数在8左右徘徊，就会频繁的发生树转链表、链表转树，效率会很低。</p>
 <h2 id="21-HashMap与HashTable区别"><a href="#21-HashMap与HashTable区别" class="headerlink" title="21.HashMap与HashTable区别"></a>21.HashMap与HashTable区别</h2><p>Hashtable可以看做是线程安全版的HashMap，两者几乎“等价”（当然还是有很多不同）。Hashtable几乎在每个方法上都加上synchronized（同步锁），实现线程安全。</p>
 <p>区别如下：</p>
@@ -342,7 +345,7 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2019-07-27T05:33:23.664Z" itemprop="dateUpdated">2019-07-27 13:33:23</time>
+    Last updated: <time datetime="2019-08-26T07:48:36.963Z" itemprop="dateUpdated">2019-08-26 15:48:36</time>
 </span><br>
 
 
@@ -513,7 +516,7 @@
 
         <p>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">

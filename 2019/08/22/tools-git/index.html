@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>tools-git | 开嘴的板栗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="git,Tools">
+    <meta name="description" content="一、Git是什么Git是目前世界上最先进的分布式版本控制系统。 拜拜大神（林纳斯托瓦兹）,                                                                                              1566473374383               12Talk is cheap, show me the code">
+<meta name="keywords" content="git,Tools">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tools-git">
+<meta property="og:url" content="http://yoursite.com/2019/08/22/tools-git/index.html">
+<meta property="og:site_name" content="开嘴的板栗">
+<meta property="og:description" content="一、Git是什么Git是目前世界上最先进的分布式版本控制系统。 拜拜大神（林纳斯托瓦兹）,                                                                                              1566473374383               12Talk is cheap, show me the code">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/08/22/tools-git/assets/1566473374383.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/22/tools-git/assets/1566473726854.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/22/tools-git/assets/1566478176411.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/22/tools-git/assets/1566478559743.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/22/tools-git/assets/1566478736291.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/22/tools-git/assets/1566478843715.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/22/tools-git/assets/1566479009595.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/22/tools-git/assets/1566479302429.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/22/tools-git/assets/1566479766098.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/22/tools-git/assets/1566479843002.png">
+<meta property="og:updated_time" content="2019-08-22T14:16:01.182Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tools-git">
+<meta name="twitter:description" content="一、Git是什么Git是目前世界上最先进的分布式版本控制系统。 拜拜大神（林纳斯托瓦兹）,                                                                                              1566473374383               12Talk is cheap, show me the code">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/22/tools-git/assets/1566473374383.png">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">kaizuidebanli</h5>
+          <a href="mailto:945562363@qq.com" title="945562363@qq.com" class="mail">945562363@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/chengruru" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">tools-git</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">tools-git</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-22T11:20:04.000Z" itemprop="datePublished" class="page-time">
+  2019-08-22
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/git/">git</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、Git是什么"><span class="post-toc-text">一、Git是什么</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、Git能做什么"><span class="post-toc-text">二、Git能做什么</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三、Git安装"><span class="post-toc-text">三、Git安装</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#四、Git操作"><span class="post-toc-text">四、Git操作</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-tools-git"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">tools-git</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-22 19:20:04" datetime="2019-08-22T11:20:04.000Z"  itemprop="datePublished">2019-08-22</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/git/">git</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="一、Git是什么"><a href="#一、Git是什么" class="headerlink" title="一、Git是什么"></a>一、Git是什么</h1><p>Git是目前世界上最先进的分布式版本控制系统。</p>
+<p>拜拜大神（林纳斯托瓦兹）,</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1566473374383.png" alt="1566473374383" title>
+                </div>
+                <div class="image-caption">1566473374383</div>
+            </figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Talk is cheap, </span><br><span class="line">show me the code!</span><br></pre></td></tr></table></figure>
+
+<h1 id="二、Git能做什么"><a href="#二、Git能做什么" class="headerlink" title="二、Git能做什么"></a>二、Git能做什么</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1566473726854.png" alt="1566473726854" title>
+                </div>
+                <div class="image-caption">1566473726854</div>
+            </figure>
+
+<h1 id="三、Git安装"><a href="#三、Git安装" class="headerlink" title="三、Git安装"></a>三、Git安装</h1><p>Git软件安装完毕后，还需要最后一步设置，在命令行输入如下图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1566478176411.png" alt="1566478176411" title>
+                </div>
+                <div class="image-caption">1566478176411</div>
+            </figure>
+
+<p>Git是分布式版本控制系统，所以需要填写<strong>用户名</strong>和<strong>邮箱</strong>作为一个标识。</p>
+<p>在C:\Users\admin路径下的.gitconfig文件里面可以查看。</p>
+<h1 id="四、Git操作"><a href="#四、Git操作" class="headerlink" title="四、Git操作"></a>四、Git操作</h1><p><strong>1、创建版本库</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 新建git类型的仓库</span></span><br><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<p><strong>2、文件新建 + 状态查看</strong> </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 新建文件并放入git仓库</span></span><br><span class="line"></span><br><span class="line">touch a.txt   # touch a.txt或者vi</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看文件在git仓库中的状态</span></span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<p>结果如下图所示，此时a.txt是<strong>红色标识</strong>，表明a.txt还没有被git管理。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1566478559743.png" alt="1566478559743" title>
+                </div>
+                <div class="image-caption">1566478559743</div>
+            </figure>
+
+<p><strong>3、将新建的a.txt纳入git管理</strong></p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add a.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 再次查看状态</span></span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<p>结果如下图所示，此时a.txt是<strong>绿色标识</strong>，表明a.txt还被git纳入管理。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1566478736291.png" alt="1566478736291" title>
+                </div>
+                <div class="image-caption">1566478736291</div>
+            </figure>
+
+<p>4、修改文件内容 + 提交 + 新增文件内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">touch a.txt   # touch a.txt或者vi</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看文件在git仓库中的状态</span></span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1566478843715.png" alt="1566478843715" title>
+                </div>
+                <div class="image-caption">1566478843715</div>
+            </figure>
+
+<p><strong>5、提交</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 将a.txt的内容提交到暂存区</span></span><br><span class="line">git add a.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 提交（本地库），并提交修改的信息说明，完成了首次提交。</span></span><br><span class="line">git commit -m "提交修改的信息说明"</span><br></pre></td></tr></table></figure>
+
+<p>内容已经被提交到版本库中，</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1566479009595.png" alt="1566479009595" title>
+                </div>
+                <div class="image-caption">1566479009595</div>
+            </figure>
+
+<p><strong>6、理解工作区+版本库+暂存区</strong></p>
+<p><strong>1.工作区</strong>(Working Directory):就是你电脑本地硬盘目录</p>
+<p><strong>2.版本库</strong>(Repository):工作区有个隐藏目录.git，它就是Git的本地版本库</p>
+<p><strong>3.暂存区</strong>(stage):一般存放在”git目录”下的index文件（.git/index）中，所以我们把暂存区有时也叫作索引（index）。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1566479302429.png" alt="1566479302429" title>
+                </div>
+                <div class="image-caption">1566479302429</div>
+            </figure>
+
+<p>其中，<strong>Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD</strong>。</p>
+<p>我们通<code>add</code>命令，将工作区的内容提交到暂存区；<code>commit</code>将工作区的内容提交到版本库中。</p>
+<p>总结：</p>
+<p>我们把文件往Git版本库里添加的时候，是分两步执行的：</p>
+<ul>
+<li>第一步是用<code>git add</code>把文件纳入Git管理，实际是把本地文件修改添加到暂存区；</li>
+<li>第二步是用<code>git commit</code>提交更改，实际上就是把暂存区的所有内容提交到当前分支 。</li>
+</ul>
+<p>因为我们创建Git版本库时，Git自动为我们创建了唯一一个master分支，所以commit就是往master分支上提交更改。</p>
+<p>可以简单理解为，需要提交的文件修改通通放到暂存区，然后，一次性提交暂存区的所有修改。一旦提交完后，如果你又没有对工作区做任何修改，那么工作区就是“干净”的。即：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nothing to commit (working directory clean)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>用<code>git diff HEAD -- filename</code>命令可以查看工作区和暂存区里面最新版本的区别。</p>
+</li>
+<li><p>新建过撤销<strong>未add</strong>： </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout  -- 文件名</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>撤销<strong>已add未commit</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git  reset HEAD  文件名 </span><br><span class="line">git checkout -- 文件名</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<ul>
+<li><p>撤销<strong>已add已commit</strong>:       </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset –hard HEAD^</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><strong>7、git的日志和跟踪管理</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看每次操作的日志情况</span></span><br><span class="line">git log</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1566479766098.png" alt="1566479766098" title>
+                </div>
+                <div class="image-caption">1566479766098</div>
+            </figure>
+
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 可以一行显示，查看关键信息</span></span><br><span class="line">git log --pretty=oneline</span><br></pre></td></tr></table></figure>
+
+<p>log信息一个commit版本只显示一行，如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1566479843002.png" alt="1566479843002" title>
+                </div>
+                <div class="image-caption">1566479843002</div>
+            </figure>
+
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看内容不同</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 1、先修改文件内容</span></span><br><span class="line">git vi a.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2、查看文件</span></span><br><span class="line">git diff</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-08-22T14:16:01.182Z" itemprop="dateUpdated">2019-08-22 22:16:01</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/08/22/tools-git/" target="_blank" rel="external">http://yoursite.com/2019/08/22/tools-git/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="kaizuidebanli">
+            kaizuidebanli
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tools/">Tools</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/08/22/tools-git/&title=《tools-git》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/08/22/tools-git/&title=《tools-git》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/08/22/tools-git/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《tools-git》 — 开嘴的板栗&url=http://yoursite.com/2019/08/22/tools-git/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/08/22/tools-git/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/08/22/zookeeper-basic-principles/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">zookeeper-basic-principles</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        打赏杯咖啡呗~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>kaizuidebanli &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/08/22/tools-git/&title=《tools-git》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/08/22/tools-git/&title=《tools-git》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/08/22/tools-git/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《tools-git》 — 开嘴的板栗&url=http://yoursite.com/2019/08/22/tools-git/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/08/22/tools-git/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/08/22/tools-git/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
