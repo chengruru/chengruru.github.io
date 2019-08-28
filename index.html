@@ -156,6 +156,62 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-zookeeper-listener-principle"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-08-28 19:32:35" datetime="2019-08-28T11:32:35.000Z"  itemprop="datePublished">2019-08-28</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/zookeeper/">zookeeper</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/08/28/zookeeper-listener-principle/">zookeeper监听器原理</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Zookeeper监听器原理1、监听器原理
+首先要有一个main()线程；
+
+在main线程中创建Zookeeper客户端，这时就会创建两个线程，一个负责网络连接通信（connet），一个负责监听（listener）；
+
+通过connect线程将注册的监听事件发送给Zookeeper；
+
+在Zookeeper的注册监听器列表中将注册的监听事件添加到列表中；
+
+Zookeeper监听到有数据或...
+    
+
+        <a href="/2019/08/28/zookeeper-listener-principle/" class="post-more waves-effect waves-button">
+            続きを読む…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zookeeper/">zookeeper</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-zookeeper-install"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -174,7 +230,7 @@
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/08/28/zookeeper-install/">zookeeper-install</a>
+      <a class="post-title-link" href="/2019/08/28/zookeeper-install/">Zookeeper安装</a>
     </h3>
   
 
@@ -287,7 +343,7 @@ Git是分布式版本控制系统，所以需要填写用户名和邮箱作为�
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/08/22/zookeeper-basic-principles/">zookeeper-basic-principles</a>
+      <a class="post-title-link" href="/2019/08/22/zookeeper-basic-principles/">zookeeper基本原理</a>
     </h3>
   
 
@@ -302,7 +358,7 @@ Git是分布式版本控制系统，所以需要填写用户名和邮箱作为�
 临时节点（Ephemeral）: 客户端和服务器断开连接后，创建的节点删除。
 
 若是znode创建时设置顺序标识，znode名称后会附加一个值，顺序号是一个单调递增的计数器，由父节点维护。在分布式系统中，顺序号可以被用于为所有的事件进行全局排序，这样客户端可以通过顺序号推断事件的顺序。
-2、监听器...
+2、选举机...
     
 
         <a href="/2019/08/22/zookeeper-basic-principles/" class="post-more waves-effect waves-button">
@@ -597,55 +653,6 @@ QPlainTextEdit
     
 
         <a href="/2019/07/26/PyQT5-topwindow/" class="post-more waves-effect waves-button">
-            続きを読む…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PyQT5/">PyQT5</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-PyQT5-introduction"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2019-07-26 15:05:56" datetime="2019-07-26T07:05:56.000Z"  itemprop="datePublished">2019-07-26</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/PyQT5/">PyQT5</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/26/PyQT5-introduction/">PyQT5介绍</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        本文不对PyQT5进行过多定义性的介绍，具体的PyQT5介绍网上也已经很详尽了，有兴趣的读者可以参考：PyQt5-Chinese-tutorial
-通过简单的Hello-Word程序对PyQt5程序基本结构进行分析。
-123456789101112131415import sysfrom PyQt5.QtWidgets import QApplication, QWidgetif __nam...
-    
-
-        <a href="/2019/07/26/PyQT5-introduction/" class="post-more waves-effect waves-button">
             続きを読む…
         </a>
     </div>
