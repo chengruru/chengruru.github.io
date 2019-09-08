@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>No title | 开嘴的板栗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="一、Linux概述1、Linux是什么Linux英文解释为：Linux is not Unix. Linux内核最初只是由芬兰人林纳斯·托瓦兹（Linus Torvalds）在赫尔辛基大学上学时出于个人爱好而编写的。Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。Linux能运行主要的UNIX工具软件、应用程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="No title">
+<meta property="og:url" content="http://yoursite.com/2019/09/05/linux-introduction/index.html">
+<meta property="og:site_name" content="开嘴的板栗">
+<meta property="og:description" content="一、Linux概述1、Linux是什么Linux英文解释为：Linux is not Unix. Linux内核最初只是由芬兰人林纳斯·托瓦兹（Linus Torvalds）在赫尔辛基大学上学时出于个人爱好而编写的。Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。Linux能运行主要的UNIX工具软件、应用程序">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567620222278.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567620736994.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567620813378.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567621825177.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567620847167.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567620934635.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567621621889.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567621334076.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567621363382.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567621383904.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567622018348.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567622040936.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567622062267.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567622074693.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567622125546.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567622139035.png">
+<meta property="og:updated_time" content="2019-09-05T00:43:23.119Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="No title">
+<meta name="twitter:description" content="一、Linux概述1、Linux是什么Linux英文解释为：Linux is not Unix. Linux内核最初只是由芬兰人林纳斯·托瓦兹（Linus Torvalds）在赫尔辛基大学上学时出于个人爱好而编写的。Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。Linux能运行主要的UNIX工具软件、应用程序">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/05/linux-introduction/assets/1567620222278.png">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">kaizuidebanli</h5>
+          <a href="mailto:945562363@qq.com" title="945562363@qq.com" class="mail">945562363@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/chengruru" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">No title</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">No title</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-09-04T16:57:23.322Z" itemprop="datePublished" class="page-time">
+  2019-09-05
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、Linux概述"><span class="post-toc-text">一、Linux概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、Linux是什么"><span class="post-toc-text">1、Linux是什么</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、Linux应用场景"><span class="post-toc-text">2、Linux应用场景</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3、Linux与Windows的区别"><span class="post-toc-text">3、Linux与Windows的区别</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、远程登陆与SSH"><span class="post-toc-text">二、远程登陆与SSH</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、Linux远程登录"><span class="post-toc-text">1、Linux远程登录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、查看ssh服务命令"><span class="post-toc-text">2、查看ssh服务命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3、启动SSH服务"><span class="post-toc-text">3、启动SSH服务</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4、SSH服务重启"><span class="post-toc-text">4、SSH服务重启</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5、SSH关闭"><span class="post-toc-text">5、SSH关闭</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三、Linux的启动过程"><span class="post-toc-text">三、Linux的启动过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、Man"><span class="post-toc-text">1、Man</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、启动过程"><span class="post-toc-text">2、启动过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-内核引导"><span class="post-toc-text">1.内核引导</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-运行init"><span class="post-toc-text">2.运行init</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-系统初始化"><span class="post-toc-text">3.系统初始化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-建立终端"><span class="post-toc-text">4.建立终端</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-用户登陆系统"><span class="post-toc-text">5.用户登陆系统</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3、关机"><span class="post-toc-text">3、关机</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4、忘记root密码"><span class="post-toc-text">4、忘记root密码</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#四、Vim编辑器"><span class="post-toc-text">四、Vim编辑器</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#五、用户和用户组"><span class="post-toc-text">五、用户和用户组</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#常用的操作命令"><span class="post-toc-text">常用的操作命令</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Linux文件和目录树结构"><span class="post-toc-text">Linux文件和目录树结构</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Rpm"><span class="post-toc-text">Rpm</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Shell"><span class="post-toc-text">Shell</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-linux-introduction"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">No title</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-09-05 00:57:23" datetime="2019-09-04T16:57:23.322Z"  itemprop="datePublished">2019-09-05</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="一、Linux概述"><a href="#一、Linux概述" class="headerlink" title="一、Linux概述"></a>一、Linux概述</h1><h2 id="1、Linux是什么"><a href="#1、Linux是什么" class="headerlink" title="1、Linux是什么"></a>1、Linux是什么</h2><p>Linux英文解释为：<strong>Linux is not Unix.</strong></p>
+<p>Linux内核最初只是由芬兰人林纳斯·托瓦兹（Linus Torvalds）在赫尔辛基大学上学时出于个人爱好而编写的。<br>Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。Linux能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。</p>
+<p><strong>Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。</strong></p>
+<p>目前市面上较知名的发行版有：Ubuntu、RedHat、CentOS、Debain、Fedora、SuSE、OpenSUSE.</p>
+<p><strong>在Linux中，一切皆是文件。</strong></p>
+<h2 id="2、Linux应用场景"><a href="#2、Linux应用场景" class="headerlink" title="2、Linux应用场景"></a>2、Linux应用场景</h2><p>今天各种场合都有使用各种Linux发行版，从嵌入式设备到超级计算机，并且在服务器领域确定了地位，通常服务器使用LAMP（Linux + Apache + MySQL + PHP）或LNMP（Linux + Nginx+ MySQL + PHP）组合。</p>
+<h2 id="3、Linux与Windows的区别"><a href="#3、Linux与Windows的区别" class="headerlink" title="3、Linux与Windows的区别"></a>3、Linux与Windows的区别</h2><table>
+<thead>
+<tr>
+<th align="center">比较</th>
+<th align="left">Windows</th>
+<th align="left">Linux</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">界面</td>
+<td align="left">界面统一，外壳程序固定所有windows程序菜单几乎一致，快捷键也几乎一致。</td>
+<td align="left">界面风格依发布版本不同而不同，可能互不兼容。GUN/Linux的终端机是从UNIX传承下来，基本命令和操作方法也几乎一致。</td>
+</tr>
+<tr>
+<td align="center">驱动程序</td>
+<td align="left">驱动程序丰富，版本更新频繁。默认安装程序里面一般包含有该版本发布时流行的硬件驱动程序，之后所出的新硬件驱动依赖于硬件厂商提供。对于一些老硬件，如果没有了原配的驱动有时很难支持。另外，有时硬件厂商未提供所需版本的windows下的驱动，也会很麻烦。</td>
+<td align="left">由志愿者开发，由Linux核心开发小组发布，很多硬件厂商基于版权考虑并没有提供驱动程序，尽管多数无需手动安装，但是设计安装则比较复杂，使得新用户面都驱动程序问题会一筹莫展。但是，在开源开发模式下，许多老硬件尽管在windows下很难支持的也比较容易找到驱动。</td>
+</tr>
+<tr>
+<td align="center">使用</td>
+<td align="left">使用比较简单，容易入门。图形化界面对没有计算机背景知识的用户使用十分有利。</td>
+<td align="left">图形界面使用简单，容易入门。文字界面，需要学习才能使用。</td>
+</tr>
+<tr>
+<td align="center">学习</td>
+<td align="left">系统构造复杂、变化频繁，且知识、技能淘汰快，深入学习困难。</td>
+<td align="left">系统构造简单，稳定，且知识、技能传承性好，深入学习相对容易。</td>
+</tr>
+<tr>
+<td align="center">软件</td>
+<td align="left">每一种特定 功能可能都需要商业软件的支持，需要购买相应的授权。</td>
+<td align="left">大部分软件都可以自由获取，同样功能的软件选择较少。</td>
+</tr>
+</tbody></table>
+<h1 id="二、远程登陆与SSH"><a href="#二、远程登陆与SSH" class="headerlink" title="二、远程登陆与SSH"></a>二、远程登陆与SSH</h1><h2 id="1、Linux远程登录"><a href="#1、Linux远程登录" class="headerlink" title="1、Linux远程登录"></a>1、Linux远程登录</h2><p>Linux一般作为服务器使用，而服务器一般放在机房，你不可能在机房操作你的Linux服务器。这时我们就需要远程登录到Linux服务器来管理维护系统。</p>
+<p><strong>Linux系统中是通过SSH服务实现的远程登录功能，默认ssh服务端口号为 22。</strong>Window系统上 Linux 远程登录客户端有SecureCRT, Putty, XShell等。</p>
+<h2 id="2、查看ssh服务命令"><a href="#2、查看ssh服务命令" class="headerlink" title="2、查看ssh服务命令"></a>2、查看ssh服务命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/sshd</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、启动SSH服务"><a href="#3、启动SSH服务" class="headerlink" title="3、启动SSH服务"></a>3、启动SSH服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/sshd status</span><br><span class="line">service sshd start</span><br></pre></td></tr></table></figure>
+
+<h2 id="4、SSH服务重启"><a href="#4、SSH服务重启" class="headerlink" title="4、SSH服务重启"></a>4、SSH服务重启</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/sshd restart</span><br></pre></td></tr></table></figure>
+
+<h2 id="5、SSH关闭"><a href="#5、SSH关闭" class="headerlink" title="5、SSH关闭"></a>5、SSH关闭</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/sshd stop</span><br></pre></td></tr></table></figure>
+
+<h1 id="三、Linux的启动过程"><a href="#三、Linux的启动过程" class="headerlink" title="三、Linux的启动过程"></a>三、Linux的启动过程</h1><h2 id="1、Man"><a href="#1、Man" class="headerlink" title="1、Man"></a>1、Man</h2><p>对于不会使用的命令，我们可以使用Man命令。</p>
+<ul>
+<li>man 命令</li>
+<li>具体的命令 –help</li>
+<li>info 具体命令</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567620222278.png" alt="1567620222278" title>
+                </div>
+                <div class="image-caption">1567620222278</div>
+            </figure>
+
+<ul>
+<li>NAME  命令的名称和单行描述；</li>
+<li>SYNOPSIS 怎样使用命令；</li>
+<li>DESCRIPTION 命令功能的深入讨论；</li>
+<li>EXAMPLES  怎样使用命令的例子；</li>
+<li>SEE ALSO  相关主题（通常是手册页）</li>
+</ul>
+<p>对于括号中的数字说明：（待补充）</p>
+<h2 id="2、启动过程"><a href="#2、启动过程" class="headerlink" title="2、启动过程"></a>2、启动过程</h2><h3 id="1-内核引导"><a href="#1-内核引导" class="headerlink" title="1.内核引导"></a>1.内核引导</h3><p>接通电源BIOS自检，按照BIOS中设置的启动设备（通常是硬盘）来启动，<strong>操作系统接管硬件以后，首先读入 /boot 目录下的内核文件。</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567620736994.png" alt="1567620736994" title>
+                </div>
+                <div class="image-caption">1567620736994</div>
+            </figure>
+
+<h3 id="2-运行init"><a href="#2-运行init" class="headerlink" title="2.运行init"></a>2.运行init</h3><p>init 进程是系统所有进程的起点，你可以把它比拟成系统所有进程的祖先，没有这个进程，系统中任何进程都不会启动。init 程序首先是需要读取配置文件 /etc/inittab。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567620813378.png" alt="1567620813378" title>
+                </div>
+                <div class="image-caption">1567620813378</div>
+            </figure>
+
+<p>许多程序需要开机启动。它们在Windows叫做”服务”（service），在Linux就叫做”守护进程”（daemon）。<br>init进程的一大任务，就是去运行这些开机启动的程序。但是，不同的场合需要启动不同的程序，比如用作服务器时，需要启动Apache，用作桌面就不需要。Linux允许为不同的场合，分配不同的开机启动程序，这就叫做”运行级别”（runlevel）。也就是说，启动时根据”运行级别”，确定要运行哪些程序。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567621825177.png" alt="1567621825177" title>
+                </div>
+                <div class="image-caption">1567621825177</div>
+            </figure>
+
+<p> Linux系统有7个运行级别(runlevel)：</p>
+<ul>
+<li>运行级别0：系统停机状态，系统默认运行级别不能设为0，否则不能正常启动</li>
+<li>运行级别1：单用户工作状态，root权限，用于系统维护，禁止远程登陆;</li>
+<li>运行级别2：多用户状态(没有NFS);</li>
+<li>运行级别3：完全的多用户状态(有NFS)，登陆后进入控制台命令行模式;</li>
+<li>运行级别4：系统未使用，保留;</li>
+<li>运行级别5：X11控制台，登陆后进入图形GUI模式;</li>
+<li>运行级别6：系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动;</li>
+</ul>
+<h3 id="3-系统初始化"><a href="#3-系统初始化" class="headerlink" title="3.系统初始化"></a>3.系统初始化</h3><p>在init的配置文件中有这么一行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">si::sysinit:/etc/rc.d/rc.sysinit</span><br></pre></td></tr></table></figure>
+
+<p>它调用执行了/etc/rc.d/rc.sysinit，而rc.sysinit是一个bash shell的脚本，它主要是完成一些系统初始化的工作，rc.sysinit是每一个运行级别都要首先运行的重要脚本它主要完成的工作有：激活交换分区，检查磁盘，加载硬件模块以及其它一些需要优先执行任务。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567620847167.png" alt="1567620847167" title>
+                </div>
+                <div class="image-caption">1567620847167</div>
+            </figure>
+
+<h3 id="4-建立终端"><a href="#4-建立终端" class="headerlink" title="4.建立终端"></a>4.建立终端</h3><p>rc执行完毕后，返回init。这时基本系统环境已经设置好了，各种守护进程也已经启动了。init接下来会打开6个终端，以便用户登录系统。</p>
+<h3 id="5-用户登陆系统"><a href="#5-用户登陆系统" class="headerlink" title="5.用户登陆系统"></a>5.用户登陆系统</h3><p>一般来说，用户的登录方式有三种：<br>（1）命令行登录<br>（2）ssh登录<br>（3）图形界面登录</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567620934635.png" alt="1567620934635" title>
+                </div>
+                <div class="image-caption">1567620934635</div>
+            </figure>
+
+<h2 id="3、关机"><a href="#3、关机" class="headerlink" title="3、关机"></a>3、关机</h2><p>在linux领域内大多用在服务器上，很少遇到关机的操作。毕竟服务器上跑一个服务是永无止境的，除非特殊情况下，不得已才会关机 。<br><strong>正确的关机流程为：</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567621621889.png" alt="1567621621889" title>
+                </div>
+                <div class="image-caption">1567621621889</div>
+            </figure>
+
+<p><strong>sync：</strong>将数据由内存同步到硬盘中；<br>shutdown –h 10 ‘This server will shutdown after 10 mins’ 这个命令告诉大家，计算机将在10分钟后关机，并且会显示在登陆用户的当前屏幕中<br>Shutdown –h now 立马关机<br>Shutdown –r now 系统立马重启<br>reboot 就是重启，等同于 shutdown –r now<br>halt 关闭系统，等同于shutdown –h now 和 poweroff<br>最后总结一下，不管是重启系统还是关闭系统，首先要运行sync命令，把内存中的数据写到磁盘中。</p>
+<h2 id="4、忘记root密码"><a href="#4、忘记root密码" class="headerlink" title="4、忘记root密码"></a>4、忘记root密码</h2><p>重新安装系统吗？当然不用！进入单用户模式更改一下root密码即可.</p>
+<p>（1）重启Linux，见到下图，在3秒钟之内按下回车；</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567621334076.png" alt="1567621334076" title>
+                </div>
+                <div class="image-caption">1567621334076</div>
+            </figure>
+
+<p>（2）三秒之内要按一下回车，出现如下界面；</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567621363382.png" alt="1567621363382" title>
+                </div>
+                <div class="image-caption">1567621363382</div>
+            </figure>
+
+<p>（3）按下e键就可以进入下图</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567621383904.png" alt="1567621383904" title>
+                </div>
+                <div class="image-caption">1567621383904</div>
+            </figure>
+
+<p>（4）移动到下一行，再次按e键</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567622018348.png" alt="1567622018348" title>
+                </div>
+                <div class="image-caption">1567622018348</div>
+            </figure>
+
+<p>（5）移动到下一行，进行修改</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567622040936.png" alt="1567622040936" title>
+                </div>
+                <div class="image-caption">1567622040936</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567622062267.png" alt="1567622062267" title>
+                </div>
+                <div class="image-caption">1567622062267</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567622074693.png" alt="1567622074693" title>
+                </div>
+                <div class="image-caption">1567622074693</div>
+            </figure>
+
+<p><strong>修改完成后回车键，然后按b键进行重新启动进入系统。</strong></p>
+<p>（6）移动到下一行，进行修改</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567622125546.png" alt="1567622125546" title>
+                </div>
+                <div class="image-caption">1567622125546</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="assets/1567622139035.png" alt="1567622139035" title>
+                </div>
+                <div class="image-caption">1567622139035</div>
+            </figure>
+
+<p>最终修改完密码，reboot一下即可。</p>
+<h1 id="四、Vim编辑器"><a href="#四、Vim编辑器" class="headerlink" title="四、Vim编辑器"></a>四、Vim编辑器</h1><h1 id="五、用户和用户组"><a href="#五、用户和用户组" class="headerlink" title="五、用户和用户组"></a>五、用户和用户组</h1><h1 id="常用的操作命令"><a href="#常用的操作命令" class="headerlink" title="常用的操作命令"></a>常用的操作命令</h1><h1 id="Linux文件和目录树结构"><a href="#Linux文件和目录树结构" class="headerlink" title="Linux文件和目录树结构"></a>Linux文件和目录树结构</h1><h1 id="Rpm"><a href="#Rpm" class="headerlink" title="Rpm"></a>Rpm</h1><h1 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h1>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-09-05T00:43:23.119Z" itemprop="dateUpdated">2019-09-05 08:43:23</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/09/05/linux-introduction/" target="_blank" rel="external">http://yoursite.com/2019/09/05/linux-introduction/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="kaizuidebanli">
+            kaizuidebanli
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/09/05/linux-introduction/&title=《No title》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/09/05/linux-introduction/&title=《No title》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/09/05/linux-introduction/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《No title》 — 开嘴的板栗&url=http://yoursite.com/2019/09/05/linux-introduction/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/09/05/linux-introduction/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/09/06/Storm-introduction/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Storm-introduction</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/09/04/hadoop-shuffle/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">No title</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        打赏杯咖啡呗~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>kaizuidebanli &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/09/05/linux-introduction/&title=《No title》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/09/05/linux-introduction/&title=《No title》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/09/05/linux-introduction/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《No title》 — 开嘴的板栗&url=http://yoursite.com/2019/09/05/linux-introduction/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/09/05/linux-introduction/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/09/05/linux-introduction/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

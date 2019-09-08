@@ -21,19 +21,19 @@
     
     
     <meta name="keywords" content="zookeeper">
-    <meta name="description" content="Zookeeper监听器原理1、监听器原理 首先要有一个main()线程；  在main线程中创建Zookeeper客户端，这时就会创建两个线程，一个负责网络连接通信（connet），一个负责监听（listener）；  通过connect线程将注册的监听事件发送给Zookeeper；  在Zookeeper的注册监听器列表中将注册的监听事件添加到列表中；  Zookeeper监听到有数据或路径变">
+    <meta name="description" content="Zookeeper监听器原理zookeeper对于每一个节点都存在一个watcher list，对于节点的每一个监听者都会被放入节点的watcher list中，若是节点发生变化，只需要自上而下遍历list，通知每一个监听的节点，并将其从watcher list中移除。 1、监听器原理 首先要有一个main()线程；  在main线程中创建Zookeeper客户端，这时就会创建两个线程，一个负责网">
 <meta name="keywords" content="zookeeper">
 <meta property="og:type" content="article">
 <meta property="og:title" content="zookeeper监听器原理">
 <meta property="og:url" content="http://yoursite.com/2019/08/28/zookeeper-listener-principle/index.html">
 <meta property="og:site_name" content="开嘴的板栗">
-<meta property="og:description" content="Zookeeper监听器原理1、监听器原理 首先要有一个main()线程；  在main线程中创建Zookeeper客户端，这时就会创建两个线程，一个负责网络连接通信（connet），一个负责监听（listener）；  通过connect线程将注册的监听事件发送给Zookeeper；  在Zookeeper的注册监听器列表中将注册的监听事件添加到列表中；  Zookeeper监听到有数据或路径变">
+<meta property="og:description" content="Zookeeper监听器原理zookeeper对于每一个节点都存在一个watcher list，对于节点的每一个监听者都会被放入节点的watcher list中，若是节点发生变化，只需要自上而下遍历list，通知每一个监听的节点，并将其从watcher list中移除。 1、监听器原理 首先要有一个main()线程；  在main线程中创建Zookeeper客户端，这时就会创建两个线程，一个负责网">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2019/08/28/zookeeper-listener-principle/1566991989412.png">
-<meta property="og:updated_time" content="2019-08-28T11:37:08.229Z">
+<meta property="og:updated_time" content="2019-09-07T04:08:25.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zookeeper监听器原理">
-<meta name="twitter:description" content="Zookeeper监听器原理1、监听器原理 首先要有一个main()线程；  在main线程中创建Zookeeper客户端，这时就会创建两个线程，一个负责网络连接通信（connet），一个负责监听（listener）；  通过connect线程将注册的监听事件发送给Zookeeper；  在Zookeeper的注册监听器列表中将注册的监听事件添加到列表中；  Zookeeper监听到有数据或路径变">
+<meta name="twitter:description" content="Zookeeper监听器原理zookeeper对于每一个节点都存在一个watcher list，对于节点的每一个监听者都会被放入节点的watcher list中，若是节点发生变化，只需要自上而下遍历list，通知每一个监听的节点，并将其从watcher list中移除。 1、监听器原理 首先要有一个main()线程；  在main线程中创建Zookeeper客户端，这时就会创建两个线程，一个负责网">
 <meta name="twitter:image" content="http://yoursite.com/2019/08/28/zookeeper-listener-principle/1566991989412.png">
     
     <link rel="shortcut icon" href="/favicon.ico">
@@ -167,7 +167,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Zookeeper监听器原理"><span class="post-toc-text">Zookeeper监听器原理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、监听器原理"><span class="post-toc-text">1、监听器原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、监听类型"><span class="post-toc-text">2、监听类型</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Zookeeper监听器原理"><span class="post-toc-text">Zookeeper监听器原理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、监听器原理"><span class="post-toc-text">1、监听器原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、监听类型"><span class="post-toc-text">2、监听类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3、监听案例"><span class="post-toc-text">3、监听案例</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-获取节点的值，并注册监听器"><span class="post-toc-text">1.获取节点的值，并注册监听器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-循环注册"><span class="post-toc-text">2.循环注册</span></a></li></ol></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -193,7 +193,8 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="Zookeeper监听器原理"><a href="#Zookeeper监听器原理" class="headerlink" title="Zookeeper监听器原理"></a>Zookeeper监听器原理</h1><h2 id="1、监听器原理"><a href="#1、监听器原理" class="headerlink" title="1、监听器原理"></a>1、监听器原理</h2><ul>
+            <h1 id="Zookeeper监听器原理"><a href="#Zookeeper监听器原理" class="headerlink" title="Zookeeper监听器原理"></a>Zookeeper监听器原理</h1><p>zookeeper对于每一个节点都存在一个watcher list，对于节点的每一个监听者都会被放入节点的watcher list中，若是节点发生变化，只需要自上而下遍历list，通知每一个监听的节点，并将其从watcher list中移除。</p>
+<h2 id="1、监听器原理"><a href="#1、监听器原理" class="headerlink" title="1、监听器原理"></a>1、监听器原理</h2><ul>
 <li><p>首先要有一个main()线程；</p>
 </li>
 <li><p>在main线程中创建Zookeeper客户端，这时就会创建两个线程，一个负责<strong>网络连接通信</strong>（connet），一个负责<strong>监听</strong>（listener）；</p>
@@ -216,6 +217,12 @@
 <p>（2）监听子节点增减的变化</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls path [watch]</span><br></pre></td></tr></table></figure>
 
+<h2 id="3、监听案例"><a href="#3、监听案例" class="headerlink" title="3、监听案例"></a>3、监听案例</h2><p>zookeeper监听器默认只通知一次，节点之后的变化，不会再通知。</p>
+<h3 id="1-获取节点的值，并注册监听器"><a href="#1-获取节点的值，并注册监听器" class="headerlink" title="1.获取节点的值，并注册监听器"></a>1.获取节点的值，并注册监听器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获得节点的值</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> KeeperException</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> InterruptedException</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> KeeperException, InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">byte</span>[] data = zkClient.getData(<span class="string">"/fruit"</span>, <span class="keyword">new</span> Watcher() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(WatchedEvent watchedEvent)</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"节点的值改变"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="keyword">new</span> Stat());</span><br><span class="line"></span><br><span class="line">    String string = <span class="keyword">new</span> String(data);</span><br><span class="line"></span><br><span class="line">    System.out.println(string);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-循环注册"><a href="#2-循环注册" class="headerlink" title="2.循环注册"></a>2.循环注册</h3><p>循环注册：只要监听的节点发生变化，都会收到统计。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">register</span><span class="params">()</span> <span class="keyword">throws</span> KeeperException, InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">byte</span>[] data = zkCli.getData(<span class="string">"/a"</span>, <span class="keyword">new</span> Watcher() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(WatchedEvent event)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 在接收到通知的时候，再一次注册即可</span></span><br><span class="line">                register();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (KeeperException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="keyword">new</span> String(data));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
         </div>
 
@@ -224,7 +231,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-08-28T11:37:08.229Z" itemprop="dateUpdated">2019-08-28 19:37:08</time>
+    Last updated: <time datetime="2019-09-07T04:08:25.345Z" itemprop="dateUpdated">2019-09-07 12:08:25</time>
 </span><br>
 
 
@@ -305,7 +312,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/08/29/DistributedSystem/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">DistributedSystem</h4>
+      </a>
+    </div>
   
 
   

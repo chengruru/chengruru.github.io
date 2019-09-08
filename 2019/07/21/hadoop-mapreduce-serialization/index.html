@@ -14,25 +14,25 @@
     
     
     
-    <title>hadoop序列化 | 开嘴的板栗</title>
+    <title>Hadoop序列化 | 开嘴的板栗</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
     <meta name="keywords" content="hadoop">
-    <meta name="description" content="序列化一、序列化概述1.什么是序列化？序列化就是把内存中的对象，转换成字节序列（或者其他数据传输协议）以便于存储到磁盘（持久化）和网络传输。 反序列化就是将收到字节序列（或者其他数据传输协议）或者是磁盘的持久化数据，转换成内存中的对象。 2.为什么要序列化？一般来说，“活的”对象只生存在内存里，关机断电就没有了。而且，“活得”对象只能由本地得进程使用，不能被发送到网络上的另外一台计算机。然而，序列">
+    <meta name="description" content="序列化一、序列化概述1.什么是序列化？序列化就是把内存中的对象，转换成字节序列（或者其他数据传输协议）以便于存储到磁盘（持久化）和网络传输。 反序列化就是将收到字节序列（或者其他数据传输协议）或者是磁盘的持久化数据，转换成内存中的对象。 2.为什么要序列化？一般来说，“活的”对象只生存在内存里，关机断电就没有了。而且，“活得”对象只能由本地得进程使用，不能被发送到网络上的另外一台计算机。序列化可以">
 <meta name="keywords" content="hadoop">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hadoop序列化">
+<meta property="og:title" content="Hadoop序列化">
 <meta property="og:url" content="http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/index.html">
 <meta property="og:site_name" content="开嘴的板栗">
-<meta property="og:description" content="序列化一、序列化概述1.什么是序列化？序列化就是把内存中的对象，转换成字节序列（或者其他数据传输协议）以便于存储到磁盘（持久化）和网络传输。 反序列化就是将收到字节序列（或者其他数据传输协议）或者是磁盘的持久化数据，转换成内存中的对象。 2.为什么要序列化？一般来说，“活的”对象只生存在内存里，关机断电就没有了。而且，“活得”对象只能由本地得进程使用，不能被发送到网络上的另外一台计算机。然而，序列">
+<meta property="og:description" content="序列化一、序列化概述1.什么是序列化？序列化就是把内存中的对象，转换成字节序列（或者其他数据传输协议）以便于存储到磁盘（持久化）和网络传输。 反序列化就是将收到字节序列（或者其他数据传输协议）或者是磁盘的持久化数据，转换成内存中的对象。 2.为什么要序列化？一般来说，“活的”对象只生存在内存里，关机断电就没有了。而且，“活得”对象只能由本地得进程使用，不能被发送到网络上的另外一台计算机。序列化可以">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-22T00:19:17.468Z">
+<meta property="og:updated_time" content="2019-09-04T13:16:00.555Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hadoop序列化">
-<meta name="twitter:description" content="序列化一、序列化概述1.什么是序列化？序列化就是把内存中的对象，转换成字节序列（或者其他数据传输协议）以便于存储到磁盘（持久化）和网络传输。 反序列化就是将收到字节序列（或者其他数据传输协议）或者是磁盘的持久化数据，转换成内存中的对象。 2.为什么要序列化？一般来说，“活的”对象只生存在内存里，关机断电就没有了。而且，“活得”对象只能由本地得进程使用，不能被发送到网络上的另外一台计算机。然而，序列">
+<meta name="twitter:title" content="Hadoop序列化">
+<meta name="twitter:description" content="序列化一、序列化概述1.什么是序列化？序列化就是把内存中的对象，转换成字节序列（或者其他数据传输协议）以便于存储到磁盘（持久化）和网络传输。 反序列化就是将收到字节序列（或者其他数据传输协议）或者是磁盘的持久化数据，转换成内存中的对象。 2.为什么要序列化？一般来说，“活的”对象只生存在内存里，关机断电就没有了。而且，“活得”对象只能由本地得进程使用，不能被发送到网络上的另外一台计算机。序列化可以">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
@@ -118,7 +118,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">hadoop序列化</div>
+        <div class="flex-col header-title ellipsis">Hadoop序列化</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -140,7 +140,7 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">hadoop序列化</h1>
+        <h1 class="title">Hadoop序列化</h1>
         <h5 class="subtitle">
             
                 <time datetime="2019-07-21T09:14:25.000Z" itemprop="datePublished" class="page-time">
@@ -165,7 +165,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#序列化"><span class="post-toc-text">序列化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、序列化概述"><span class="post-toc-text">一、序列化概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-什么是序列化？"><span class="post-toc-text">1.什么是序列化？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-为什么要序列化？"><span class="post-toc-text">2.为什么要序列化？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-为什么不用java的序列化？"><span class="post-toc-text">3.为什么不用java的序列化？</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、自定义beam对象实现序列化接口"><span class="post-toc-text">二、自定义beam对象实现序列化接口</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、序列化实践"><span class="post-toc-text">三、序列化实践</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#序列化"><span class="post-toc-text">序列化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、序列化概述"><span class="post-toc-text">一、序列化概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-什么是序列化？"><span class="post-toc-text">1.什么是序列化？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-为什么要序列化？"><span class="post-toc-text">2.为什么要序列化？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-为什么不用java的序列化？"><span class="post-toc-text">3.为什么不用java的序列化？</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、自定义bean对象实现序列化接口"><span class="post-toc-text">二、自定义bean对象实现序列化接口</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、序列化实践"><span class="post-toc-text">三、序列化实践</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -174,7 +174,7 @@
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">hadoop序列化</h1>
+        <h1 class="post-card-title">Hadoop序列化</h1>
         <div class="post-meta">
             <time class="post-time" title="2019-07-21 17:14:25" datetime="2019-07-21T09:14:25.000Z"  itemprop="datePublished">2019-07-21</time>
 
@@ -193,14 +193,14 @@
         <div class="post-content" id="post-content" itemprop="postContent">
             <h1 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h1><h2 id="一、序列化概述"><a href="#一、序列化概述" class="headerlink" title="一、序列化概述"></a>一、序列化概述</h2><h3 id="1-什么是序列化？"><a href="#1-什么是序列化？" class="headerlink" title="1.什么是序列化？"></a>1.什么是序列化？</h3><p><strong>序列化</strong>就是<strong>把内存中的对象，转换成字节序列</strong>（或者其他数据传输协议）以便于存储到磁盘（持久化）和网络传输。</p>
 <p><strong>反序列化</strong>就是将收到字节序列（或者其他数据传输协议）或者是<strong>磁盘的持久化数据，转换成内存中的对象</strong>。</p>
-<h3 id="2-为什么要序列化？"><a href="#2-为什么要序列化？" class="headerlink" title="2.为什么要序列化？"></a>2.为什么要序列化？</h3><p>一般来说，“活的”对象只生存在内存里，关机断电就没有了。而且，“活得”对象只能由本地得进程使用，不能被发送到网络上的另外一台计算机。然而，序列化可以存储“活的”对象，可以将“活的”对象发送到远程计算机。</p>
+<h3 id="2-为什么要序列化？"><a href="#2-为什么要序列化？" class="headerlink" title="2.为什么要序列化？"></a>2.为什么要序列化？</h3><p>一般来说，“活的”对象只生存在内存里，关机断电就没有了。而且，“活得”对象只能由本地得进程使用，不能被发送到网络上的另外一台计算机。<strong>序列化可以保存对象的状态</strong>，方便存储和网络传输。此外，序列化不会对静态变量进行序列化，因为静态变量属于类的状态。</p>
 <h3 id="3-为什么不用java的序列化？"><a href="#3-为什么不用java的序列化？" class="headerlink" title="3.为什么不用java的序列化？"></a>3.为什么不用java的序列化？</h3><p>java的序列化是一个重量级序列化框架（Serializable）,一个对象被序列化后，会附带很多额外的信息（各种校验信息，Header,继承体系等），不便于在网络中高效传输。所以，hadoop开发了自己的一套序列化方法Writable.</p>
 <p><strong>hadoop序列化特点：</strong></p>
 <p>（1）紧凑：高效使用存储空间；</p>
 <p>（2）快速：读写数据的额外开销小；</p>
 <p>（3）可扩展：随着通信协议的升级而可升级；</p>
 <p>（4）互操作：支持多语言的交互。</p>
-<h2 id="二、自定义beam对象实现序列化接口"><a href="#二、自定义beam对象实现序列化接口" class="headerlink" title="二、自定义beam对象实现序列化接口"></a>二、自定义beam对象实现序列化接口</h2><p>在企业开发中往往常用的基本序列化类型不能满足所有需求，比如在Hadoop框架内部传递一个bean对象，那么该对象就需要实现序列化接口。</p>
+<h2 id="二、自定义bean对象实现序列化接口"><a href="#二、自定义bean对象实现序列化接口" class="headerlink" title="二、自定义bean对象实现序列化接口"></a>二、自定义bean对象实现序列化接口</h2><p>在实际的开发中往往常用的基本序列化类型不能满足所有需求，比如在Hadoop框架内部传递一个bean对象，那么该对象就需要实现序列化接口。</p>
 <p>具体实现bean对象序列化步骤如下7步：</p>
 <p>（1）必须实现Writable接口；</p>
 <p>（2）反序列化时，需要反射调用空参构造函数，所以必须有空参构造；</p>
@@ -212,17 +212,17 @@
 <p>（4）重写反序列化方法;</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readFields</span><span class="params">(DataInput in)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">	upFlow = in.readLong();</span><br><span class="line">	downFlow = in.readLong();</span><br><span class="line">	sumFlow = in.readLong();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>（5）注意反序列化的顺序和序列化的顺序完全一致;</p>
+<p><strong>（5）注意反序列化的顺序和序列化的顺序完全一致;</strong></p>
 <p>（6）要想把结果显示在文件中，需要重写toString()，可用”\t”分开，方便后续用。</p>
 <p>（7）如果需要将自定义的bean放在key中传输，则还需要实现Comparable接口，因为MapReduce框中的Shuffle过程要求对key必须能排序。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public int compareTo(FlowBean o) &#123;</span><br><span class="line">	// 倒序排列，从大到小</span><br><span class="line">	return this.sumFlow &gt; o.getSumFlow() ? -1 : 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="三、序列化实践"><a href="#三、序列化实践" class="headerlink" title="三、序列化实践"></a>三、序列化实践</h2><p>需求 : 统计每一个手机号耗费的总上行流量、下行流量、总流量。</p>
 <p>输入数据格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">7 	13560436666	120.196.100.99		1116		 954			200</span><br><span class="line">id	手机号码		网络ip			上行流量  下行流量     网络状态码</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">7 	13560436666	120.196.100.99		1116		 954		200</span><br><span class="line">id	 手机号码		 网络ip		   上行流量      下行流量 	     网络状态码</span><br></pre></td></tr></table></figure>
 
 <p>期望输出数据格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">13560436666 		1116		      954 			2070</span><br><span class="line">手机号码		    上行流量        下行流量		总流量</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">13560436666			1116			954			2070</span><br><span class="line">手机号码		    上行流量		 下行流量		总流量</span><br></pre></td></tr></table></figure>
 
 <p>（1）编写流量统计的Bean对象,实现对象实现序列化、反序列化</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.Writable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.DataInput;</span><br><span class="line"><span class="keyword">import</span> java.io.DataOutput;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> lombok.Getter;</span><br><span class="line"><span class="keyword">import</span> lombok.Setter;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;h1&gt;&lt;/h1&gt;</span></span><br><span class="line"><span class="comment"> * Created by Kaizuidebanli.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="meta">@Setter</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FlowBeam</span> <span class="keyword">implements</span> <span class="title">Writable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> upFlow; <span class="comment">// 上行流量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> downFlow;  <span class="comment">// 下行流量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> sumFlow;   <span class="comment">// 总流量</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FlowBeam</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FlowBeam</span><span class="params">(<span class="keyword">long</span> upFlow, <span class="keyword">long</span> downFlow)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.upFlow = upFlow;</span><br><span class="line">        <span class="keyword">this</span>.downFlow = downFlow;</span><br><span class="line">        <span class="keyword">this</span>.sumFlow = <span class="keyword">this</span>.downFlow + <span class="keyword">this</span>.upFlow;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">long</span> downFlow, <span class="keyword">long</span> upFlow)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.downFlow = downFlow;</span><br><span class="line">        <span class="keyword">this</span>.upFlow = upFlow;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** 序列化 */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(DataOutput dataOutput)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        dataOutput.writeLong(upFlow);</span><br><span class="line">        dataOutput.writeLong(downFlow);</span><br><span class="line">        dataOutput.writeLong(sumFlow);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** 反序列化 */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readFields</span><span class="params">(DataInput dataInput)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.upFlow = dataInput.readLong();</span><br><span class="line">        <span class="keyword">this</span>.downFlow = dataInput.readLong();</span><br><span class="line">        <span class="keyword">this</span>.sumFlow = dataInput.readLong();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"FlowBeam&#123;"</span> +</span><br><span class="line">                <span class="string">"upFlow="</span> + upFlow +</span><br><span class="line">                <span class="string">", downFlow="</span> + downFlow +</span><br><span class="line">                <span class="string">", sumFlow="</span> + sumFlow +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -244,7 +244,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-22T00:19:17.468Z" itemprop="dateUpdated">2019-07-22 08:19:17</time>
+    Last updated: <time datetime="2019-09-04T13:16:00.555Z" itemprop="dateUpdated">2019-09-04 21:16:00</time>
 </span><br>
 
 
@@ -280,7 +280,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/&title=《hadoop序列化》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/&title=《Hadoop序列化》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -290,7 +290,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/&title=《hadoop序列化》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/&title=《Hadoop序列化》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -300,7 +300,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《hadoop序列化》 — 开嘴的板栗&url=http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hadoop序列化》 — 开嘴的板栗&url=http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
@@ -437,7 +437,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/&title=《hadoop序列化》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/&title=《Hadoop序列化》 — 开嘴的板栗&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -447,7 +447,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/&title=《hadoop序列化》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/&title=《Hadoop序列化》 — 开嘴的板栗&source=对于技术，不仅要知其然，更要知其所以然。" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -457,7 +457,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《hadoop序列化》 — 开嘴的板栗&url=http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hadoop序列化》 — 开嘴的板栗&url=http://yoursite.com/2019/07/21/hadoop-mapreduce-serialization/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>

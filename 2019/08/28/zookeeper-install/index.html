@@ -21,19 +21,19 @@
     
     
     <meta name="keywords" content="zookeeper">
-    <meta name="description" content="Zookeeper安装一、本地模式安装安装本地模式安装非常简单，只需要修改一下配置文件即可。 1、将zookeeper/conf这个路径下的zoo_sample.cfg修改为zoo.cfg； 1mv zoo_sample.cfg zoo.cfg  2、修改打开zoo.cfg文件，修改dataDir路径 1dataDir=/opt/zookeeper/zkData  3、创建dataDir路径 1m">
+    <meta name="description" content="Zookeeper安装一、本地模式安装1、安装本地模式安装非常简单，只需要修改一下配置文件即可。 1、将zookeeper/conf这个路径下的zoo_sample.cfg修改为zoo.cfg； 1mv zoo_sample.cfg zoo.cfg  2、修改打开zoo.cfg文件，修改dataDir路径 1dataDir=/opt/zookeeper/zkData  3、创建dataDir路径">
 <meta name="keywords" content="zookeeper">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zookeeper安装">
 <meta property="og:url" content="http://yoursite.com/2019/08/28/zookeeper-install/index.html">
 <meta property="og:site_name" content="开嘴的板栗">
-<meta property="og:description" content="Zookeeper安装一、本地模式安装安装本地模式安装非常简单，只需要修改一下配置文件即可。 1、将zookeeper/conf这个路径下的zoo_sample.cfg修改为zoo.cfg； 1mv zoo_sample.cfg zoo.cfg  2、修改打开zoo.cfg文件，修改dataDir路径 1dataDir=/opt/zookeeper/zkData  3、创建dataDir路径 1m">
+<meta property="og:description" content="Zookeeper安装一、本地模式安装1、安装本地模式安装非常简单，只需要修改一下配置文件即可。 1、将zookeeper/conf这个路径下的zoo_sample.cfg修改为zoo.cfg； 1mv zoo_sample.cfg zoo.cfg  2、修改打开zoo.cfg文件，修改dataDir路径 1dataDir=/opt/zookeeper/zkData  3、创建dataDir路径">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2019/08/28/zookeeper-install/1566989414782.png">
-<meta property="og:updated_time" content="2019-08-28T11:31:34.445Z">
+<meta property="og:updated_time" content="2019-09-07T02:50:38.905Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zookeeper安装">
-<meta name="twitter:description" content="Zookeeper安装一、本地模式安装安装本地模式安装非常简单，只需要修改一下配置文件即可。 1、将zookeeper/conf这个路径下的zoo_sample.cfg修改为zoo.cfg； 1mv zoo_sample.cfg zoo.cfg  2、修改打开zoo.cfg文件，修改dataDir路径 1dataDir=/opt/zookeeper/zkData  3、创建dataDir路径 1m">
+<meta name="twitter:description" content="Zookeeper安装一、本地模式安装1、安装本地模式安装非常简单，只需要修改一下配置文件即可。 1、将zookeeper/conf这个路径下的zoo_sample.cfg修改为zoo.cfg； 1mv zoo_sample.cfg zoo.cfg  2、修改打开zoo.cfg文件，修改dataDir路径 1dataDir=/opt/zookeeper/zkData  3、创建dataDir路径">
 <meta name="twitter:image" content="http://yoursite.com/2019/08/28/zookeeper-install/1566989414782.png">
     
     <link rel="shortcut icon" href="/favicon.ico">
@@ -167,7 +167,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Zookeeper安装"><span class="post-toc-text">Zookeeper安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、本地模式安装"><span class="post-toc-text">一、本地模式安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装"><span class="post-toc-text">安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#操作zookeeper"><span class="post-toc-text">操作zookeeper</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置参数详解"><span class="post-toc-text">配置参数详解</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、分布式模式安装"><span class="post-toc-text">二、分布式模式安装</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Zookeeper安装"><span class="post-toc-text">Zookeeper安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、本地模式安装"><span class="post-toc-text">一、本地模式安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1、安装"><span class="post-toc-text">1、安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2、操作zookeeper"><span class="post-toc-text">2、操作zookeeper</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3、配置参数详解"><span class="post-toc-text">3、配置参数详解</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、分布式模式安装"><span class="post-toc-text">二、分布式模式安装</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -193,7 +193,7 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="Zookeeper安装"><a href="#Zookeeper安装" class="headerlink" title="Zookeeper安装"></a>Zookeeper安装</h1><h2 id="一、本地模式安装"><a href="#一、本地模式安装" class="headerlink" title="一、本地模式安装"></a>一、本地模式安装</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>本地模式安装非常简单，只需要修改一下配置文件即可。</p>
+            <h1 id="Zookeeper安装"><a href="#Zookeeper安装" class="headerlink" title="Zookeeper安装"></a>Zookeeper安装</h1><h2 id="一、本地模式安装"><a href="#一、本地模式安装" class="headerlink" title="一、本地模式安装"></a>一、本地模式安装</h2><h3 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a>1、安装</h3><p>本地模式安装非常简单，只需要修改一下配置文件即可。</p>
 <p>1、将zookeeper/conf这个路径下的zoo_sample.cfg修改为zoo.cfg；</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv zoo_sample.cfg zoo.cfg</span><br></pre></td></tr></table></figure>
 
@@ -203,9 +203,9 @@
 <p>3、创建dataDir路径</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir zkData</span><br></pre></td></tr></table></figure>
 
-<h3 id="操作zookeeper"><a href="#操作zookeeper" class="headerlink" title="操作zookeeper"></a>操作zookeeper</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1、启动Zookeeper</span></span><br><span class="line">/opt/zookeeper$ ./bin/zkServer.sh start</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2、查看进程是否启动</span></span><br><span class="line">/opt/zookeeper$ jps</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 3、查看状态：</span></span><br><span class="line"></span><br><span class="line">/opt/zookeeper$ bin/zkServer.sh status</span><br><span class="line"></span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line"></span><br><span class="line">Using config: /opt/zookeeper/bin/conf/zoo.cfg</span><br><span class="line"></span><br><span class="line">Mode: standalone</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 4、启动客户端：</span></span><br><span class="line"></span><br><span class="line">/opt/zookeeper$ bin/zkCli.sh</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 5、退出客户端：</span></span><br><span class="line">[zk: localhost:2181(CONNECTED) 0] quit</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 6、停止Zookeeper</span></span><br><span class="line"></span><br><span class="line">/opt/zookeeper$ bin/zkServer.sh stop</span><br></pre></td></tr></table></figure>
+<h3 id="2、操作zookeeper"><a href="#2、操作zookeeper" class="headerlink" title="2、操作zookeeper"></a>2、操作zookeeper</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1、启动Zookeeper</span></span><br><span class="line">/opt/zookeeper$ ./bin/zkServer.sh start</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2、查看进程是否启动</span></span><br><span class="line">/opt/zookeeper$ jps</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 3、查看状态：</span></span><br><span class="line"></span><br><span class="line">/opt/zookeeper$ bin/zkServer.sh status</span><br><span class="line"></span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line"></span><br><span class="line">Using config: /opt/zookeeper/bin/conf/zoo.cfg</span><br><span class="line"></span><br><span class="line">Mode: standalone</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 4、启动客户端：</span></span><br><span class="line"></span><br><span class="line">/opt/zookeeper$ bin/zkCli.sh</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 5、退出客户端：</span></span><br><span class="line">[zk: localhost:2181(CONNECTED) 0] quit</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 6、停止Zookeeper</span></span><br><span class="line"></span><br><span class="line">/opt/zookeeper$ bin/zkServer.sh stop</span><br></pre></td></tr></table></figure>
 
-<h3 id="配置参数详解"><a href="#配置参数详解" class="headerlink" title="配置参数详解"></a>配置参数详解</h3><img src="/2019/08/28/zookeeper-install/1566989414782.png">
+<h3 id="3、配置参数详解"><a href="#3、配置参数详解" class="headerlink" title="3、配置参数详解"></a>3、配置参数详解</h3><img src="/2019/08/28/zookeeper-install/1566989414782.png">
 
 <p>Zookeeper中的配置文件zoo.cfg中参数含义解读如下：</p>
 <p><strong>1．tickTime =2000：通信心跳数</strong></p>
@@ -262,7 +262,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-08-28T11:31:34.445Z" itemprop="dateUpdated">2019-08-28 19:31:34</time>
+    Last updated: <time datetime="2019-09-07T02:50:38.905Z" itemprop="dateUpdated">2019-09-07 10:50:38</time>
 </span><br>
 
 
