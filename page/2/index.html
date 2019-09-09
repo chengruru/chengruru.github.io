@@ -156,6 +156,57 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-zookeeper-listener-principle"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-08-28 19:32:35" datetime="2019-08-28T11:32:35.000Z"  itemprop="datePublished">2019-08-28</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/zookeeper/">zookeeper</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/08/28/zookeeper-listener-principle/">zookeeper监听器原理</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Zookeeper监听器原理zookeeper对于每一个节点都存在一个watcher list，对于节点的每一个监听者都会被放入节点的watcher list中，若是节点发生变化，只需要自上而下遍历list，通知每一个监听的节点，并将其从watcher list中移除。
+1、监听器原理
+首先要有一个main()线程；
+
+在main线程中创建Zookeeper客户端，这时就会创建两个线程，一个...
+    
+
+        <a href="/2019/08/28/zookeeper-listener-principle/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zookeeper/">zookeeper</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-zookeeper-install"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -594,55 +645,6 @@ QPlainTextEdit
     
 
         <a href="/2019/07/26/PyQT5-topwindow/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PyQT5/">PyQT5</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-PyQT5-introduction"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2019-07-26 15:05:56" datetime="2019-07-26T07:05:56.000Z"  itemprop="datePublished">2019-07-26</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/PyQT5/">PyQT5</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/26/PyQT5-introduction/">PyQT5介绍</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        本文不对PyQT5进行过多定义性的介绍，具体的PyQT5介绍网上也已经很详尽了，有兴趣的读者可以参考：PyQt5-Chinese-tutorial
-通过简单的Hello-Word程序对PyQt5程序基本结构进行分析。
-123456789101112131415import sysfrom PyQt5.QtWidgets import QApplication, QWidgetif __nam...
-    
-
-        <a href="/2019/07/26/PyQT5-introduction/" class="post-more waves-effect waves-button">
             Continue reading...
         </a>
     </div>
