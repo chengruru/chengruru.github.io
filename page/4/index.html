@@ -122,7 +122,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -154,6 +154,66 @@
 <div class="container body-wrap">
 
     <ul class="post-list">
+    
+        <li class="post-list-item fade">
+            <article id="post-hbase-basictheory"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-07-23 12:38:33" datetime="2019-07-23T04:38:33.000Z"  itemprop="datePublished">2019-07-23</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hbase/">hbase</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/07/23/hbase-basictheory/">Hbase原理</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Hbase原理一、读流程
+
+（1）Client先访问zookeeper，从meta表读取region的位置，然后读取meta表中的数据。meta中又存储了用户表的region信息；
+
+
+
+
+meta表中记录了每张表的region信息：
+
+
+
+
+（2）根据namespace、表名和rowkey在meta表中找到对应的region信息；
+（3）找到这个region对应的regionserver；...
+    
+
+        <a href="/2019/07/23/hbase-basictheory/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">hbase</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
     
         <li class="post-list-item fade">
             <article id="post-hbase-datastructure"
@@ -194,7 +254,7 @@ RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用
     
 
         <a href="/2019/07/23/hbase-datastructure/" class="post-more waves-effect waves-button">
-            Continue reading...
+            閱讀全文…
         </a>
     </div>
     
@@ -243,7 +303,7 @@ HBase的目标是存储并处理大型的数据，更具体来说是仅需使用
     
 
         <a href="/2019/07/23/hbase-introduction/" class="post-more waves-effect waves-button">
-            Continue reading...
+            閱讀全文…
         </a>
     </div>
     
@@ -294,7 +354,7 @@ HBase的目标是存储并处理大型的数据，更具体来说是仅需使用
     
 
         <a href="/2019/07/22/zookeeper-interview-questions/" class="post-more waves-effect waves-button">
-            Continue reading...
+            閱讀全文…
         </a>
     </div>
     
@@ -345,7 +405,7 @@ HBase的目标是存储并处理大型的数据，更具体来说是仅需使用
     
 
         <a href="/2019/07/22/hadoop-HA/" class="post-more waves-effect waves-button">
-            Continue reading...
+            閱讀全文…
         </a>
     </div>
     
@@ -396,7 +456,7 @@ HBase的目标是存储并处理大型的数据，更具体来说是仅需使用
     
 
         <a href="/2019/07/22/hadoop-yarn/" class="post-more waves-effect waves-button">
-            Continue reading...
+            閱讀全文…
         </a>
     </div>
     
@@ -446,7 +506,7 @@ Welcome to Hexo! This is your very first post. Check documentation for more info
     
 
         <a href="/2019/07/22/hello-world/" class="post-more waves-effect waves-button">
-            Continue reading...
+            閱讀全文…
         </a>
     </div>
     
@@ -494,7 +554,7 @@ Welcome to Hexo! This is your very first post. Check documentation for more info
     
 
         <a href="/2019/07/22/hadoop-compress/" class="post-more waves-effect waves-button">
-            Continue reading...
+            閱讀全文…
         </a>
     </div>
     
@@ -548,7 +608,7 @@ Sort阶段
     
 
         <a href="/2019/07/22/hadoop-mapreduce-reducetask/" class="post-more waves-effect waves-button">
-            Continue reading...
+            閱讀全文…
         </a>
     </div>
     
@@ -599,56 +659,7 @@ Collect收集阶段在用户编写map()函数中，当数据处理完成后，�
     
 
         <a href="/2019/07/22/hadoop-mapreduce-maptask/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-hadoop-mapreduce-partition"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2019-07-21 22:08:07" datetime="2019-07-21T14:08:07.000Z"  itemprop="datePublished">2019-07-21</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/hadoop/">hadoop</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/21/hadoop-mapreduce-partition/">Patition分区</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        一、Patition分区Hadoop提供了分区的功能，可以使得MapReduce计算结果按照条件输出到不同的分区中。
-默认的Patition分区方式：
-123456public class HashPartitioner&lt;K2, V2&gt; implements Partitioner&lt;K2, V2&gt; &#123;    // 根据key的hashCode对ReduceT...
-    
-
-        <a href="/2019/07/21/hadoop-mapreduce-partition/" class="post-more waves-effect waves-button">
-            Continue reading...
+            閱讀全文…
         </a>
     </div>
     
@@ -689,7 +700,7 @@ Collect收集阶段在用户编写map()函数中，当数据处理完成后，�
 
         <p>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
         </p>
     </div>
     <div class="bottom">
